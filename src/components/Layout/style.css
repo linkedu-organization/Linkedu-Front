@@ -1,0 +1,38 @@
+/* src/layout/link-layout.css */
+
+.link-layout {
+  background-color: #f5f4f0; /* parecido com o fundo dos prints */
+}
+
+/* Header roxo */
+.link-layout-header .p-menubar {
+  background: #3f4ea5; /* roxo do topo */
+  color: #ffffff;
+}
+
+.link-layout-header .p-menubar-root-list {
+  display: none; /* não vamos usar os menus padrões aqui */
+}
+
+.link-layout-header .p-menubar .p-menubar-start {
+  padding-left: 1.5rem;
+}
+
+.link-layout-header .p-menubar .p-menubar-end {
+  padding-right: 1.5rem;
+}
+
+/* Sidebar */
+.link-layout-sidebar {
+  background: #f9f7f2;
+}
+
+/* Footer */
+.link-layout-footer {
+  background: #f5f4f0;
+  border-top: 1px solid #e0dfdc;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
