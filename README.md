@@ -4,7 +4,7 @@ Desenvolvido com **React + Vite + TypeScript**.
 
 ## Pré-requisitos
 
-- **Node.js** ≥ 18  
+- **Node.js** ≥ 20  
 - **npm**
 
 
