@@ -2,7 +2,7 @@ import { Layout } from "@components/Layout";
 import "./style.css";
 
 const HomePage = () => (
-  <Layout>
+  <Layout showFooter>
     <div className="main-context">
       <div>
         <p>teste</p>

@@ -29,10 +29,6 @@ export const Layout: React.FC<LayoutProps> = ({
       )}
     </main>
 
-    {showFooter && (
-      <footer className="surface-100 text-center p-3 border-top-1 surface-border text-600 text-sm">
-        © {new Date().getFullYear()} LinkEDU – Todos os direitos reservados.
-      </footer>
-    )}
+    {showFooter && <footer className="container-footer" />}
   </div>
 );

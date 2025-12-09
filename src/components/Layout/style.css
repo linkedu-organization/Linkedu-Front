@@ -36,3 +36,10 @@
   align-items: center;
   justify-content: center;
 }
+
+.container-footer {
+  background-color: var(--Linkedu-Blue);
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
