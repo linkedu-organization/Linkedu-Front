@@ -28,6 +28,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
             alt="logo"
             src="/images/logo-clara.png"
             height="40"
+            width="130px"
             className="ml-2 mr-4"
           />
         </Link>
@@ -62,6 +63,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
           alt="logo"
           src="/images/logo-clara.png"
           height="40"
+          width="130px"
           className="ml-2 mr-4"
         />
       </Link>
