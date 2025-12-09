@@ -1,8 +1,0 @@
-@import url('/public/assets/colorVariables');
-
-.main-context {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
