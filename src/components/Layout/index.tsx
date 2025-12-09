@@ -1,32 +1,25 @@
-// src/layout/Layout.tsx
 import React from "react";
 
 import "primeflex/primeflex.css";
 import "primereact/resources/primereact.min.css";
 import Header from "@components/Header";
+import "./style.css";
 
 export interface LayoutProps {
   children: React.ReactNode;
-  showFooter?: boolean;
-  contentVariant?: "full" | "centeredCard";
+  showFooter: boolean;
+  simpleHeader: boolean;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
-  showFooter = true,
-  contentVariant = "full",
+  showFooter,
+  simpleHeader,
 }) => (
-  <div className="link-layout flex flex-column min-h-screen">
-    <Header simpleHeader />
-
-    <main className="flex-1 p-4 flex justify-content-center">
-      {contentVariant === "centeredCard" ? (
-        <div className="surface-card w-full md:w-8 lg:w-6 xl:w-5 p-4 shadow-3 border-round-2xl">
-          {children}
-        </div>
-      ) : (
-        <div className="w-full">{children}</div>
-      )}
+  <div>
+    <Header simpleHeader={simpleHeader} />
+    <main>
+      <div>{children}</div>
     </main>
 
     {showFooter && <footer className="container-footer" />}

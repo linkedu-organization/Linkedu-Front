@@ -2,11 +2,9 @@ import { Layout } from "@components/Layout";
 import "./style.css";
 
 const HomePage = () => (
-  <Layout showFooter>
+  <Layout showFooter simpleHeader={false}>
     <div className="main-context">
-      <div>
-        <p>teste</p>
-      </div>
+      <p>teste</p>
     </div>
   </Layout>
 );

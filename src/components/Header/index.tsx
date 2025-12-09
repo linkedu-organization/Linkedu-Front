@@ -3,8 +3,8 @@ import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
 import { PanelMenu } from "primereact/panelmenu";
 import "primeicons/primeicons.css";
-import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
+import "./style.css";
 
 interface HeaderProps {
   simpleHeader: boolean;
@@ -26,7 +26,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
         <Link to="/">
           <img
             alt="logo"
-            src="/images/logo.svg"
+            src="/images/logo-clara.png"
             height="40"
             className="ml-2 mr-4"
           />
@@ -36,16 +36,20 @@ export default function Header({ simpleHeader }: HeaderProps) {
   } else {
     const panelMenuItems = [
       {
+        label: "Início",
+        icon: "pi pi-home",
+        command: () => navigate("/"),
+      },
+      {
         label: "Meu Perfil",
         icon: "pi pi-user",
         command: () => navigate("/"),
       },
       {
-        label: "Histórico de Pedidos",
-        icon: "pi pi-history",
+        label: "Minhas Vagas",
+        icon: "pi pi-briefcase",
         command: () => navigate("/"),
       },
-
       {
         label: "Sair",
         icon: "pi pi-sign-out",
@@ -64,13 +68,8 @@ export default function Header({ simpleHeader }: HeaderProps) {
     );
 
     const end = (
-      <div className="flex align-items-center">
-        <div className="search-container" />
-
-        <div className="flex align-items-center gap-4 justify-center iconGroup">
-          <Button icon="pi pi-arrow-right" onClick={() => toggleMenu()} />
-        </div>
-
+      <div className="flex align-items-center gap-4 justify-center">
+        <Button icon="pi pi-list" onClick={() => toggleMenu()} text />
         {menuVisible && (
           <div className="menu-container">
             <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
@@ -84,7 +83,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
         start={start}
         end={end}
         style={{
-          background: "#2F292A",
+          background: "#364FAB",
           border: "none",
           borderRadius: "0%",
           padding: "0.5rem 2rem",

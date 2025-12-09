@@ -1,9 +1,23 @@
-.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
-  color: #f9fafb;
+.p-menubar
+  .p-menubar-root-list
+  > .p-menuitem
+  > .p-menuitem-content
+  .p-menuitem-link
+  .p-menuitem-text {
+  color: var(--Linkedu-Blue);
 }
 
-.p-panelmenu .p-panelmenu-header .p-panelmenu-header-content .p-panelmenu-header-link {
-  color: var(--Achados-Black);
+.p-panelmenu
+  .p-panelmenu-header
+  .p-panelmenu-header-content
+  .p-panelmenu-header-link {
+  color: var(--Linkedu-Blue);
+}
+
+.p-button.p-button-text {
+  background-color: transparent;
+  color: var(--Linkedu-OffWhite);
+  border-color: transparent;
 }
 
 .menu-container {
@@ -27,14 +41,14 @@
 }
 
 .simple-header {
-  background: rgb(47, 41, 42);
+  background: var(--Linkedu-Blue);
   border: none;
   border-radius: 0%;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   padding: 0.5rem;
-  color: #4b5563;
+  color: var(--Linkedu-Blue);
   justify-content: center;
 }
 
@@ -44,45 +58,19 @@
   width: 100%;
 }
 
-.flex.align-items-center { 
+.flex.align-items-center {
   gap: 1rem;
   flex: 1;
   position: relative;
   justify-content: flex-end;
 }
 
-.iconGroup {
-  width: fit-content;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-grow: 1;
-  padding: 0 0 0 1rem;
-}
-
-.search-container .p-inputtext {
-  width: 50vw;
-  flex: 1;
-}
-
-.search-container .p-input-icon-left {
-  width: 100%;
-}
-
-.p-link {
-  background-color: var(--Achados-Black);
-}
-
 .p-menuitem-content:hover {
-  background-color: var(--Achados-Black);
+  background-color: var(--Linkedu-Blue);
 }
 
 .p-menuitem-active > .p-menuitem-content {
-  background-color: var(--Achados-Black);
+  background-color: var(--Linkedu-Blue);
   color: #f9fafb;
 }
 
@@ -104,19 +92,3 @@
   color: inherit;
 }
 
-.heart-header-icon:hover {
-  background: var(--Achados-OffWhite) !important;
-  color: var(--Achados-Black) !important;
-}
-
-.p-icon-field.p-icon-field-left {
-  display: flex;
-  justify-content: center;
-}
-
-@media screen and (max-width: 750px) {
-  .iconGroup > button[aria-label='Favoritos'],
-  .iconGroup > button[aria-label='Cesta'] {
-    display: none !important;
-  }
-}
