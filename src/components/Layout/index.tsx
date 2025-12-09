@@ -16,12 +16,11 @@ export const Layout: React.FC<LayoutProps> = ({
   showFooter,
   simpleHeader,
 }) => (
-  <div>
+  <div className="layout-root">
     <Header simpleHeader={simpleHeader} />
-    <main>
-      <div>{children}</div>
-    </main>
 
-    {showFooter && <footer className="container-footer" />}
+    <main className="layout-main">{children}</main>
+
+    {showFooter && <footer className="layout-footer" />}
   </div>
 );

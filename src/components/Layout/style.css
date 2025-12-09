@@ -1,12 +1,21 @@
 @import url('/public/assets/colorVariables');
 
-.container-footer {
-  bottom: 0;
+.layout-root {
+  min-height: 100vh;         
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Linkedu-OffWhite);
+}
+
+.layout-main {
+  flex: 1;                   
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-footer {
   width: 100%;
   height: 50px;
   background-color: var(--Linkedu-Blue);
-}
-
-main {
-  background-color: var(--Linkedu-OffWhite);
+  bottom: 0;
 }

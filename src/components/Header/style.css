@@ -20,6 +20,10 @@
   border-color: transparent;
 }
 
+.p-button-icon.p-c.pi.pi-list {
+  font-size: 2rem;
+}
+
 .menu-container {
   position: absolute;
   top: 50px;
