@@ -1,0 +1,98 @@
+.p-menubar
+  .p-menubar-root-list
+  > .p-menuitem
+  > .p-menuitem-content
+  .p-menuitem-link
+  .p-menuitem-text {
+  color: var(--Linkedu-Blue);
+}
+
+.p-panelmenu
+  .p-panelmenu-header
+  .p-panelmenu-header-content
+  .p-panelmenu-header-link {
+  color: var(--Linkedu-Blue);
+}
+
+.p-button.p-button-text {
+  background-color: transparent;
+  color: var(--Linkedu-OffWhite);
+  border-color: transparent;
+}
+
+.p-button-icon.p-c.pi.pi-list {
+  font-size: 2rem;
+}
+
+.menu-container {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.p-menubar {
+  width: 100%;
+  justify-content: center;
+}
+
+.p-menubar-button {
+  display: none;
+}
+
+.simple-header {
+  background: var(--Linkedu-Blue);
+  border: none;
+  border-radius: 0%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  color: var(--Linkedu-Blue);
+  justify-content: center;
+}
+
+.p-menubar-end {
+  display: flex;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+.flex.align-items-center {
+  gap: 1rem;
+  flex: 1;
+  position: relative;
+  justify-content: flex-end;
+}
+
+.p-menuitem-content:hover {
+  background-color: var(--Linkedu-Blue);
+}
+
+.p-menuitem-active > .p-menuitem-content {
+  background-color: var(--Linkedu-Blue);
+  color: #f9fafb;
+}
+
+.p-menuitem-active > .p-menuitem-content .p-menuitem-text {
+  color: #f9fafb;
+}
+
+.p-submenu-list .p-menuitem-active > .p-menuitem-content {
+  background-color: transparent;
+}
+
+.p-menuitem-content:focus {
+  background-color: transparent;
+  color: inherit;
+}
+
+.p-menuitem:not(.p-menuitem-active) > .p-menuitem-content {
+  background-color: transparent;
+  color: inherit;
+}
+
