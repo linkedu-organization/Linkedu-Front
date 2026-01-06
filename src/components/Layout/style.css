@@ -3,6 +3,7 @@
 .layout-root {
   min-height: 100vh;         
   display: flex;
+  width: 100%;
   flex-direction: column;
   background-color: var(--Linkedu-OffWhite);
 }
