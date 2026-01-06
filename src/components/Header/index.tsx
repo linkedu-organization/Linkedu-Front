@@ -26,8 +26,8 @@ export default function Header({ simpleHeader }: HeaderProps) {
       <img
         alt="logo"
         src="/images/logo-clara.png"
-        height="40"
-        width="130px"
+        height="30"
+        width="100px"
         className="ml-2 mr-4"
       />
     </Link>
@@ -68,7 +68,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
             <InputIcon className="pi pi-search" />
             <InputText
               type="text"
-              style={{ height: "2.5rem" }}
+              style={{ height: "2rem" }}
               onChange={(e) => console.log(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
