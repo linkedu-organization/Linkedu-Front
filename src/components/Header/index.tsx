@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
 import { PanelMenu } from "primereact/panelmenu";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
 import "primeicons/primeicons.css";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
@@ -18,22 +21,22 @@ export default function Header({ simpleHeader }: HeaderProps) {
     setMenuVisible(!menuVisible);
   };
 
-  let content = <></>;
+  const logo = (
+    <Link to="/">
+      <img
+        alt="logo"
+        src="/images/logo-clara.png"
+        height="40"
+        width="130px"
+        className="ml-2 mr-4"
+      />
+    </Link>
+  );
+
+  let content = <div />;
 
   if (simpleHeader) {
-    content = (
-      <div className="simple-header">
-        <Link to="/">
-          <img
-            alt="logo"
-            src="/images/logo-clara.png"
-            height="40"
-            width="130px"
-            className="ml-2 mr-4"
-          />
-        </Link>
-      </div>
-    );
+    content = <div className="simple-header">{logo}</div>;
   } else {
     const panelMenuItems = [
       {
@@ -57,32 +60,43 @@ export default function Header({ simpleHeader }: HeaderProps) {
         command: () => navigate("/"),
       },
     ];
-    const start = (
-      <Link to="/">
-        <img
-          alt="logo"
-          src="/images/logo-clara.png"
-          height="40"
-          width="130px"
-          className="ml-2 mr-4"
-        />
-      </Link>
-    );
 
     const end = (
-      <div className="flex align-items-center gap-4 justify-center">
-        <Button icon="pi pi-list" onClick={() => toggleMenu()} text />
-        {menuVisible && (
-          <div className="menu-container">
-            <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
-          </div>
-        )}
+      <div className="flex align-items-center">
+        <div className="search-container">
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-search" />
+            <InputText
+              type="text"
+              style={{ height: "2.5rem" }}
+              onChange={(e) => console.log(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  console.log("enter");
+                }
+              }}
+            />
+          </IconField>
+        </div>
+
+        <div className="flex align-items-center gap-4 justify-center">
+          <Button
+            icon="pi pi-align-justify"
+            onClick={() => toggleMenu()}
+            text
+          />
+          {menuVisible && (
+            <div className="menu-container">
+              <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
+            </div>
+          )}
+        </div>
       </div>
     );
 
     content = (
       <Menubar
-        start={start}
+        start={logo}
         end={end}
         style={{
           background: "#364FAB",
