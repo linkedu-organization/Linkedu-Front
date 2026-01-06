@@ -21,6 +21,11 @@ export const Layout: React.FC<LayoutProps> = ({
 
     <main className="layout-main">{children}</main>
 
-    {showFooter && <footer className="layout-footer" />}
+    {showFooter && (
+      <footer className="layout-footer">
+        <p>Suporte técnico</p>
+        <a href="mailto:linkedu@gmail.com">linkedu@gmail.com</a>
+      </footer>
+    )}
   </div>
 );
