@@ -7,20 +7,18 @@ import "./style.css";
 
 export interface LayoutProps {
   children: React.ReactNode;
+  headerType: "none" | "simple" | "full";
   showFooter: boolean;
-  simpleHeader: boolean;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
   showFooter,
-  simpleHeader,
+  headerType,
 }) => (
   <div className="layout-root">
-    <Header simpleHeader={simpleHeader} />
-
+    {headerType !== "none" && <Header headerType={headerType} />}
     <main className="layout-main">{children}</main>
-
     {showFooter && (
       <footer className="layout-footer">
         <p>Suporte técnico</p>

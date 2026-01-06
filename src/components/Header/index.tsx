@@ -10,10 +10,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 
 interface HeaderProps {
-  simpleHeader: boolean;
+  headerType: "simple" | "full";
 }
 
-export default function Header({ simpleHeader }: HeaderProps) {
+export default function Header({ headerType }: HeaderProps) {
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -35,7 +35,7 @@ export default function Header({ simpleHeader }: HeaderProps) {
 
   let content = <div />;
 
-  if (simpleHeader) {
+  if (headerType === "simple") {
     content = <div className="simple-header">{logo}</div>;
   } else {
     const panelMenuItems = [
