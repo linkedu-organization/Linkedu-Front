@@ -76,12 +76,12 @@
 .login-link {
   font-family: Poppins, sans-serif;
   font-size: 16px;
-  color: var(--Linkedu-DarkLetterSecond);;
+  color: var(--Linkedu-DarkLetterSecond);
   margin-top: 5px;
 }
 
 .enter-link {
-  color: var(--Linkedu-DarkLetterSecond);;
+  color: var(--Linkedu-DarkLetterSecond);
   text-decoration: underline;
   font-weight: bold;
 }
