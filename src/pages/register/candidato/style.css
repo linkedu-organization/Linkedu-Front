@@ -1,0 +1,63 @@
+.main-register {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--Linkedu-OffWhite);
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.card {
+  display: grid;
+}
+
+.container-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  background-color: var(--Linkedu-OffWhite);
+}
+
+.tittle-register {
+  color: var(--Linkedu-DarkLetter);
+  font-family: Poppins, sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  font-style: normal;
+  text-align: center;
+  margin: 25px 10px;
+}
+
+.action-buttons {
+  display: flex; 
+  justify-content: center; 
+  gap: 10px;
+}
+
+.step-button {
+  margin-top: 15px;
+  background-color: var(--Linkedu-Blue);
+  border: 1px solid var(--Linkedu-Blue);
+}
+
+.p-inputtext {
+  margin: 0;
+  width: 400px;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  color: var(--Linkedu-Blue);
+  border: 1px solid var(--Linkedu-Blue);
+  background: #ffffff;
+  min-width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.143rem;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: var(--Linkedu-LightBlue);
+  color: var(--Linkedu-Blue);
+}

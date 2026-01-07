@@ -1,13 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "@pages/homePage";
 import RegistrationPage from "@pages/register";
+import { NotificationProvider } from "@contexts/notificationContext";
+import RegisterCandidato from "@pages/register/candidato";
 
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/register" element={<RegistrationPage />} />
-    </Routes>
+    <NotificationProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/register/candidato" element={<RegisterCandidato />} />
+      </Routes>
+    </NotificationProvider>
   </BrowserRouter>
 );
 
