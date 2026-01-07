@@ -15,7 +15,8 @@
       "@domains/*": ["domains/*"],
       "@contexts/*": ["contexts/*"],
       "@stores/*": ["stores/*"],
-      "@routes/*": ["routes/*"]
+      "@routes/*": ["routes/*"],
+      "@utils/*": ["utils/*"]
     },
 
 
