@@ -13,7 +13,9 @@
       "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
       "@domains/*": ["domains/*"],
-      "@contexts/*": ["contexts/*"]
+      "@contexts/*": ["contexts/*"],
+      "@stores/*": ["stores/*"],
+      "@routes/*": ["routes/*"]
     },
 
 
