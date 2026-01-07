@@ -12,7 +12,7 @@ export interface Perfil {
   foto?: string;
   createdAt?: string;
   updatedAt?: string;
-  ultimoAcesso: string;
+  ultimoAcesso?: string;
   candidato?: Candidato;
   recrutador?: Recrutador;
 }

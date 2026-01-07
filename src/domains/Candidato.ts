@@ -13,6 +13,30 @@ export interface Candidato {
   areasInteresse: string[];
   habilidades: string[];
   disponivel: boolean;
-  tempoDisponivel: string;
+  tempoDisponivel: number;
   cargo: string;
 }
+
+export const defaultCandidato = {
+  perfil: {
+    nome: "",
+    email: "",
+    senha: "",
+    confirmaSenha: "",
+    tipo: "",
+    biografia: "",
+    foto: "",
+  },
+  instituicao: "",
+  areaAtuacao: "",
+  nivelEscolaridade: "",
+  periodoIngresso: "",
+  periodoConclusao: "",
+  linkedin: "",
+  lattes: "",
+  areasInteresse: [],
+  habilidades: [],
+  disponivel: false,
+  tempoDisponivel: 0,
+  cargo: "",
+};
