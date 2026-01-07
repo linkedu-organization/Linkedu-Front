@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerCandidato } from "@routes/routesCandidato";
 import { defaultCandidato, type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
+import { isEmail, isValueValid } from "@utils/utils";
 
 interface RegisterCandidatoContextType {
   formData: Candidato;
@@ -57,30 +58,38 @@ export const RegisterCandidatoProvider = ({
     });
   };
 
-  const validateStep = async (step: number) => {
-    if (step === 0) {
-      if (!formData.perfil.nome.trim()) return false;
-      if (!formData.perfil.email.trim()) return false;
-      if (!formData.perfil.senha) return false;
-      if (formData.perfil.senha !== formData.perfil.confirmaSenha) return false;
-      return true;
-    }
+  const requiredByStep: Record<number, Array<string>> = {
+    0: ["perfil.nome", "perfil.email", "perfil.senha", "perfil.confirmaSenha"],
+    1: [
+      "perfil.tipo",
+      "instituicao",
+      "areaAtuacao",
+      "nivelEscolaridade",
+      "periodoIngresso",
+      "periodoConclusao",
+    ],
+  };
 
-    if (step === 1) {
-      if (!formData.perfil.tipo) return false;
-      if (!formData.instituicao) return false;
-      if (!formData.areaAtuacao) return false;
-      if (!formData.nivelEscolaridade) return false;
-      if (!formData.periodoIngresso) return false;
-      if (!formData.periodoConclusao) return false;
-      return true;
+  const getByPath = (obj: unknown, path: string) =>
+    path.split(".").reduce((acc, key) => acc?.[key], obj);
+
+  const validateStep = (step: number): boolean => {
+    const required = requiredByStep[step] ?? [];
+    const allFilled = required.every((path) => {
+      const v = getByPath(formData, path);
+      return isValueValid(v);
+    });
+    if (!allFilled) return false;
+
+    if (step === 0) {
+      if (!isEmail(formData.perfil.email.trim())) return false;
+      if (formData.perfil.senha !== formData.perfil.confirmaSenha) return false;
     }
 
     if (step === 2) {
       if (formData.disponivel === null) return false;
       if (formData.disponivel && (formData.tempoDisponivel ?? 0) <= 0)
         return false;
-      return true;
     }
 
     return true;

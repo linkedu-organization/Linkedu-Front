@@ -3,7 +3,8 @@ import moment from "moment";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
 
 export const isValueValid = (value: unknown) =>
-  value !== undefined && value !== null && value !== "";
+  (value !== undefined && value !== null) ||
+  (typeof value === "string" && value !== "");
 
 export const isMaxValue = (campo: string, tamanhoMax: number) => {
   if (campo === undefined || campo === null) {

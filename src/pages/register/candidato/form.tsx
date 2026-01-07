@@ -17,8 +17,8 @@ const RegisterCandidato = () => {
   const { showNotification } = useNotification();
 
   const nextStep = async () => {
+    setSubmitted(true);
     if (await validateStep(activeIndex)) {
-      setSubmitted(true);
       setActiveIndex(activeIndex + 1);
     } else {
       showNotification('error', null, 'Verifique os campos do formulário!');
@@ -72,7 +72,7 @@ const RegisterCandidato = () => {
           <div className="card">
             <p className="tittle-register">Cadastro de Candidato</p>
 
-            <div>{stepsItems[activeIndex].component}</div>
+            {stepsItems[activeIndex].component}
 
             <Steps
               model={stepsItems.map((_, index) => ({

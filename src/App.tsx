@@ -3,6 +3,7 @@ import HomePage from "@pages/homePage";
 import RegistrationPage from "@pages/register";
 import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
+import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
 
 const App = () => (
   <BrowserRouter>
@@ -10,7 +11,14 @@ const App = () => (
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/register/candidato" element={<RegisterCandidato />} />
+        <Route
+          path="/register/candidato"
+          element={
+            <RegisterCandidatoProvider>
+              <RegisterCandidato />
+            </RegisterCandidatoProvider>
+          }
+        />
       </Routes>
     </NotificationProvider>
   </BrowserRouter>
