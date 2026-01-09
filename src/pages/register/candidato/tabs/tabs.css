@@ -1,0 +1,129 @@
+.step-wrap {
+  width: 100%;
+  padding: 24px 16px;
+}
+
+.register-card {
+  width: 500px;
+  height: 480px;
+  max-width: 92vw;
+  background: var(--Linkedu-White);
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 84px;
+  min-width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  background: #fafafa;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bio {
+  flex: 1;
+}
+
+.bio label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--Linkedu-DarkLetterSecond);
+}
+
+.bio .p-inputtextarea {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.p-inputtext {
+  margin: 0;
+  width: 400px;
+}
+
+.form-step {
+  display: contents;
+}
+
+.field {
+  margin-top: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--Linkedu-DarkLetterSecond);
+}
+
+.field .p-inputtext,
+.field .p-password,
+.field .p-password input {
+  width: 100%;
+}
+
+.field .p-inputtext,
+.field .p-password input,
+.bio .p-inputtextarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.field .p-password {
+  display: block;
+}
+
+small.error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #d32f2f;
+}
+
+.register-actions {
+  width: 420px;
+  max-width: 92vw;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.register-actions .p-steps {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.register-actions .p-button {
+  border-radius: 6px;
+  padding: 8px 14px;
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+  .bio {
+    width: 100%;
+  }
+}
