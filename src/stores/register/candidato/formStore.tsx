@@ -8,7 +8,7 @@ import { isEmail, isValueValid } from "@utils/utils";
 interface RegisterCandidatoContextType {
   formData: Candidato;
   setField: (field: string, value: unknown) => void;
-  validateStep: (stepIndex: number) => Promise<boolean>;
+  validateStep: (stepIndex: number) => boolean;
   finalizeRegister: () => Promise<void>;
 }
 
@@ -40,7 +40,7 @@ export const RegisterCandidatoProvider = ({
 
   const setField = (field: string, value: unknown) => {
     setFormData((prev) => {
-      const updatedFormData: any = { ...prev };
+      const updatedFormData: Candidato = { ...prev };
 
       const keys = field.split(".");
       let currentField: any = updatedFormData;

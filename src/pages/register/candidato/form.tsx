@@ -21,7 +21,7 @@ const RegisterCandidato = () => {
     if (await validateStep(activeIndex)) {
       setActiveIndex(activeIndex + 1);
     } else {
-      showNotification('error', null, 'Verifique os campos do formulário!');
+      showNotification("error", null, "Verifique os campos do formulário!");
     }
 
     setSubmitted(false);
@@ -62,7 +62,7 @@ const RegisterCandidato = () => {
         ),
       },
     ],
-    [formData, submitted]
+    [formData, setField, submitted]
   );
 
   return (
@@ -88,22 +88,28 @@ const RegisterCandidato = () => {
                   className="step-button"
                   label="Voltar"
                   onClick={stepBack}
+                  icon="pi pi-arrow-left"
+                  iconPos="left"
                 />
               )}
 
               {activeIndex < 2 && (
                 <Button
                   className="step-button"
-                  label="Continuar"
+                  label="Próximo"
                   onClick={nextStep}
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
                 />
               )}
 
               {activeIndex === 2 && (
                 <Button
                   className="step-button"
-                  label="Finalizar"
+                  label="Concluir"
                   onClick={finalizeRegister}
+                  icon="pi pi-check"
+                  iconPos="right"
                 />
               )}
             </div>

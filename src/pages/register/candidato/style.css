@@ -23,14 +23,13 @@
   font-family: Poppins, sans-serif;
   font-size: 38px;
   font-weight: 900;
-  font-style: normal;
   text-align: center;
-  margin: 25px 10px;
+  margin: 10px 5px;
 }
 
 .action-buttons {
   display: flex; 
-  justify-content: center; 
+  justify-content: space-between; 
   gap: 10px;
 }
 
@@ -38,11 +37,13 @@
   margin-top: 15px;
   background-color: var(--Linkedu-Blue);
   border: 1px solid var(--Linkedu-Blue);
+  height: 35px;
 }
 
-.p-inputtext {
-  margin: 0;
-  width: 400px;
+.p-button .p-button-label {
+    font-size: 14px;
+    transition-duration: 0.2s;
+    font-weight: 400;
 }
 
 .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
