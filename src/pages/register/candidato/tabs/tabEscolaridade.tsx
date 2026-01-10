@@ -1,36 +1,24 @@
 import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
-import { classNames } from "primereact/utils";
+import type { Candidato } from "@domains/Candidato";
+import { instituicoes, niveis } from "@utils/constants";
+import { invalid } from "@utils/utils";
+import "./tabs.css";
 
-type Props = {
-  formData: any;
-  setField: (field: string, value: any) => void;
+type TabEscolaridadeProps = {
+  formData: Candidato;
+  setField: (field: string, value: unknown) => void;
   submitted: boolean;
 };
 
-const instituicoes = [
-  { label: "UFCG", value: "UFCG" },
-  { label: "UFPB", value: "UFPB" },
-  { label: "IFPB", value: "IFPB" },
-  { label: "Outra", value: "Outra" },
-];
-
-const niveis = [
-  { label: "Ensino Médio", value: "ENSINO_MEDIO" },
-  { label: "Técnico", value: "TECNICO" },
-  { label: "Graduação", value: "GRADUACAO" },
-  { label: "Especialização", value: "ESPECIALIZACAO" },
-  { label: "Mestrado", value: "MESTRADO" },
-  { label: "Doutorado", value: "DOUTORADO" },
-];
-
-const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
-  const invalid = (cond: boolean) =>
-    classNames({ "p-invalid": submitted && cond });
-
-  return (
-    <div className="form-step">
+const TabEscolaridade = ({
+  formData,
+  setField,
+  submitted,
+}: TabEscolaridadeProps) => (
+  <div className="step-wrap">
+    <div className="register-card">
       <div className="field">
         <label>Você é *</label>
 
@@ -70,7 +58,7 @@ const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
           onChange={(e) => setField("instituicao", e.value)}
           options={instituicoes}
           placeholder="Selecione"
-          className={invalid(!formData.instituicao)}
+          className={invalid(submitted, !formData.instituicao)}
         />
         {submitted && !formData.instituicao && (
           <small className="error">Informe a instituição.</small>
@@ -83,7 +71,7 @@ const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
           value={formData.areaAtuacao}
           onChange={(e) => setField("areaAtuacao", e.target.value)}
           placeholder="Ex.: Ciência da Computação / Administração / ..."
-          className={invalid(!formData.areaAtuacao)}
+          className={invalid(submitted, !formData.areaAtuacao)}
         />
         {submitted && !formData.areaAtuacao && (
           <small className="error">Informe o curso/área.</small>
@@ -97,7 +85,7 @@ const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
           onChange={(e) => setField("nivelEscolaridade", e.value)}
           options={niveis}
           placeholder="Selecione"
-          className={invalid(!formData.nivelEscolaridade)}
+          className={invalid(submitted, !formData.nivelEscolaridade)}
         />
         {submitted && !formData.nivelEscolaridade && (
           <small className="error">Informe o nível.</small>
@@ -110,7 +98,7 @@ const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
           value={formData.periodoIngresso}
           onChange={(e) => setField("periodoIngresso", e.target.value)}
           placeholder="Ex.: 2023.1"
-          className={invalid(!formData.periodoIngresso)}
+          className={invalid(submitted, !formData.periodoIngresso)}
         />
         {submitted && !formData.periodoIngresso && (
           <small className="error">Informe o período de ingresso.</small>
@@ -123,14 +111,14 @@ const TabEscolaridade = ({ formData, setField, submitted }: Props) => {
           value={formData.periodoConclusao}
           onChange={(e) => setField("periodoConclusao", e.target.value)}
           placeholder="Ex.: 2027.2"
-          className={invalid(!formData.periodoConclusao)}
+          className={invalid(submitted, !formData.periodoConclusao)}
         />
         {submitted && !formData.periodoConclusao && (
           <small className="error">Informe o período de conclusão.</small>
         )}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default TabEscolaridade;
