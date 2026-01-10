@@ -22,9 +22,9 @@
 }
 
 .avatar {
-  width: 84px;
-  min-width: 84px;
-  height: 84px;
+  width: 100px;
+  min-width: 100px;
+  height: 100px;
   border-radius: 999px;
   overflow: hidden;
   border: 1px solid #e7e7e7;
@@ -41,43 +41,15 @@
   flex: 1;
 }
 
-.bio label {
+label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 6px;
   color: var(--Linkedu-DarkLetterSecond);
 }
 
-.bio .p-inputtextarea {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.p-inputtext {
-  margin: 0;
-  width: 400px;
-}
-
-.form-step {
-  display: contents;
-}
-
-.field {
-  margin-top: 10px;
-}
-
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--Linkedu-DarkLetterSecond);
-}
-
-.field .p-inputtext,
-.field .p-password,
-.field .p-password input {
+.field .p-password {
   width: 100%;
 }
 
@@ -85,37 +57,18 @@
 .field .p-password input,
 .bio .p-inputtextarea {
   padding: 10px 12px;
-  border-radius: 8px;
+  width: 100%;
 }
 
 .field .p-password {
   display: block;
 }
 
-small.error {
+small {
   display: block;
   margin-top: 6px;
   font-size: 12px;
-  color: #d32f2f;
-}
-
-.register-actions {
-  width: 420px;
-  max-width: 92vw;
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.register-actions .p-steps {
-  flex: 1;
-  margin-right: 12px;
-}
-
-.register-actions .p-button {
-  border-radius: 6px;
-  padding: 8px 14px;
+  color: var(--Linkedu-Red);
 }
 
 @media (max-width: 480px) {
