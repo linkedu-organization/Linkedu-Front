@@ -66,14 +66,7 @@ export const RegisterCandidatoProvider = ({
       "perfil.senha",
       "perfil.confirmaSenha",
     ],
-    1: [
-      "perfil.tipo",
-      "instituicao",
-      "areaAtuacao",
-      "nivelEscolaridade",
-      "periodoIngresso",
-      "periodoConclusao",
-    ],
+    1: ["perfil.tipo", "instituicao", "areaAtuacao", "nivelEscolaridade"],
   };
 
   const getByPath = (obj: unknown, path: string) =>
@@ -94,8 +87,12 @@ export const RegisterCandidatoProvider = ({
 
     if (step === 2) {
       if (formData.disponivel === null) return false;
-      if (formData.disponivel && (formData.tempoDisponivel ?? 0) <= 0)
+      if (
+        formData.areasInteresse.length === 0 ||
+        formData.habilidades.length === 0
+      )
         return false;
+      if (formData.disponivel && formData.tempoDisponivel <= 0) return false;
     }
 
     return true;

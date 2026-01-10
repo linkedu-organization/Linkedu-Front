@@ -47,7 +47,7 @@ const TabEscolaridade = ({
         </div>
 
         {submitted && !formData.perfil?.tipo && (
-          <small>Selecione uma opção.</small>
+          <small>Selecione uma opção</small>
         )}
       </div>
 
@@ -57,11 +57,11 @@ const TabEscolaridade = ({
           value={formData.instituicao}
           onChange={(e) => setField("instituicao", e.value)}
           options={instituicoes}
-          placeholder="Selecione"
+          placeholder="Selecione a sua instituição"
           className={invalid(submitted, !formData.instituicao)}
         />
         {submitted && !formData.instituicao && (
-          <small>Informe a instituição.</small>
+          <small>Informe a instituição</small>
         )}
       </div>
 
@@ -74,7 +74,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, !formData.areaAtuacao)}
         />
         {submitted && !formData.areaAtuacao && (
-          <small>Informe o curso/área.</small>
+          <small>Informe o curso/área</small>
         )}
       </div>
 
@@ -84,38 +84,30 @@ const TabEscolaridade = ({
           value={formData.nivelEscolaridade}
           onChange={(e) => setField("nivelEscolaridade", e.value)}
           options={niveis}
-          placeholder="Selecione"
+          placeholder="Selecione o seu nível de escolaridade"
           className={invalid(submitted, !formData.nivelEscolaridade)}
         />
         {submitted && !formData.nivelEscolaridade && (
-          <small>Informe o nível.</small>
+          <small>Informe o nível</small>
         )}
       </div>
 
       <div className="field">
-        <label>Período de ingresso *</label>
+        <label>Período de ingresso</label>
         <InputText
           value={formData.periodoIngresso}
           onChange={(e) => setField("periodoIngresso", e.target.value)}
           placeholder="Ex.: 2023.1"
-          className={invalid(submitted, !formData.periodoIngresso)}
         />
-        {submitted && !formData.periodoIngresso && (
-          <small>Informe o período de ingresso.</small>
-        )}
       </div>
 
       <div className="field">
-        <label>Período de conclusão *</label>
+        <label>Período de conclusão</label>
         <InputText
           value={formData.periodoConclusao}
           onChange={(e) => setField("periodoConclusao", e.target.value)}
           placeholder="Ex.: 2027.2"
-          className={invalid(submitted, !formData.periodoConclusao)}
         />
-        {submitted && !formData.periodoConclusao && (
-          <small>Informe o período de conclusão.</small>
-        )}
       </div>
     </div>
   </div>

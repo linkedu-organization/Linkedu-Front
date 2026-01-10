@@ -5,6 +5,7 @@ import { InputNumber } from "primereact/inputnumber";
 import type { Candidato } from "@domains/Candidato";
 import { habilidades, interesses } from "@utils/constants";
 import { invalid } from "@utils/utils";
+import "./tabs.css";
 
 type TabProfissionalProps = {
   formData: Candidato;
@@ -17,8 +18,8 @@ const TabProfissional = ({
   setField,
   submitted,
 }: TabProfissionalProps) => {
-  const precisaHoras = formData.disponivel === true;
-  const horasInvalid = precisaHoras && (formData.tempoDisponivel ?? 0) <= 0;
+  const horasInvalid =
+    formData.disponivel === true && formData.tempoDisponivel <= 0;
 
   return (
     <div className="step-wrap">
@@ -51,7 +52,7 @@ const TabProfissional = ({
           </div>
 
           {submitted && formData.disponivel === null && (
-            <small className="error">Selecione uma opção.</small>
+            <small>Selecione uma opção</small>
           )}
         </div>
 
@@ -61,39 +62,43 @@ const TabProfissional = ({
             <InputNumber
               value={formData.tempoDisponivel}
               onValueChange={(e) => setField("horasDisponiveis", e.value)}
-              min={1}
-              placeholder="Ex.: 2"
+              min={0}
+              placeholder="Digite sua carga horária semanal"
               className={invalid(submitted, horasInvalid)}
               inputClassName={invalid(submitted, horasInvalid)}
             />
             {submitted && horasInvalid && (
-              <small className="error">
-                Informe um número de horas maior que 0.
-              </small>
+              <small>Informe um número de horas maior que 0</small>
             )}
           </div>
         )}
 
         <div className="field">
-          <label>Áreas de interesse</label>
+          <label>Áreas de interesse *</label>
           <MultiSelect
             value={formData.areasInteresse}
             onChange={(e) => setField("areasInteresse", e.value)}
             options={interesses}
-            placeholder="Selecione"
+            placeholder="Selecione as suas áreas de interesse"
             display="chip"
           />
+          {submitted && formData.areasInteresse.length === 0 && (
+            <small>Informe as áreas de interesse</small>
+          )}
         </div>
 
         <div className="field">
-          <label>Habilidades</label>
+          <label>Habilidades *</label>
           <MultiSelect
             value={formData.habilidades}
             onChange={(e) => setField("habilidades", e.value)}
             options={habilidades}
-            placeholder="Selecione"
+            placeholder="Selecione as suas habilidades"
             display="chip"
           />
+          {submitted && formData.habilidades.length === 0 && (
+            <small>Informe as áreas de interesse</small>
+          )}
         </div>
 
         <div className="field">
@@ -101,7 +106,7 @@ const TabProfissional = ({
           <InputText
             value={formData.lattes}
             onChange={(e) => setField("lattes", e.target.value)}
-            placeholder="https://lattes.cnpq.br/..."
+            placeholder="Digite o link do seu currículo"
           />
         </div>
 
@@ -110,7 +115,7 @@ const TabProfissional = ({
           <InputText
             value={formData.linkedin}
             onChange={(e) => setField("linkedin", e.target.value)}
-            placeholder="https://www.linkedin.com/in/..."
+            placeholder="Digite o link do seu perfil"
           />
         </div>
       </div>
