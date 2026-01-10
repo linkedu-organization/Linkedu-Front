@@ -81,7 +81,12 @@ const RegisterCandidato = () => {
               readOnly
             />
 
-            <div className="action-buttons">
+            <div
+              className="action-buttons"
+              style={{
+                justifyContent: activeIndex === 0 ? "end" : "space-between",
+              }}
+            >
               {activeIndex !== 0 && (
                 <Button
                   className="step-button"

@@ -23,8 +23,7 @@
 }
 
 .action-buttons {
-  display: flex; 
-  justify-content: space-between; 
+  display: flex;
   gap: 10px;
 }
 
@@ -36,9 +35,9 @@
 }
 
 .p-button .p-button-label {
-    font-size: 14px;
-    transition-duration: 0.2s;
-    font-weight: 400;
+  font-size: 14px;
+  transition-duration: 0.2s;
+  font-weight: 400;
 }
 
 .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
