@@ -2,8 +2,8 @@ import type { Candidato } from "@domains/Candidato";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { InputTextarea } from "primereact/inputtextarea";
-import { classNames } from "primereact/utils";
 import "./tabs.css";
+import { invalid } from "@utils/utils";
 
 type TabDadosBasicosProps = {
   formData: Candidato;
@@ -16,9 +16,6 @@ const TabDadosBasicos = ({
   setField,
   submitted,
 }: TabDadosBasicosProps) => {
-  const invalid = (cond: boolean) =>
-    classNames({ "p-invalid": submitted && cond });
-
   const senhaMismatch =
     submitted &&
     formData.perfil.senha &&
@@ -42,7 +39,7 @@ const TabDadosBasicos = ({
               value={formData.perfil?.biografia ?? ""}
               onChange={(e) => setField("perfil.biografia", e.target.value)}
               placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-              className={invalid(!(formData.perfil?.biografia ?? "").trim())}
+              className={invalid(submitted, !formData.perfil?.biografia.trim())}
             />
             {submitted && !(formData.perfil?.biografia ?? "").trim() && (
               <small>Verifique sua biografia</small>
@@ -56,7 +53,7 @@ const TabDadosBasicos = ({
             id="nome"
             value={formData.perfil.nome}
             onChange={(e) => setField("perfil.nome", e.target.value)}
-            className={invalid(!formData.perfil.nome?.trim())}
+            className={invalid(submitted, !formData.perfil.nome?.trim())}
             placeholder="Digite seu nome completo"
           />
           {submitted && !formData.perfil.nome?.trim() && (
@@ -69,7 +66,7 @@ const TabDadosBasicos = ({
           <InputText
             value={formData.perfil.email}
             onChange={(e) => setField("perfil.email", e.target.value)}
-            className={invalid(!formData.perfil.email?.trim())}
+            className={invalid(submitted, !formData.perfil.email?.trim())}
             placeholder="Digite seu endereço de e-mail"
           />
           {submitted && !formData.perfil.email?.trim() && (
@@ -84,8 +81,8 @@ const TabDadosBasicos = ({
             onChange={(e) => setField("perfil.senha", e.target.value)}
             toggleMask
             feedback={false}
-            className={invalid(!formData.perfil.senha)}
-            inputClassName={invalid(!formData.perfil.senha)}
+            className={invalid(submitted, !formData.perfil.senha)}
+            inputClassName={invalid(submitted, !formData.perfil.senha)}
             placeholder="Crie uma senha"
           />
           {submitted && !formData.perfil.senha && (
@@ -100,8 +97,12 @@ const TabDadosBasicos = ({
             onChange={(e) => setField("perfil.confirmaSenha", e.target.value)}
             toggleMask
             feedback={false}
-            className={invalid(!formData.perfil.confirmaSenha || senhaMismatch)}
+            className={invalid(
+              submitted,
+              !formData.perfil.confirmaSenha || senhaMismatch
+            )}
             inputClassName={invalid(
+              submitted,
               !formData.perfil.confirmaSenha || senhaMismatch
             )}
             placeholder="Digite novamente"

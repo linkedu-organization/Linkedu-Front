@@ -1,5 +1,6 @@
 import * as validator from "email-validator";
 import moment from "moment";
+import { classNames } from "primereact/utils";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
 
 export const isValueValid = (value: unknown) =>
@@ -80,3 +81,6 @@ export const formatTypedValue = (value: string, maxSize: number) => {
   }
   return value;
 };
+
+export const invalid = (submitted: boolean, cond: boolean) =>
+  classNames({ "p-invalid": submitted && cond });
