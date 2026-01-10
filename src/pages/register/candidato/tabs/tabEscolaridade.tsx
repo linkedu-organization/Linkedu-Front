@@ -47,7 +47,7 @@ const TabEscolaridade = ({
         </div>
 
         {submitted && !formData.perfil?.tipo && (
-          <small className="error">Selecione uma opção.</small>
+          <small>Selecione uma opção.</small>
         )}
       </div>
 
@@ -61,7 +61,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, !formData.instituicao)}
         />
         {submitted && !formData.instituicao && (
-          <small className="error">Informe a instituição.</small>
+          <small>Informe a instituição.</small>
         )}
       </div>
 
@@ -70,11 +70,11 @@ const TabEscolaridade = ({
         <InputText
           value={formData.areaAtuacao}
           onChange={(e) => setField("areaAtuacao", e.target.value)}
-          placeholder="Ex.: Ciência da Computação / Administração / ..."
+          placeholder="Selecione o seu curso ou área de atuação"
           className={invalid(submitted, !formData.areaAtuacao)}
         />
         {submitted && !formData.areaAtuacao && (
-          <small className="error">Informe o curso/área.</small>
+          <small>Informe o curso/área.</small>
         )}
       </div>
 
@@ -88,7 +88,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, !formData.nivelEscolaridade)}
         />
         {submitted && !formData.nivelEscolaridade && (
-          <small className="error">Informe o nível.</small>
+          <small>Informe o nível.</small>
         )}
       </div>
 
@@ -101,7 +101,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, !formData.periodoIngresso)}
         />
         {submitted && !formData.periodoIngresso && (
-          <small className="error">Informe o período de ingresso.</small>
+          <small>Informe o período de ingresso.</small>
         )}
       </div>
 
@@ -114,7 +114,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, !formData.periodoConclusao)}
         />
         {submitted && !formData.periodoConclusao && (
-          <small className="error">Informe o período de conclusão.</small>
+          <small>Informe o período de conclusão.</small>
         )}
       </div>
     </div>

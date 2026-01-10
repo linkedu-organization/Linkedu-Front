@@ -53,11 +53,13 @@ label {
   display: block;
 }
 
+.field .p-dropdown,
 .field .p-inputtext{
   height: 35px;
 }
 
 .field .p-inputtext,
+.field .p-dropdown,
 .field .p-password input,
 .bio .p-inputtextarea {
   padding: 10px 12px;
@@ -69,6 +71,17 @@ small {
   margin-top: 6px;
   font-size: 12px;
   color: var(--Linkedu-Red);
+}
+
+.radio-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.radio-item {
+  display: flex;
+  gap: 10px;
 }
 
 @media (max-width: 480px) {

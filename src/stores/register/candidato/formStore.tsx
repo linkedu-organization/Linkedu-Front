@@ -59,7 +59,13 @@ export const RegisterCandidatoProvider = ({
   };
 
   const requiredByStep: Record<number, Array<string>> = {
-    0: ["perfil.nome", "perfil.email", "perfil.senha", "perfil.confirmaSenha"],
+    0: [
+      "perfil.biografia",
+      "perfil.nome",
+      "perfil.email",
+      "perfil.senha",
+      "perfil.confirmaSenha",
+    ],
     1: [
       "perfil.tipo",
       "instituicao",

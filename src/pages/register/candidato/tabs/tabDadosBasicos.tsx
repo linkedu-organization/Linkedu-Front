@@ -36,12 +36,12 @@ const TabDadosBasicos = ({
               id="biografia"
               autoResize
               rows={3}
-              value={formData.perfil?.biografia ?? ""}
+              value={formData.perfil?.biografia}
               onChange={(e) => setField("perfil.biografia", e.target.value)}
               placeholder="Fale um pouco sobre você, seu perfil e objetivos."
               className={invalid(submitted, !formData.perfil?.biografia.trim())}
             />
-            {submitted && !(formData.perfil?.biografia ?? "").trim() && (
+            {submitted && !formData.perfil?.biografia.trim() && (
               <small>Verifique sua biografia</small>
             )}
           </div>
