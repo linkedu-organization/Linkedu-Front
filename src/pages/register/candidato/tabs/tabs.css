@@ -53,13 +53,18 @@ label {
   display: block;
 }
 
+.field .p-multiselect,
 .field .p-dropdown,
+.field .p-inputnumber {
+  width: 100%;
+  height: 40px;
+}
+
 .field .p-inputtext{
-  height: 35px;
+  height: 40px;
 }
 
 .field .p-inputtext,
-.field .p-dropdown,
 .field .p-password input,
 .bio .p-inputtextarea {
   padding: 10px 12px;
