@@ -5,7 +5,6 @@
 
 .register-card {
   width: 500px;
-  height: 480px;
   max-width: 92vw;
   background: var(--Linkedu-White);
   border: 1px solid #ececec;
@@ -51,6 +50,11 @@ label {
 
 .field .p-password {
   width: 100%;
+  display: block;
+}
+
+.field .p-inputtext{
+  height: 35px;
 }
 
 .field .p-inputtext,
@@ -58,10 +62,6 @@ label {
 .bio .p-inputtextarea {
   padding: 10px 12px;
   width: 100%;
-}
-
-.field .p-password {
-  display: block;
 }
 
 small {

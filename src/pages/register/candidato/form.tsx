@@ -20,11 +20,10 @@ const RegisterCandidato = () => {
     setSubmitted(true);
     if (await validateStep(activeIndex)) {
       setActiveIndex(activeIndex + 1);
+      setSubmitted(false);
     } else {
       showNotification("error", null, "Verifique os campos do formulário!");
     }
-
-    setSubmitted(false);
   };
 
   const stepBack = () => {

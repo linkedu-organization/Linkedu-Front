@@ -98,12 +98,12 @@ export const RegisterCandidatoProvider = ({
   const finalizeRegister = async () => {
     try {
       await registerCandidato(formData);
-      showNotification("success", null, "Usuário cadastrado com sucesso!");
+      showNotification("success", null, "Candidato cadastrado com sucesso!");
       navigate("/login");
     } catch (error) {
       showNotification(
         "error",
-        "Erro ao cadastrar usuário. Verifique os campos do formulário.",
+        "Erro ao cadastrar candidato. Verifique os campos do formulário.",
         ""
       );
     }

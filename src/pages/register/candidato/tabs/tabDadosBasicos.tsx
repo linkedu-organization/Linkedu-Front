@@ -45,7 +45,7 @@ const TabDadosBasicos = ({
               className={invalid(!(formData.perfil?.biografia ?? "").trim())}
             />
             {submitted && !(formData.perfil?.biografia ?? "").trim() && (
-              <small>Informe sua biografia.</small>
+              <small>Verifique sua biografia</small>
             )}
           </div>
         </div>
@@ -60,7 +60,7 @@ const TabDadosBasicos = ({
             placeholder="Digite seu nome completo"
           />
           {submitted && !formData.perfil.nome?.trim() && (
-            <small>Informe o nome.</small>
+            <small>Verifique o nome informado</small>
           )}
         </div>
 
@@ -73,7 +73,7 @@ const TabDadosBasicos = ({
             placeholder="Digite seu endereço de e-mail"
           />
           {submitted && !formData.perfil.email?.trim() && (
-            <small>Informe o e-mail.</small>
+            <small>Verifique o e-mail</small>
           )}
         </div>
 
@@ -89,7 +89,7 @@ const TabDadosBasicos = ({
             placeholder="Crie uma senha"
           />
           {submitted && !formData.perfil.senha && (
-            <small>Informe a senha.</small>
+            <small>Verifique a senha informada</small>
           )}
         </div>
 
@@ -107,7 +107,7 @@ const TabDadosBasicos = ({
             placeholder="Digite novamente"
           />
           {submitted && !formData.perfil.confirmaSenha && (
-            <small>Confirme a senha.</small>
+            <small>Confirme a senha informada</small>
           )}
           {senhaMismatch && <small>As senhas não conferem.</small>}
         </div>
