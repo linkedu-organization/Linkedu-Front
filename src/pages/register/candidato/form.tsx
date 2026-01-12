@@ -19,7 +19,11 @@ const RegisterCandidato = () => {
   const nextStep = async () => {
     setSubmitted(true);
     if (await validateStep(activeIndex)) {
-      setActiveIndex(activeIndex + 1);
+      if (activeIndex === 2) {
+        finalizeRegister();
+      } else {
+        setActiveIndex(activeIndex + 1);
+      }
       setSubmitted(false);
     } else {
       showNotification("error", null, "Verifique os campos do formulário!");
@@ -111,7 +115,7 @@ const RegisterCandidato = () => {
                 <Button
                   className="step-button"
                   label="Concluir"
-                  onClick={finalizeRegister}
+                  onClick={nextStep}
                   icon="pi pi-check"
                   iconPos="right"
                 />

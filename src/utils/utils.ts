@@ -3,9 +3,11 @@ import moment from "moment";
 import { classNames } from "primereact/utils";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
 
-export const isValueValid = (value: unknown) =>
-  (value !== undefined && value !== null) ||
-  (typeof value === "string" && value !== "");
+export const isValueValid = (value: unknown) => {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string") return value.trim() !== "";
+  return true;
+};
 
 export const isMaxValue = (campo: string, tamanhoMax: number) => {
   if (campo === undefined || campo === null) {

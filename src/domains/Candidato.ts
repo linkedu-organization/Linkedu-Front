@@ -36,7 +36,7 @@ export const defaultCandidato = {
   lattes: "",
   areasInteresse: [],
   habilidades: [],
-  disponivel: false,
+  disponivel: true,
   tempoDisponivel: 0,
   cargo: "",
 };

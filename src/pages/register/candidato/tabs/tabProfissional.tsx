@@ -61,7 +61,7 @@ const TabProfissional = ({
             <label>Horas disponíveis *</label>
             <InputNumber
               value={formData.tempoDisponivel}
-              onValueChange={(e) => setField("horasDisponiveis", e.value)}
+              onValueChange={(e) => setField("tempoDisponivel", e.value)}
               min={0}
               placeholder="Digite sua carga horária semanal"
               className={invalid(submitted, horasInvalid)}
@@ -97,7 +97,7 @@ const TabProfissional = ({
             display="chip"
           />
           {submitted && formData.habilidades.length === 0 && (
-            <small>Informe as áreas de interesse</small>
+            <small>Informe as habilidades</small>
           )}
         </div>
 
