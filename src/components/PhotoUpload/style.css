@@ -1,0 +1,27 @@
+.picture-form {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #e7e7e7;
+  background: var(--Linkedu-LighterBlue);
+  display: flex;
+  justify-content: center;
+  border-radius: 100%;
+  overflow: hidden;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.profile-picture {
+  width: 175px;
+  min-width: 175px;
+  height: 175px;
+  border-radius: 999px;
+  border: 1px solid #e7e7e7;
+  background: var(--Linkedu-LighterBlue);
+}
+
+.icon-image {
+  color: var(--Linkedu-DarkLetter);
+}

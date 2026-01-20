@@ -4,6 +4,7 @@ import { Password } from "primereact/password";
 import { InputTextarea } from "primereact/inputtextarea";
 import "./tabs.css";
 import { invalid } from "@utils/utils";
+import PhotoUpload from "@components/PhotoUpload";
 
 type TabDadosBasicosProps = {
   formData: Candidato;
@@ -26,9 +27,11 @@ const TabDadosBasicos = ({
     <div className="step-wrap">
       <div className="register-card">
         <div className="profile-header">
-          <div className="avatar">
-            <img src="https://via.placeholder.com/96" alt="Foto do perfil" />
-          </div>
+          <PhotoUpload
+            canUpload
+            setField={setField}
+            imageProfile={formData?.perfil?.foto || ""}
+          />
 
           <div className="bio">
             <label htmlFor="biografia">Biografia *</label>
@@ -39,9 +42,12 @@ const TabDadosBasicos = ({
               value={formData.perfil?.biografia}
               onChange={(e) => setField("perfil.biografia", e.target.value)}
               placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-              className={invalid(submitted, !formData.perfil?.biografia.trim())}
+              className={invalid(
+                submitted,
+                !formData?.perfil?.biografia?.trim()
+              )}
             />
-            {submitted && !formData.perfil?.biografia.trim() && (
+            {submitted && !formData?.perfil?.biografia?.trim() && (
               <small>Verifique sua biografia</small>
             )}
           </div>
