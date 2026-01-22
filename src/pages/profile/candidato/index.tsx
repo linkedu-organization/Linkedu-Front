@@ -11,9 +11,87 @@ import { Tag } from "primereact/tag";
 import CardExperiencia from "@components/CardExperiencia";
 import { candidatoMock, experiencia1 } from "@stores/mock";
 import { tipoPerfil } from "@utils/constants";
-import { getValueByKey } from "@utils/utils";
+import { getValueByKey, joinTextPipes, parseBoolean } from "@utils/utils";
 
 const mock = candidatoMock;
+
+const aboutRows = [
+  {
+    icon: "pi pi-building",
+    label: "Instituição:",
+    value: mock.instituicao,
+  },
+  {
+    icon: "pi pi-calendar",
+    body: (
+      <>
+        <strong>Período de ingresso:</strong>
+        <span>{mock.periodoIngresso} - </span>
+        <strong>Período de conclusão:</strong>
+        <span>{mock.periodoConclusao}</span>
+      </>
+    ),
+  },
+  {
+    icon: "pi pi-graduation-cap",
+    label: "Nível de escolaridade:",
+    value: mock.nivelEscolaridade,
+  },
+  {
+    icon: "pi pi-briefcase",
+    body: (
+      <>
+        <strong>Disponível para contratação:</strong>
+        <span>{parseBoolean(mock.disponivel)}</span>
+        <strong>Disponibilidade: </strong>
+        <span>{mock.tempoDisponivel}h/semana</span>
+      </>
+    ),
+  },
+  {
+    icon: "pi pi-wrench",
+    label: "Habilidades:",
+    value: joinTextPipes(mock.habilidades),
+  },
+  {
+    icon: "pi pi-eye",
+    label: "Áreas de interesse:",
+    value: joinTextPipes(mock.areasInteresse),
+  },
+];
+
+const tags = [
+  {
+    icon: "pi pi-user",
+    label: getValueByKey(mock.perfil.tipo, tipoPerfil),
+    color: "#EBF4FF",
+  },
+  {
+    icon: "pi pi-briefcase",
+    label: mock.areaAtuacao,
+    color: "#FCF9DD",
+  },
+  ...(mock.linkedin
+    ? [
+        {
+          icon: "pi pi-linkedin",
+          label: "LinkedIn",
+          href: mock.linkedin,
+          color: "#EBF4FF",
+        },
+      ]
+    : []),
+  ...(mock.lattes
+    ? [
+        {
+          icon: "pi pi-id-card",
+          label: "Lattes",
+          color: "#FCF9DD",
+          href: mock.lattes,
+        },
+      ]
+    : []),
+];
 
 const ProfileCandidatoPage: React.FC = () => (
   <Layout showFooter headerType="full">
@@ -29,38 +107,24 @@ const ProfileCandidatoPage: React.FC = () => (
               <h2>{mock.perfil.email}</h2>
 
               <div className="tags-row">
-                <Tag
-                  icon="pi pi-user"
-                  value={getValueByKey(mock.perfil.tipo, tipoPerfil)}
-                  rounded
-                  style={{ backgroundColor: "#EBF4FF" }}
-                />
-                <Tag
-                  icon="pi pi-briefcase"
-                  value={mock.areaAtuacao}
-                  rounded
-                  style={{ backgroundColor: "#FCF9DD" }}
-                />
-                {mock.linkedin && (
-                  <a href={mock.linkedin} target="_blank" rel="noreferrer">
+                {tags.map((t) => {
+                  const content = (
                     <Tag
-                      icon="pi pi-linkedin"
-                      value="Linkedin"
+                      icon={t.icon}
+                      value={t.label}
                       rounded
-                      style={{ backgroundColor: "#EBF4FF" }}
+                      style={{ backgroundColor: t.color }}
                     />
-                  </a>
-                )}
-                {mock.lattes && (
-                  <a href={mock.lattes} target="_blank" rel="noreferrer">
-                    <Tag
-                      icon="pi pi-id-card"
-                      value="Lattes"
-                      rounded
-                      style={{ backgroundColor: "#FCF9DD" }}
-                    />
-                  </a>
-                )}
+                  );
+
+                  return t.href ? (
+                    <a href={t.href} target="_blank" rel="noreferrer">
+                      {content}
+                    </a>
+                  ) : (
+                    content
+                  );
+                })}
               </div>
               <p className="bio-text">{mock.perfil.biografia}</p>
             </div>
@@ -100,59 +164,21 @@ const ProfileCandidatoPage: React.FC = () => (
       <Card>
         <h3>Sobre</h3>
         <div className="about-grid">
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Instituição:</strong>
-              <span>{mock.instituicao}</span>
+          {aboutRows.map((row) => (
+            <div className="about-item">
+              <Avatar icon={row.icon} shape="circle" className="avatar-about" />
+              <div className="about-line">
+                {row.body ? (
+                  row.body
+                ) : (
+                  <>
+                    <strong>{row.label}</strong>
+                    <span>{row.value}</span>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Período de ingresso:</strong>
-              <span>{mock.periodoIngresso} —</span>
-              <strong className="ml8">Período de conclusão:</strong>
-              <span>{mock.periodoConclusao}</span>
-            </div>
-          </div>
-
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Nível de escolaridade:</strong>
-              <span>{mock.nivelEscolaridade}</span>
-            </div>
-          </div>
-
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Disponível para contratação:</strong>
-              <span>
-                {mock.disponivel
-                  ? `Sim - Disponibilidade: ${mock.tempoDisponivel}h/semana`
-                  : "Não"}
-              </span>
-            </div>
-          </div>
-
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Habilidades:</strong>
-              <span>{mock.habilidades.join(" | ")}</span>
-            </div>
-          </div>
-
-          <div className="about-item">
-            <Avatar icon="pi pi-user" shape="circle" className="avatar-about" />
-            <div className="about-line">
-              <strong>Áreas de interesse:</strong>
-              <span>{mock.areasInteresse.join(" | ")}</span>
-            </div>
-          </div>
+          ))}
         </div>
       </Card>
       <Divider />

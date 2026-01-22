@@ -148,24 +148,18 @@
 }
 
 .about-line {
-  display: inline;
   font-size: 13px;
   color: var(--Linkedu-DarkLetterSecond);
-  line-height: 1.35;
 }
 
 .about-line strong {
-  font-weight: 800;
-  color: var(--text-strong);
+  color: var(--Linkedu-DarkLetter);
   margin-right: 4px;
 }
-.about-line span {
-  color: var(--text);
-  margin-right: 8px;
-}
 
-.ml8 {
-  margin-left: 8px;
+.about-line span {
+  color: var(--Linkedu-DarkLetterSecond);
+  margin-right: 5px;
 }
 
 .exp-list {
@@ -190,21 +184,11 @@
 }
 
 @media (max-width: 900px) {
-  .profile-header-content {
-    flex-direction: column;
-  }
   .profile-actions {
     width: 100%;
     justify-content: flex-start;
   }
-  .bio-wrap {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
-  .last-update {
-    white-space: normal;
-  }
   .about-grid {
     grid-template-columns: 1fr;
   }
