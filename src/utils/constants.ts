@@ -31,3 +31,8 @@ export const habilidades = [
   { label: "Docker", value: "Docker" },
   { label: "Git", value: "Git" },
 ];
+
+export const tipoPerfil = [
+  { label: "Candidato", value: "CANDIDATO" },
+  { label: "Recrutador", value: "RECRUTADOR" },
+];

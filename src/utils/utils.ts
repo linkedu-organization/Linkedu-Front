@@ -30,7 +30,7 @@ export const getValueByKey = (
   value: string,
   list = [],
   key = "value",
-  label = "text"
+  label = "label"
 ) => {
   let result = "-";
   const filtered = list.filter((item) => item[key] === value);
