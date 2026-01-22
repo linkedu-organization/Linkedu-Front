@@ -1,27 +1,10 @@
-:root {
-  --bg: #f3f4f6;
-  --card-border: #e6e9ef;
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-
-  --text-strong: #111827;
-  --text: #4b5563;
-  --muted: #6b7280;
-
-  --brand: #2f49c7;
-  --success: #1f8f3a;
-  --danger: #d63a3a;
-
-  --radius: 8px;
-  --radius-sm: 4px;
-}
-
 .profile-container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 16px 0;
 }
 
-.p-card {
+.profile-card {
   box-shadow: var(--Linkedu-OffWhite);
   background: var(--Linkedu-OffWhite);
 }

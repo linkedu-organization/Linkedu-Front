@@ -100,7 +100,7 @@ const tags = [
 const ProfileCandidatoPage: React.FC = () => (
   <Layout showFooter headerType="full">
     <div className="profile-container">
-      <Card>
+      <Card className="profile-card">
         <div className="profile-card-content">
           <div className="profile-avatar">
             <Avatar image={mock.perfil.foto} size="xlarge" shape="circle" />
@@ -157,14 +157,13 @@ const ProfileCandidatoPage: React.FC = () => (
             </div>
           </div>
         </div>
-
         <div className="bio-update">
           <span className="last-update">
             Última atualização: {mock.perfil.ultimoAcesso}
           </span>
         </div>
       </Card>
-      <Card>
+      <Card className="profile-card">
         <h3>Sobre</h3>
         <div className="about-grid">
           {aboutRows.map((row) => (
