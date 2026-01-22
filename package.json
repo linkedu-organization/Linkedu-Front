@@ -12,6 +12,11 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
+    "axios": "^1.13.2",
+    "email-validator": "^2.0.4",
+    "moment": "^2.30.1",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
