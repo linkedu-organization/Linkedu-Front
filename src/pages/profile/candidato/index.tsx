@@ -11,7 +11,13 @@ import { Tag } from "primereact/tag";
 import CardExperiencia from "@components/CardExperiencia";
 import { candidatoMock, experiencia1 } from "@stores/mock";
 import { tipoPerfil } from "@utils/constants";
-import { getValueByKey, joinTextPipes, parseBoolean } from "@utils/utils";
+import {
+  getValueByKey,
+  getValueDate,
+  joinTextPipes,
+  parseBoolean,
+} from "@utils/utils";
+import { DATE_FORMAT_PERIOD } from "@utils/date";
 
 const mock = candidatoMock;
 
@@ -26,9 +32,9 @@ const aboutRows = [
     body: (
       <>
         <strong>Período de ingresso:</strong>
-        <span>{mock.periodoIngresso} -</span>
+        <span>{getValueDate(mock.periodoIngresso, DATE_FORMAT_PERIOD)} -</span>
         <strong>Período de conclusão:</strong>
-        <span>{mock.periodoConclusao}</span>
+        <span>{getValueDate(mock.periodoConclusao, DATE_FORMAT_PERIOD)}</span>
       </>
     ),
   },

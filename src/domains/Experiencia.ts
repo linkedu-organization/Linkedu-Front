@@ -8,6 +8,6 @@ export interface Experiencia {
   instituicao: string;
   periodoInicio: string;
   periodoFim: string;
-  local: string;
+  local?: string;
   candidato: Candidato;
 }

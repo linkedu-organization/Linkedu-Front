@@ -39,13 +39,13 @@ export const candidatoMock: Candidato = {
 };
 
 export const experiencia1: Experiencia = {
-  titulo: "Título",
+  titulo: "Bolsista PD&I",
   descricao:
     "Descrição da experiência, atividades realizadas e aprendizados obtidos. Pode falar de projetos, pesquisa, extensão, etc.",
-  orientador: "Nome do orientador",
-  instituicao: "Instituição de Ensino",
+  orientador: "Claudio",
+  instituicao: "UFCG - PaqTecPB",
   periodoInicio: "2024-10-02",
   periodoFim: "2024-10-02",
-  local: "Local da experiência - Instituição de Ensino",
+  local: "Local da experiência",
   candidato: candidatoMock,
 };
