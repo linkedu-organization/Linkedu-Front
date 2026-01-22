@@ -97,7 +97,7 @@
 
 .last-update {
   font-size: 12px;
-  color: #696e79;
+  color: var(--Linkedu-Gray);
 }
 
 .p-card .p-card-content h3,
@@ -161,7 +161,8 @@
 .exp-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  margin-top: 10px;
+  gap: 10px;
 }
 
 @media (max-width: 900px) {

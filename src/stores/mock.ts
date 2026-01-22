@@ -19,8 +19,8 @@ export const candidatoMock: Candidato = {
   instituicao: "Universidade Federal de Campina Grande",
   areaAtuacao: "Software Developer",
   nivelEscolaridade: "Graduação incompleta",
-  periodoIngresso: "11/2022",
-  periodoConclusao: "03/2027",
+  periodoIngresso: "2022-11",
+  periodoConclusao: "2027-03",
   linkedin: "https://linkedin.com",
   lattes: "https://lattes.cnpq.br",
   areasInteresse: [
@@ -43,7 +43,7 @@ export const experiencia1: Experiencia = {
   descricao:
     "Descrição da experiência, atividades realizadas e aprendizados obtidos. Pode falar de projetos, pesquisa, extensão, etc.",
   orientador: "Claudio",
-  instituicao: "UFCG - PaqTecPB",
+  instituicao: "UFCG/PaqTecPB",
   periodoInicio: "2024-10-02",
   periodoFim: "2024-10-02",
   local: "Local da experiência",

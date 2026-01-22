@@ -1,21 +1,17 @@
-/* =======================
-   EXPERIÊNCIAS - CARD
-======================= */
+.exp-card .p-card,
+.exp-card .p-card-content,
 .exp-card .p-card-body {
-  padding: 0; /* barra azul colada no topo */
+  padding: 0 !important;
 }
 
-/* barra azul */
 .exp-bar {
-  background: #2f49c7;
-  color: #fff;
+  background: var(--Linkedu-Blue);
+  color: var(--Linkedu-White);
   padding: 10px 12px;
   border-radius: 8px 8px 0 0;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 }
 
 .exp-bar-left {
@@ -26,16 +22,13 @@
 }
 
 .exp-bar-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  white-space: nowrap;
 }
 
 .exp-bar-subtitle {
-  font-size: 11px;
+  font-size: 12px;
   opacity: 0.9;
-
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -46,61 +39,46 @@
   flex-shrink: 0;
 }
 
-/* botões quadradinhos (protótipo) */
-.icon-btn.p-button {
+.exp-action.p-button {
   width: 26px;
   height: 26px;
-  padding: 0 !important;
   border-radius: 4px !important;
 }
 
-/* mantém ícone branco */
-.icon-btn.p-button .pi {
-  color: #fff !important;
+.exp-action.p-button .pi {
   font-size: 12px;
 }
 
-/* cores */
-.icon-btn-edit.p-button {
-  background: #1f8f3a !important;
-  border-color: #1f8f3a !important;
+.edit.p-button {
+  background: var(--Linkedu-Green) !important;
+  border-color: var(--Linkedu-Green) !important;
 }
 
-.icon-btn-del.p-button {
-  background: #d63a3a !important;
-  border-color: #d63a3a !important;
+.del.p-button {
+  background: var(--Linkedu-Red) !important;
+  border-color: var(--Linkedu-Red) !important;
 }
 
-/* corpo */
 .exp-body {
-  padding: 12px 12px 14px 12px;
+  padding: 12px;
 }
 
 .exp-place {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  color: #111827;
+  color: var(--Linkedu-DarkLetter);
   margin-bottom: 4px;
 }
 
 .exp-mentor {
-  font-size: 11px;
-  color: #6b7280;
+  font-size: 12px;
   margin-bottom: 8px;
-}
-
-.exp-mentor-label {
-  font-weight: 700;
-  color: #6b7280;
-}
-
-.exp-mentor-value {
-  color: #6b7280;
+  color: var(--Linkedu-DarkLetterSecond);
 }
 
 .exp-desc {
-  font-size: 11px;
-  color: #4b5563;
+  font-size: 12px;
+  color: var(--Linkedu-Gray);
   line-height: 1.5;
   margin: 0;
 }
