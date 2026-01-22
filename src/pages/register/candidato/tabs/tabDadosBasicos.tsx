@@ -68,7 +68,7 @@ const TabDadosBasicos = ({
         </div>
 
         <div className="field">
-          <label>E-mail (Institucional) *</label>
+          <label>E-mail *</label>
           <InputText
             value={formData.perfil.email}
             onChange={(e) => setField("perfil.email", e.target.value)}
