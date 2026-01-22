@@ -1,0 +1,106 @@
+/* =======================
+   EXPERIÊNCIAS - CARD
+======================= */
+.exp-card .p-card-body {
+  padding: 0; /* barra azul colada no topo */
+}
+
+/* barra azul */
+.exp-bar {
+  background: #2f49c7;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 8px 8px 0 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.exp-bar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.exp-bar-title {
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.exp-bar-subtitle {
+  font-size: 11px;
+  opacity: 0.9;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exp-bar-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* botões quadradinhos (protótipo) */
+.icon-btn.p-button {
+  width: 26px;
+  height: 26px;
+  padding: 0 !important;
+  border-radius: 4px !important;
+}
+
+/* mantém ícone branco */
+.icon-btn.p-button .pi {
+  color: #fff !important;
+  font-size: 12px;
+}
+
+/* cores */
+.icon-btn-edit.p-button {
+  background: #1f8f3a !important;
+  border-color: #1f8f3a !important;
+}
+
+.icon-btn-del.p-button {
+  background: #d63a3a !important;
+  border-color: #d63a3a !important;
+}
+
+/* corpo */
+.exp-body {
+  padding: 12px 12px 14px 12px;
+}
+
+.exp-place {
+  font-size: 12px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.exp-mentor {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.exp-mentor-label {
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.exp-mentor-value {
+  color: #6b7280;
+}
+
+.exp-desc {
+  font-size: 11px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
