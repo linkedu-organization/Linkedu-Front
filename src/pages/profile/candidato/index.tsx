@@ -26,7 +26,7 @@ const aboutRows = [
     body: (
       <>
         <strong>Período de ingresso:</strong>
-        <span>{mock.periodoIngresso} - </span>
+        <span>{mock.periodoIngresso} -</span>
         <strong>Período de conclusão:</strong>
         <span>{mock.periodoConclusao}</span>
       </>
@@ -43,8 +43,12 @@ const aboutRows = [
       <>
         <strong>Disponível para contratação:</strong>
         <span>{parseBoolean(mock.disponivel)}</span>
-        <strong>Disponibilidade: </strong>
-        <span>{mock.tempoDisponivel}h/semana</span>
+        {mock.disponivel && (
+          <>
+            - <strong>Disponibilidade:</strong>
+            <span>{mock.tempoDisponivel}h/semana</span>
+          </>
+        )}
       </>
     ),
   },
@@ -160,7 +164,6 @@ const ProfileCandidatoPage: React.FC = () => (
           </span>
         </div>
       </Card>
-
       <Card>
         <h3>Sobre</h3>
         <div className="about-grid">
@@ -182,25 +185,21 @@ const ProfileCandidatoPage: React.FC = () => (
         </div>
       </Card>
       <Divider />
+      <div className="exp-header">
+        <h3>Experiências</h3>
+        <Button
+          label="Adicionar Experiência"
+          icon="pi pi-plus"
+          className="exp-button"
+          size="small"
+        />
+      </div>
 
-      <section className="section">
-        <div className="section-header">
-          <h2>Experiências</h2>
-
-          <Button
-            label="Adicionar Experiência"
-            icon="pi pi-plus"
-            className="btn-add-exp"
-            size="small"
-          />
-        </div>
-
-        <div className="exp-list">
-          {[experiencia1, experiencia1].map((experiencia) => (
-            <CardExperiencia data={experiencia} />
-          ))}
-        </div>
-      </section>
+      <div className="exp-list">
+        {[experiencia1, experiencia1].map((experiencia) => (
+          <CardExperiencia data={experiencia} />
+        ))}
+      </div>
     </div>
   </Layout>
 );

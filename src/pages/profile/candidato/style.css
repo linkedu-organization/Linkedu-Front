@@ -27,7 +27,7 @@
 }
 
 .p-card .p-card-body {
-  padding: 0 10px;
+  padding: 0 10px 0 0;
 }
 
 .p-card .p-card-content {
@@ -117,7 +117,8 @@
   color: #696e79;
 }
 
-.p-card .p-card-content h3 {
+.p-card .p-card-content h3,
+.exp-header h3 {
   margin: 0 0 10px 0;
   font-size: 22px;
   font-weight: 900;
@@ -162,25 +163,22 @@
   margin-right: 5px;
 }
 
-.exp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.section-header {
+.exp-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
 }
-.btn-add-exp.p-button {
+
+.exp-button.p-button {
   padding: 6px 10px;
-  font-size: 11px;
-  border-radius: var(--radius-sm);
-  background: var(--brand);
-  border-color: var(--brand);
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 @media (max-width: 900px) {
