@@ -27,30 +27,28 @@ const TabEscolaridade = ({
         <div className="radio-row">
           <div className="radio-item">
             <RadioButton
-              inputId="tipo-aluno"
-              name="tipo"
+              inputId="cargo-aluno"
+              name="cargo"
               value="ALUNO"
-              onChange={(e) => setField("perfil.tipo", e.value)}
-              checked={formData.perfil?.tipo === "ALUNO"}
+              onChange={(e) => setField("cargo", e.value)}
+              checked={formData.cargo === "ALUNO"}
             />
-            <label htmlFor="tipo-aluno">Aluno</label>
+            <label htmlFor="cargo-aluno">Aluno</label>
           </div>
 
           <div className="radio-item">
             <RadioButton
-              inputId="tipo-tec"
-              name="tipo"
+              inputId="cargo-tec"
+              name="cargo"
               value="TECNICO"
-              onChange={(e) => setField("perfil.tipo", e.value)}
-              checked={formData.perfil?.tipo === "TECNICO"}
+              onChange={(e) => setField("cargo", e.value)}
+              checked={formData.cargo === "TECNICO"}
             />
-            <label htmlFor="tipo-tec">Técnico Administrativo</label>
+            <label htmlFor="cargo-tec">Técnico Administrativo</label>
           </div>
         </div>
 
-        {hasError(submitted, errors["perfil.tipo"]) && (
-          <small>{errors["perfil.tipo"]}</small>
-        )}
+        {hasError(submitted, errors.cargo) && <small>{errors.cargo}</small>}
       </div>
 
       <div className="field">
