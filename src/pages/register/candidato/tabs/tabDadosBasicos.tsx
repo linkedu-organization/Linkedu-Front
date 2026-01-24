@@ -1,9 +1,9 @@
 import type { Candidato } from "@domains/Candidato";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import "./tabs.css";
-import { invalid, getErrorMsg, hasError } from "@utils/utils";
+import { invalid, hasError } from "@utils/utils";
 import PhotoUpload from "@components/PhotoUpload";
+import "./tabs.css";
 
 type TabDadosBasicosProps = {
   formData: Candidato;
@@ -36,10 +36,10 @@ const TabDadosBasicos = ({
             value={formData.perfil?.biografia}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-            className={invalid(submitted, hasError(errors["perfil.biografia"]))}
+            className={invalid(submitted, errors["perfil.biografia"])}
           />
-          {hasError(errors["perfil.biografia"]) && (
-            <small>{getErrorMsg(submitted, errors["perfil.biografia"])}</small>
+          {hasError(submitted, errors["perfil.biografia"]) && (
+            <small>{errors["perfil.biografia"]}</small>
           )}
         </div>
       </div>
@@ -50,11 +50,11 @@ const TabDadosBasicos = ({
           id="nome"
           value={formData.perfil.nome}
           onChange={(e) => setField("perfil.nome", e.target.value)}
-          className={invalid(submitted, hasError(errors["perfil.nome"]))}
+          className={invalid(submitted, errors["perfil.nome"])}
           placeholder="Digite seu nome completo"
         />
-        {hasError(errors["perfil.nome"]) && (
-          <small>{getErrorMsg(submitted, errors["perfil.nome"])}</small>
+        {hasError(submitted, errors["perfil.nome"]) && (
+          <small>{errors["perfil.nome"]}</small>
         )}
       </div>
 
@@ -63,11 +63,11 @@ const TabDadosBasicos = ({
         <InputText
           value={formData.perfil.email}
           onChange={(e) => setField("perfil.email", e.target.value)}
-          className={invalid(submitted, hasError(errors["perfil.email"]))}
+          className={invalid(submitted, errors["perfil.email"])}
           placeholder="Digite seu endereço de e-mail"
         />
-        {hasError(errors["perfil.email"]) && (
-          <small>{getErrorMsg(submitted, errors["perfil.email"])}</small>
+        {hasError(submitted, errors["perfil.email"]) && (
+          <small>{errors["perfil.email"]}</small>
         )}
       </div>
 
@@ -77,11 +77,11 @@ const TabDadosBasicos = ({
           value={formData.perfil.senha}
           onChange={(e) => setField("perfil.senha", e.target.value)}
           type="password"
-          className={invalid(submitted, hasError(errors["perfil.senha"]))}
+          className={invalid(submitted, errors["perfil.senha"])}
           placeholder="Crie uma senha"
         />
-        {hasError(errors["perfil.senha"]) && (
-          <small>{getErrorMsg(submitted, errors["perfil.senha"])}</small>
+        {hasError(submitted, errors["perfil.senha"]) && (
+          <small>{errors["perfil.senha"]}</small>
         )}
       </div>
 
@@ -91,16 +91,11 @@ const TabDadosBasicos = ({
           value={formData.perfil.confirmaSenha}
           onChange={(e) => setField("perfil.confirmaSenha", e.target.value)}
           type="password"
-          className={invalid(
-            submitted,
-            hasError(errors["perfil.confirmaSenha"])
-          )}
+          className={invalid(submitted, errors["perfil.confirmaSenha"])}
           placeholder="Digite novamente"
         />
-        {hasError(errors["perfil.confirmaSenha"]) && (
-          <small>
-            {getErrorMsg(submitted, errors["perfil.confirmaSenha"])}
-          </small>
+        {hasError(submitted, errors["perfil.confirmaSenha"]) && (
+          <small>{errors["perfil.confirmaSenha"]}</small>
         )}
       </div>
     </div>

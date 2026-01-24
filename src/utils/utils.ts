@@ -84,10 +84,8 @@ export const formatTypedValue = (value: string, maxSize: number) => {
   return value;
 };
 
-export const invalid = (submitted: boolean, cond: boolean) =>
-  classNames({ "p-invalid": submitted && cond });
+export const hasError = (submitted: boolean, msg: string) =>
+  submitted && isValueValid(msg);
 
-export const getErrorMsg = (submitted: boolean, msg: string) =>
-  submitted ? msg : "";
-
-export const hasError = (msg: string) => isValueValid(msg);
+export const invalid = (submitted: boolean, msg: string) =>
+  classNames({ "p-invalid": hasError(submitted, msg) });
