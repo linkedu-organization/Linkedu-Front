@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerCandidato } from "@routes/routesCandidato";
 import { defaultCandidato, type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
-import { isEmail, isValueValid } from "@utils/utils";
+import { isEmail, isMaxValue, isValueValid } from "@utils/utils";
 import { validarEmail } from "@routes/routesPerfil";
 
 type FieldErrors = Record<string, string>;
@@ -44,13 +44,7 @@ export const RegisterCandidatoProvider = ({
   const navigate = useNavigate();
 
   const requiredByStep: Record<number, Array<string>> = {
-    0: [
-      "perfil.biografia",
-      "perfil.nome",
-      "perfil.email",
-      "perfil.senha",
-      "perfil.confirmaSenha",
-    ],
+    0: ["perfil.nome", "perfil.email", "perfil.senha", "perfil.confirmaSenha"],
     1: ["perfil.tipo", "instituicao", "areaAtuacao", "nivelEscolaridade"],
     2: ["disponivel", "areasInteresse", "habilidades"],
   };
@@ -132,6 +126,9 @@ export const RegisterCandidatoProvider = ({
         stepErrors["perfil.email"] = "E-mail já cadastrado";
       }
 
+      if (isMaxValue(formData?.perfil?.biografia, 255)) {
+        stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
+      }
       if (formData.perfil.senha !== formData.perfil.confirmaSenha) {
         stepErrors["perfil.confirmaSenha"] = "As senhas não conferem";
       }

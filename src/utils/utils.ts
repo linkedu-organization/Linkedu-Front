@@ -9,7 +9,7 @@ export const isValueValid = (value: unknown) => {
   return true;
 };
 
-export const isMaxValue = (campo: string, tamanhoMax: number) => {
+export const isMaxValue = (campo: unknown, tamanhoMax: number) => {
   if (campo === undefined || campo === null) {
     return true;
   }

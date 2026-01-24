@@ -28,19 +28,16 @@ const TabDadosBasicos = ({
         />
 
         <div className="bio">
-          <label htmlFor="biografia">Biografia *</label>
+          <label htmlFor="biografia">Biografia</label>
           <InputTextarea
             id="biografia"
             autoResize
+            maxLength={255}
             rows={3}
             value={formData.perfil?.biografia}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-            className={invalid(submitted, errors["perfil.biografia"])}
           />
-          {hasError(submitted, errors["perfil.biografia"]) && (
-            <small>{errors["perfil.biografia"]}</small>
-          )}
         </div>
       </div>
 
