@@ -98,7 +98,6 @@ export const RegisterCandidatoProvider = ({
       const response = await validarEmail(formData?.perfil?.email);
       return response.status === 200;
     } catch (error) {
-      console.error("Erro ao validar e-mail:", error);
       return false;
     }
   };
@@ -139,7 +138,7 @@ export const RegisterCandidatoProvider = ({
     }
 
     if (step === 2) {
-      if (formData.disponivel && formData.tempoDisponivel <= 0) {
+      if (formData.disponivel && !isValueValid(formData.tempoDisponivel)) {
         stepErrors.tempoDisponivel = "Informe um tempo disponível válido";
       }
     }
