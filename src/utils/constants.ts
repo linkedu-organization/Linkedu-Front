@@ -6,12 +6,13 @@ export const instituicoes = [
 ];
 
 export const niveis = [
-  { label: "Ensino Médio", value: "ENSINO_MEDIO" },
-  { label: "Técnico", value: "TECNICO" },
-  { label: "Graduação", value: "GRADUACAO" },
-  { label: "Especialização", value: "ESPECIALIZACAO" },
-  { label: "Mestrado", value: "MESTRADO" },
-  { label: "Doutorado", value: "DOUTORADO" },
+  { label: "Ensino Fundamental Incompleto", value: "FUNDAMENTAL_INCOMPLETO" },
+  { label: "Ensino Fundamental Completo", value: "FUNDAMENTAL_COMPLETO" },
+  { label: "Ensino Médio Incompleto", value: "MEDIO_INCOMPLETO" },
+  { label: "Ensino Médio Completo", value: "MEDIO_COMPLETO" },
+  { label: "Superior Incompleto", value: "SUPERIOR_INCOMPLETO" },
+  { label: "Superior Completo", value: "SUPERIOR_COMPLETO" },
+  { label: "Pós Graduação", value: "POS_GRADUACAO" },
 ];
 
 export const interesses = [
