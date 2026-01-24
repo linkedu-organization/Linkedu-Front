@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerCandidato } from "@routes/routesCandidato";
 import { defaultCandidato, type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
-import { isEmail, isMaxValue, isValueValid } from "@utils/utils";
+import { isEmail, isMaxValue, isMinValue, isValueValid } from "@utils/utils";
 import { validarEmail } from "@routes/routesPerfil";
 
 type FieldErrors = Record<string, string>;
@@ -128,6 +128,10 @@ export const RegisterCandidatoProvider = ({
 
       if (isMaxValue(formData?.perfil?.biografia, 255)) {
         stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
+      }
+      if (isMinValue(formData.perfil?.senha, 8)) {
+        stepErrors["perfil.senha"] =
+          "A senha precisa de no mínimo oito dígitos";
       }
       if (formData.perfil.senha !== formData.perfil.confirmaSenha) {
         stepErrors["perfil.confirmaSenha"] = "As senhas não conferem";

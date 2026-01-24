@@ -23,7 +23,7 @@ export const defaultCandidato = {
     email: "",
     senha: "",
     confirmaSenha: "",
-    tipo: "",
+    tipo: "CANDIDATO",
     biografia: "",
     foto: "",
   },
