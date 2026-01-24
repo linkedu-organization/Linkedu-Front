@@ -3,19 +3,21 @@ import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
 import type { Candidato } from "@domains/Candidato";
 import { instituicoes, niveis } from "@utils/constants";
-import { invalid } from "@utils/utils";
+import { hasError, invalid } from "@utils/utils";
 import "./tabs.css";
 
 type TabEscolaridadeProps = {
   formData: Candidato;
   setField: (field: string, value: unknown) => void;
   submitted: boolean;
+  errors: Record<string, string>;
 };
 
 const TabEscolaridade = ({
   formData,
   setField,
   submitted,
+  errors,
 }: TabEscolaridadeProps) => (
   <div className="step-wrap">
     <div className="register-card">
@@ -38,16 +40,16 @@ const TabEscolaridade = ({
             <RadioButton
               inputId="tipo-tec"
               name="tipo"
-              value="TECNICO_ADMIN"
+              value="TECNICO"
               onChange={(e) => setField("perfil.tipo", e.value)}
-              checked={formData.perfil?.tipo === "TECNICO_ADMIN"}
+              checked={formData.perfil?.tipo === "TECNICO"}
             />
             <label htmlFor="tipo-tec">Técnico Administrativo</label>
           </div>
         </div>
 
-        {submitted && !formData.perfil?.tipo && (
-          <small>Selecione uma opção</small>
+        {hasError(submitted, errors["perfil.tipo"]) && (
+          <small>{errors["perfil.tipo"]}</small>
         )}
       </div>
 
@@ -58,10 +60,10 @@ const TabEscolaridade = ({
           onChange={(e) => setField("instituicao", e.value)}
           options={instituicoes}
           placeholder="Selecione a sua instituição"
-          className={invalid(submitted, !formData.instituicao)}
+          className={invalid(submitted, errors.instituicao)}
         />
-        {submitted && !formData.instituicao && (
-          <small>Informe a instituição</small>
+        {hasError(submitted, errors.instituicao) && (
+          <small>{errors.instituicao}</small>
         )}
       </div>
 
@@ -71,10 +73,10 @@ const TabEscolaridade = ({
           value={formData.areaAtuacao}
           onChange={(e) => setField("areaAtuacao", e.target.value)}
           placeholder="Selecione o seu curso ou área de atuação"
-          className={invalid(submitted, !formData.areaAtuacao)}
+          className={invalid(submitted, errors.areaAtuacao)}
         />
-        {submitted && !formData.areaAtuacao && (
-          <small>Informe o curso/área</small>
+        {hasError(submitted, errors.areaAtuacao) && (
+          <small>{errors.areaAtuacao}</small>
         )}
       </div>
 
@@ -85,10 +87,10 @@ const TabEscolaridade = ({
           onChange={(e) => setField("nivelEscolaridade", e.value)}
           options={niveis}
           placeholder="Selecione o seu nível de escolaridade"
-          className={invalid(submitted, !formData.nivelEscolaridade)}
+          className={invalid(submitted, errors.nivelEscolaridade)}
         />
-        {submitted && !formData.nivelEscolaridade && (
-          <small>Informe o nível</small>
+        {hasError(submitted, errors.nivelEscolaridade) && (
+          <small>{errors.nivelEscolaridade}</small>
         )}
       </div>
 
