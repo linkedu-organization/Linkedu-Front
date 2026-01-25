@@ -12,6 +12,7 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",

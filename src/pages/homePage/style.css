@@ -6,3 +6,70 @@
   flex-direction: column;
   align-items: center;
 }
+
+.tab-menu-homepage {
+  width: 1312px;
+  height: 65px;
+}
+
+.tab-menu-homepage .p-tabmenu-nav {
+  background-color: var(--Linkedu-OffWhite);             
+  border-bottom: 0;     
+} 
+
+.tab-menu-homepage .p-menuitem-link,
+.tab-menu-homepage .p-menuitem-link:hover,
+.tab-menu-homepage .p-menuitem-link:focus {
+  background: var(--Linkedu-OffWhite) !important;
+}
+
+.position-header {
+  width: 1312px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.position-title {
+  font-family: "Inter";
+  font-size: 32px;
+  color: var(--Linkedu-DarkBlueLetter);
+}
+
+.position-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.position-list-cards {
+  width: 1312px;
+  height: 60px;
+  
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 20px;
+  column-gap: 30px;
+
+   --cardHeight: 320px;
+  height: calc((var(--cardHeight) * 2) + 16px); 
+  padding-right: 8px;
+}
+
+.position-card {
+  height: var(--cardHeight);
+  display: flex;
+  flex-direction: column;
+}
+
+.position-card .position-title {
+  margin: 0;
+}
+
+.position-card .position-header {
+  display: flex;
+  align-items: baseline; 
+  justify-content: space-between;
+  gap: 12px;
+}
