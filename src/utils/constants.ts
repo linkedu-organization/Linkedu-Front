@@ -32,10 +32,3 @@ export const habilidades = [
   { label: "Docker", value: "Docker" },
   { label: "Git", value: "Git" },
 ];
-
-export const cargaHoraria = [
-  { label: "Até 10h", value: "ATE_10H" },
-  { label: "De 10 a 20h", value: "DE_10_A_20H" },
-  { label: "De 20 a 30h", value: "DE_20_A_30H" },
-  { label: "Acima de 30h", value: "ACIMA_DE_30H" },
-];
