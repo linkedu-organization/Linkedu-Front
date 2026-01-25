@@ -6,10 +6,10 @@ export interface Candidato {
   instituicao: string;
   areaAtuacao: string;
   nivelEscolaridade: string;
-  periodoIngresso: string;
-  periodoConclusao: string;
-  linkedin: string;
-  lattes: string;
+  periodoIngresso?: string;
+  periodoConclusao?: string;
+  linkedin?: string;
+  lattes?: string;
   areasInteresse: string[];
   habilidades: string[];
   disponivel: boolean;
@@ -23,7 +23,7 @@ export const defaultCandidato = {
     email: "",
     senha: "",
     confirmaSenha: "",
-    tipo: "",
+    tipo: "CANDIDATO",
     biografia: "",
     foto: "",
   },

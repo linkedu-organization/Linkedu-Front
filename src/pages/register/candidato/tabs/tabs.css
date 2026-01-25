@@ -32,11 +32,6 @@ label {
   color: var(--Linkedu-DarkLetterSecond);
 }
 
-.field .p-password {
-  width: 100%;
-  display: block;
-}
-
 .field .p-multiselect,
 .field .p-dropdown,
 .field .p-inputnumber {
@@ -49,7 +44,6 @@ label {
 }
 
 .field .p-inputtext,
-.field .p-password input,
 .bio .p-inputtextarea {
   padding: 10px 12px;
   width: 100%;

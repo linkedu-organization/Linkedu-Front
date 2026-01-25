@@ -12,7 +12,7 @@ import "./style.css";
 const RegisterCandidato = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const { formData, setField, validateStep, finalizeRegister } =
+  const { formData, setField, validateStep, finalizeRegister, errors } =
     useRegisterCandidato();
   const { showNotification } = useNotification();
 
@@ -43,6 +43,7 @@ const RegisterCandidato = () => {
             formData={formData}
             setField={setField}
             submitted={submitted}
+            errors={errors}
           />
         ),
       },
@@ -52,6 +53,7 @@ const RegisterCandidato = () => {
             formData={formData}
             setField={setField}
             submitted={submitted}
+            errors={errors}
           />
         ),
       },
@@ -60,12 +62,13 @@ const RegisterCandidato = () => {
           <TabProfissional
             formData={formData}
             setField={setField}
+            errors={errors}
             submitted={submitted}
           />
         ),
       },
     ],
-    [formData, setField, submitted]
+    [formData, setField, submitted, errors]
   );
 
   return (

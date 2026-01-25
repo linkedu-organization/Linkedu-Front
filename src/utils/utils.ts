@@ -9,7 +9,7 @@ export const isValueValid = (value: unknown) => {
   return true;
 };
 
-export const isMaxValue = (campo: string, tamanhoMax: number) => {
+export const isMaxValue = (campo: unknown, tamanhoMax: number) => {
   if (campo === undefined || campo === null) {
     return true;
   }
@@ -84,5 +84,8 @@ export const formatTypedValue = (value: string, maxSize: number) => {
   return value;
 };
 
-export const invalid = (submitted: boolean, cond: boolean) =>
-  classNames({ "p-invalid": submitted && cond });
+export const hasError = (submitted: boolean, msg: string) =>
+  submitted && isValueValid(msg);
+
+export const invalid = (submitted: boolean, msg: string) =>
+  classNames({ "p-invalid": hasError(submitted, msg) });

@@ -11,7 +11,7 @@ interface NotificationContextType {
   showNotification: (
     severity: Severity,
     summary: string | null,
-    detail: string
+    detail?: string | null
   ) => void;
 }
 
@@ -27,7 +27,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const showNotification = (
     severity: Severity,
     summary: string | null,
-    detail: string
+    detail?: string | null
   ) => {
     if (toastRef.current) {
       toastRef.current.show({ severity, summary, detail, life: 3000 });
