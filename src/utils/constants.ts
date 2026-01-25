@@ -38,6 +38,11 @@ export const tipoPerfil = [
   { label: "Recrutador", value: "RECRUTADOR" },
 ];
 
+export const cargoCandidato = [
+  { label: "Aluno", value: "ALUNO" },
+  { label: "Técnico Administrativo", value: "TECNICO" },
+];
+
 export const cargaHoraria = [
   { label: "Até 10h", value: "ATE_10H" },
   { label: "De 10 a 20h", value: "DE_10_A_20H" },

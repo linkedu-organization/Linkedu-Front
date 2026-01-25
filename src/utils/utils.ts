@@ -83,6 +83,7 @@ export const formatTypedValue = (value: string, maxSize: number) => {
   }
   return value;
 };
+
 export const joinTextPipes = (items: string[]) =>
   items.filter(Boolean).join(" | ");
 

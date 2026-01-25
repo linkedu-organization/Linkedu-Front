@@ -20,7 +20,10 @@ const App = () => (
             </RegisterCandidatoProvider>
           }
         />
-        <Route path="/profile/candidato" element={<ProfileCandidatoPage />} />
+        <Route
+          path="/profile/candidato/:id?"
+          element={<ProfileCandidatoPage />}
+        />
       </Routes>
     </NotificationProvider>
   </BrowserRouter>
