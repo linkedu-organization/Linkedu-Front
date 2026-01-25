@@ -125,10 +125,10 @@ export const RegisterCandidatoProvider = ({
         stepErrors["perfil.email"] = "E-mail já cadastrado";
       }
 
-      if (isMaxValue(formData?.perfil?.biografia, 255)) {
+      if (!isMaxValue(formData?.perfil?.biografia, 255)) {
         stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
       }
-      if (isMinValue(formData.perfil?.senha, 8)) {
+      if (!isMinValue(formData.perfil?.senha, 8)) {
         stepErrors["perfil.senha"] =
           "A senha precisa de no mínimo oito dígitos";
       }
