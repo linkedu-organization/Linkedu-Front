@@ -6,14 +6,14 @@ export interface Candidato {
   instituicao: string;
   areaAtuacao: string;
   nivelEscolaridade: string;
-  periodoIngresso: string;
-  periodoConclusao: string;
-  linkedin: string;
-  lattes: string;
+  periodoIngresso?: string;
+  periodoConclusao?: string;
+  linkedin?: string;
+  lattes?: string;
   areasInteresse: string[];
   habilidades: string[];
   disponivel: boolean;
-  tempoDisponivel: number;
+  tempoDisponivel: string;
   cargo: string;
 }
 
@@ -23,7 +23,7 @@ export const defaultCandidato = {
     email: "",
     senha: "",
     confirmaSenha: "",
-    tipo: "",
+    tipo: "CANDIDATO",
     biografia: "",
     foto: "",
   },
@@ -37,6 +37,6 @@ export const defaultCandidato = {
   areasInteresse: [],
   habilidades: [],
   disponivel: true,
-  tempoDisponivel: 0,
+  tempoDisponivel: "",
   cargo: "",
 };
