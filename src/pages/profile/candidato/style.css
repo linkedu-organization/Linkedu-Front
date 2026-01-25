@@ -90,6 +90,10 @@
   padding: 6px 10px;
 }
 
+.p-confirm-dialog-accept.p-button.p-component {
+  background: var(--Linkedu-Blue);
+}
+
 .bio-update {
   display: flex;
   justify-content: end;

@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Layout } from "@components/Layout";
-
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
-
-import CardExperiencia from "@components/CardExperiencia";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { experiencia1 } from "@stores/mock";
 import { cargoCandidato, niveis } from "@utils/constants";
 import {
@@ -23,35 +21,42 @@ import {
 } from "@utils/date";
 import type { Candidato } from "@domains/Candidato";
 import { useParams } from "react-router-dom";
-import { useNotification } from "@contexts/notificationContext";
-import { getCandidato } from "@routes/routesCandidato";
+import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
+import CardExperiencia from "@components/CardExperiencia";
 import "./style.css";
 
-const aboutRows = (data: Candidato): unknown => [
+const aboutRows = (formData: Candidato): unknown => [
   {
     icon: "pi pi-building",
     label: "Instituição:",
-    value: data?.instituicao,
+    value: formData?.instituicao,
   },
-  ...(data?.periodoIngresso || data?.periodoConclusao
+  ...(formData?.periodoIngresso || formData?.periodoConclusao
     ? [
         {
           icon: "pi pi-calendar",
           body: (
             <>
-              {data?.periodoIngresso && (
+              {formData?.periodoIngresso && (
                 <>
                   <strong>Período de ingresso:</strong>
                   <span>
-                    {getValueDate(data?.periodoIngresso, DATE_FORMAT_PERIOD)} -
+                    {getValueDate(
+                      formData?.periodoIngresso,
+                      DATE_FORMAT_PERIOD
+                    )}{" "}
+                    -
                   </span>
                 </>
               )}
-              {data?.periodoConclusao && (
+              {formData?.periodoConclusao && (
                 <>
                   <strong>Período de conclusão:</strong>
                   <span>
-                    {getValueDate(data?.periodoConclusao, DATE_FORMAT_PERIOD)}
+                    {getValueDate(
+                      formData?.periodoConclusao,
+                      DATE_FORMAT_PERIOD
+                    )}
                   </span>
                 </>
               )}
@@ -63,18 +68,18 @@ const aboutRows = (data: Candidato): unknown => [
   {
     icon: "pi pi-graduation-cap",
     label: "Nível de escolaridade:",
-    value: getValueByKey(data?.nivelEscolaridade, niveis),
+    value: getValueByKey(formData?.nivelEscolaridade, niveis),
   },
   {
     icon: "pi pi-briefcase",
     body: (
       <>
         <strong>Disponível para contratação:</strong>
-        <span>{parseBoolean(data?.disponivel)}</span>
-        {data?.disponivel && (
+        <span>{parseBoolean(formData?.disponivel)}</span>
+        {formData?.disponivel && (
           <>
             - <strong>Disponibilidade:</strong>
-            <span>{data?.tempoDisponivel}h/semana</span>
+            <span>{formData?.tempoDisponivel}h/semana</span>
           </>
         )}
       </>
@@ -83,43 +88,43 @@ const aboutRows = (data: Candidato): unknown => [
   {
     icon: "pi pi-wrench",
     label: "Habilidades:",
-    value: joinTextPipes(data?.habilidades || []),
+    value: joinTextPipes(formData?.habilidades || []),
   },
   {
     icon: "pi pi-eye",
     label: "Áreas de interesse:",
-    value: joinTextPipes(data?.areasInteresse || []),
+    value: joinTextPipes(formData?.areasInteresse || []),
   },
 ];
 
-const tags = (data: Candidato): unknown => [
+const tags = (formData: Candidato): unknown => [
   {
     icon: "pi pi-user",
-    label: getValueByKey(data?.cargo, cargoCandidato),
+    label: getValueByKey(formData?.cargo, cargoCandidato),
     color: "#EBF4FF",
   },
   {
     icon: "pi pi-briefcase",
-    label: data?.areaAtuacao,
+    label: formData?.areaAtuacao,
     color: "#FCF9DD",
   },
-  ...(data?.linkedin
+  ...(formData?.linkedin
     ? [
         {
           icon: "pi pi-linkedin",
           label: "LinkedIn",
-          href: data?.linkedin,
+          href: formData?.linkedin,
           color: "#EBF4FF",
         },
       ]
     : []),
-  ...(data?.lattes
+  ...(formData?.lattes
     ? [
         {
           icon: "pi pi-id-card",
           label: "Lattes",
           color: "#FCF9DD",
-          href: data?.lattes,
+          href: formData?.lattes,
         },
       ]
     : []),
@@ -127,23 +132,26 @@ const tags = (data: Candidato): unknown => [
 
 const ProfileCandidatoPage: React.FC = () => {
   const { id } = useParams();
-  const [data, setData] = useState<Candidato>();
-  const { showNotification } = useNotification();
+  const { formData, updateCand, deleteCand, getUserById } =
+    useProfileCandidato();
 
-  const getUserById = async (idCand: string) => {
-    try {
-      const response = await getCandidato(idCand);
-      setData(response);
-    } catch (error) {
-      showNotification("error", "Erro ao carregar usuário");
-    }
+  const confirmExcluir = (event) => {
+    confirmDialog({
+      trigger: event.currentTarget,
+      message:
+        "Você tem certeza que deseja excluir o seu perfil? Esta ação não poderá ser desfeita",
+      header: "Excluir Perfil",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Confirmar exclusão",
+      accept: () => deleteCand(),
+    });
   };
 
   useEffect(() => {
     if (id) {
       getUserById(id);
     } else {
-      // setData(conta?.usuario); recuperar usuario logado
+      // recuperar usuario logado
     }
   }, [id]);
 
@@ -153,15 +161,19 @@ const ProfileCandidatoPage: React.FC = () => {
         <Card className="profile-card">
           <div className="profile-card-content">
             <div className="profile-avatar">
-              <Avatar image={data?.perfil.foto} size="xlarge" shape="circle" />
+              <Avatar
+                image={formData?.perfil.foto}
+                size="xlarge"
+                shape="circle"
+              />
             </div>
             <div className="profile-info">
               <div className="profile-text">
-                <h1>{data?.perfil.nome}</h1>
-                <h2>{data?.perfil.email}</h2>
+                <h1>{formData?.perfil.nome}</h1>
+                <h2>{formData?.perfil.email}</h2>
 
                 <div className="tags-row">
-                  {tags(data).map((t) => {
+                  {tags(formData).map((t) => {
                     const content = (
                       <Tag
                         icon={t.icon}
@@ -180,7 +192,7 @@ const ProfileCandidatoPage: React.FC = () => {
                     );
                   })}
                 </div>
-                <p className="bio-text">{data?.perfil.biografia}</p>
+                <p className="bio-text">{formData?.perfil.biografia}</p>
               </div>
             </div>
 
@@ -203,7 +215,9 @@ const ProfileCandidatoPage: React.FC = () => {
                     border: "1px solid var(--Linkedu-Red)",
                   }}
                   size="small"
+                  onClick={confirmExcluir}
                 />
+                <ConfirmDialog />
               </div>
             </div>
           </div>
@@ -211,7 +225,7 @@ const ProfileCandidatoPage: React.FC = () => {
             <span className="last-update">
               Última atualização:{" "}
               {getValueDate(
-                data?.perfil.ultimoAcesso,
+                formData?.perfil.ultimoAcesso,
                 DATE_FORMAT_WITH_HOURS_AND_SECONDS,
                 DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS
               )}
@@ -221,7 +235,7 @@ const ProfileCandidatoPage: React.FC = () => {
         <Card className="profile-card">
           <h3>Sobre</h3>
           <div className="about-grid">
-            {aboutRows(data).map((row) => (
+            {aboutRows(formData).map((row) => (
               <div className="about-item">
                 <Avatar
                   icon={row.icon}

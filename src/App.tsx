@@ -5,6 +5,7 @@ import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
 import ProfileCandidatoPage from "@pages/profile/candidato";
+import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
 
 const App = () => (
   <BrowserRouter>
@@ -22,7 +23,11 @@ const App = () => (
         />
         <Route
           path="/profile/candidato/:id?"
-          element={<ProfileCandidatoPage />}
+          element={
+            <ProfileCandidatoProvider>
+              <ProfileCandidatoPage />
+            </ProfileCandidatoProvider>
+          }
         />
       </Routes>
     </NotificationProvider>
