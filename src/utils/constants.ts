@@ -44,4 +44,3 @@ export const cargaHoraria = [
   { label: "De 20 a 30h", value: "DE_20_A_30H" },
   { label: "Acima de 30h", value: "ACIMA_DE_30H" },
 ];
-
