@@ -132,7 +132,7 @@ const tags = (formData: Candidato): unknown => [
 
 const ProfileCandidatoPage: React.FC = () => {
   const { id } = useParams();
-  const { formData, updateCand, deleteCand, getUserById } =
+  const { formData, experiencias, updateCand, deleteCand, getCandById } =
     useProfileCandidato();
 
   const confirmExcluir = (event) => {
@@ -149,7 +149,7 @@ const ProfileCandidatoPage: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      getUserById(id);
+      getCandById(id);
     } else {
       // recuperar usuario logado
     }
@@ -268,7 +268,7 @@ const ProfileCandidatoPage: React.FC = () => {
         </div>
 
         <div className="exp-list">
-          {[experiencia1, experiencia1].map((experiencia) => (
+          {(experiencias || [experiencia1, experiencia1]).map((experiencia) => (
             <CardExperiencia data={experiencia} />
           ))}
         </div>

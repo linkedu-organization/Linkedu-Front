@@ -7,12 +7,15 @@ import {
 } from "@routes/routesCandidato";
 import { type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
+import type { Experiencia } from "@domains/Experiencia";
+import { getAllExperienciaByCandidato } from "@routes/routesExperiencia";
 
 interface ProfileCandidatoContextType {
   formData: Candidato;
+  experiencias: Experiencia[];
   updateCand: () => void;
   deleteCand: () => void;
-  getUserById: (id: string) => void;
+  getCandById: (id: string) => void;
 }
 
 const ProfileCandidatoContext =
@@ -36,13 +39,16 @@ export const ProfileCandidatoProvider = ({
   children,
 }: ProfileCandidatoProviderProps) => {
   const [formData, setFormData] = useState<Candidato>();
+  const [experiencias, setExperiencias] = useState<Experiencia[]>();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
 
-  const getUserById = async (id: string) => {
+  const getCandById = async (id: string) => {
     try {
       const response = await getCandidato(id);
       setFormData(response);
+      const experienciasCand = await getAllExperienciaByCandidato(formData?.id);
+      setExperiencias(experienciasCand);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
     }
@@ -75,9 +81,10 @@ export const ProfileCandidatoProvider = ({
     <ProfileCandidatoContext.Provider
       value={{
         formData,
+        experiencias,
         updateCand,
         deleteCand,
-        getUserById,
+        getCandById,
       }}
     >
       {children}
