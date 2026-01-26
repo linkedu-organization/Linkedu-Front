@@ -116,7 +116,9 @@ const HomePage = () => {
       </div>
 
       <div className="position-list-cards">
-        {vagas.map((vaga) => (
+        {vagas
+        .filter((vaga) => vaga.ehPublica)
+        .map((vaga) => (
           <Card key={vaga.id} className="position-card"> 
 
             <div className="position-card-header">
