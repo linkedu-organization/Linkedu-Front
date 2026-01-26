@@ -47,7 +47,7 @@ export const ProfileCandidatoProvider = ({
     try {
       const response = await getCandidato(id);
       setFormData(response);
-      const experienciasCand = await getAllExperienciaByCandidato(formData?.id);
+      const experienciasCand = await getAllExperienciaByCandidato(response?.id);
       setExperiencias(experienciasCand);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");

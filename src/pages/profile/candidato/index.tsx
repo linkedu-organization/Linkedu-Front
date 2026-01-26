@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
-import { Layout } from "@components/Layout";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Dialog } from "primereact/dialog";
+
 import { experiencia1 } from "@stores/mock";
+import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
+import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
+import type { Candidato } from "@domains/Candidato";
 import { cargoCandidato, niveis } from "@utils/constants";
 import {
   getValueByKey,
@@ -19,10 +25,9 @@ import {
   DATE_FORMAT_WITH_HOURS_AND_SECONDS,
   DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS,
 } from "@utils/date";
-import type { Candidato } from "@domains/Candidato";
-import { useParams } from "react-router-dom";
-import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
+import { Layout } from "@components/Layout";
 import CardExperiencia from "@components/CardExperiencia";
+import ExperienciaFormPage from "@pages/register/experiencia/form";
 import "./style.css";
 
 const aboutRows = (formData: Candidato): unknown => [
@@ -134,6 +139,7 @@ const ProfileCandidatoPage: React.FC = () => {
   const { id } = useParams();
   const { formData, experiencias, updateCand, deleteCand, getCandById } =
     useProfileCandidato();
+  const [dialogExperiencia, setDialogExperiencia] = useState<boolean>(false);
 
   const confirmExcluir = (event) => {
     confirmDialog({
@@ -264,7 +270,24 @@ const ProfileCandidatoPage: React.FC = () => {
             icon="pi pi-plus"
             className="exp-button"
             size="small"
+            onClick={() => setDialogExperiencia(true)}
           />
+          {dialogExperiencia && (
+            <RegisterExperienciaProvider>
+              <Dialog
+                header="Experiência"
+                visible={dialogExperiencia}
+                style={{ width: "920px", maxWidth: "95vw" }}
+                onHide={() => setDialogExperiencia(false)}
+                draggable={false}
+              >
+                <ExperienciaFormPage
+                  candidato={formData}
+                  switchVisibility={() => setDialogExperiencia(false)}
+                />
+              </Dialog>
+            </RegisterExperienciaProvider>
+          )}
         </div>
 
         <div className="exp-list">

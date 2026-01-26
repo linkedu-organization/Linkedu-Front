@@ -1,0 +1,32 @@
+.exp-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px 16px;
+}
+
+.exp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.exp-field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--Linkedu-DarkLetter);
+}
+
+.req {
+  color: var(--Linkedu-Red);
+}
+
+.exp-field-full {
+  grid-column: 1 / -1;
+}
+
+.exp-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
