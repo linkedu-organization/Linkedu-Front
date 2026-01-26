@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Layout } from "@components/Layout";
 import { TabMenu } from "primereact/tabmenu";
 import { Button } from "primereact/button";
@@ -6,22 +7,97 @@ import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
 
-const HomePage = () => {
-  const vagas = [
-  { id: 1, title: "Dev Backend Java blablbalablablablabalablablabalablabal", work_hours: "20h/semana", type: "Voluntária", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQLblablablabalbalablablabalbalablabalbalablabalbalbalabla" },
-  { id: 2, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 3, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 4, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 5, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 6, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 7, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 8, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 9, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 10, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" },
-  { id: 11, title: "Dev Frontend", work_hours: "30h/semana", type: "Remunerada", lab: "Lab XYZ", recruiter: "Carlos", course: "Ciência da Computação", previous_knowledge: "Java, TypeScript, Spring Boot, SQL" }
-  ];
-  const items = [{ label: `Vagas (${vagas.length})` }, { label: "Perfis" }];
+ type VagaAPI = {
+  id: number;
+  recrutadorId: number;
+  titulo: string;
+  descricao: string;
+  ehPublica: boolean;
+  ehRemunerada: boolean;
+  dataExpiracao: string;
+  cargaHoraria: number;
+  duracao: string;
+  instituicao: string;
+  curso: string;
+  linkInscricao: string;
+  local: string;
+  publicoAlvo: string[];
+  conhecimentosObrigatorios: string[];
+  conhecimentosOpcionais: string[];
+  categoria: string;
+};
 
+type RecrutadorAPI = {
+  id: number;
+  perfil_id: number;
+};
+
+type PerfilAPI = {
+  id: number;
+  nome: string;
+}
+
+const API_URL = "http://localhost:3333/api";
+
+const HomePage = () => {
+  const [vagas, setVagas] = useState<VagaAPI[]>([]);
+  const [recrutadores, setRecrutadores] = useState<RecrutadorAPI[]>([]);
+  const [perfis, setPerfis] = useState<PerfilAPI[]>([]);
+
+  useEffect(() => {
+
+    const fetchRecrutadores = async () => {
+      try {
+        const response = await fetch(`${API_URL}/recrutadores`);  
+        const data = await response.json();
+        setRecrutadores(data);  
+      } catch (error) {
+        console.error("Erro ao buscar recrutadores:", error);
+      }
+    };
+
+    const fetchPerfis = async () => {   
+      try {
+        const response = await fetch(`${API_URL}/perfis`);  
+        const data = await response.json();
+        setPerfis(data);
+      } catch (error) {
+        console.error("Erro ao buscar perfis:", error);
+      }
+    };
+
+     const fetchVagas = async () => {
+      try {
+        const response = await fetch(`${API_URL}/vagas`);
+        const data = await response.json();
+        setVagas(data);
+      } catch (error) {
+        console.error("Erro ao buscar vagas:", error);
+      }
+    };
+
+    fetchPerfis();
+    fetchRecrutadores();
+    fetchVagas();
+
+  }, []);
+
+  const items = useMemo(
+    () => [{ label: `Vagas (${vagas.length})` }, { label: "Perfis" }],
+    [vagas.length]
+  );
+
+  const getPerfilId = (recrutadorId: number): number => {
+    const recrutador = recrutadores.find((rec) => rec.id === recrutadorId);
+    return recrutador ? recrutador.perfil_id : 0;
+  }
+
+  const getRecrutadorNome = (recrutadorId: number): string => {
+    const perfil_id = getPerfilId(recrutadorId);
+    console.log("Perfil ID:", perfil_id);
+    const perfil = perfis.find((perfil) => perfil.id === perfil_id);
+    return perfil ? perfil.nome : "NULL";
+  }
 
   return (
 
@@ -44,19 +120,19 @@ const HomePage = () => {
           <Card key={vaga.id} className="position-card"> 
 
             <div className="position-card-header">
-              <h2 className="card-title">{vaga.title}</h2>
-              <p className="position-work-hours">{vaga.work_hours}</p>
+              <h2 className="card-title">{vaga.titulo} - {vaga.categoria}</h2>
+              <p className="position-work-hours">{vaga.cargaHoraria}h/semana</p>
             </div>  
 
             <p className="position-type">
-              <span className="value ellipsis">{vaga.type}</span>
+              <span className="value ellipsis">{vaga.ehRemunerada ? "Remunerada" : "Voluntária"}</span>
             </p>
 
            <p className="position-lab">
               <span className="icon-badge" aria-hidden="true">
                 <i className="pi pi-building" />
               </span>
-              <span className="value ellipsis">{vaga.lab}</span>
+              <span className="value ellipsis">{vaga.instituicao}</span>
             </p>
 
             <p className="position-recruiter">
@@ -64,7 +140,7 @@ const HomePage = () => {
                 <i className="pi pi-user" />
               </span>
               <b>Ofertada por: </b>
-              <span className="value ellipsis">{vaga.recruiter}</span>
+              <span className="value ellipsis">{getRecrutadorNome(vaga.recrutadorId)}</span>
               </p>
 
             <p className="position-course">
@@ -72,7 +148,7 @@ const HomePage = () => {
                 <i className="pi pi-book" />
               </span>
               <b>Curso: </b>
-              <span className="value ellipsis">{vaga.course}</span>
+              <span className="value ellipsis">{vaga.curso}</span>
             </p>
 
             <p className="position-skills">
@@ -80,7 +156,7 @@ const HomePage = () => {
                 <i className="pi pi-check-circle" />
               </span>
               <b>Conhecimentos Obrigatórios: </b>
-              <span className="value ellipsis">{vaga.previous_knowledge}</span>
+              <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
             </p>
             
             <div className="position-card-footer">
