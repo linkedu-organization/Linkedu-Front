@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 48px;
 }
 
 .tab-menu-homepage {
@@ -13,9 +14,9 @@
 }
 
 .tab-menu-homepage .p-tabmenu-nav {
-  background-color: var(--Linkedu-OffWhite);             
-  border-bottom: 0;     
-} 
+  background-color: var(--Linkedu-OffWhite);
+  border-bottom: 0;
+}
 
 .tab-menu-homepage .p-menuitem-link,
 .tab-menu-homepage .p-menuitem-link:hover,
@@ -28,11 +29,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 24px;
-  margin-bottom: 24px;
+  margin: 24px 0;
 }
 
-.position-title {
+.page-title {
+  margin: 0;
   font-family: "Inter";
   font-size: 32px;
   color: var(--Linkedu-DarkBlueLetter);
@@ -43,33 +44,163 @@
   gap: 10px;
 }
 
+.position-buttons .p-button,
+.details-button.p-button {
+  height: 33px;
+  padding: 0 18px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.position-buttons .p-button .p-button-label,
+.details-button.p-button .p-button-label {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.position-buttons .p-button .p-button-icon {
+  font-size: 14px;
+}
+
+.recomendation-button.p-button {
+  background: #3F905A;
+  border-color: #3F905A;
+}
+
+.filter-button.p-button,
+.sort-button.p-button,
+.details-button.p-button {
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
 .position-list-cards {
   width: 1312px;
-  height: 60px;
-  
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   row-gap: 20px;
   column-gap: 30px;
-
-   --cardHeight: 320px;
-  height: calc((var(--cardHeight) * 2) + 16px); 
-  padding-right: 8px;
+  height: auto;
+  --cardHeight: 330px;
 }
 
 .position-card {
   height: var(--cardHeight);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
-.position-card .position-title {
-  margin: 0;
-}
-
-.position-card .position-header {
+.position-card .p-card-body {
+  padding: 24px 24px 20px;
+  height: 100%;
   display: flex;
-  align-items: baseline; 
+  flex-direction: column;
+}
+
+.position-card .p-card-content {
+  padding: 1px;
+}
+
+.position-card-header {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.card-title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: "Inter";
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--Linkedu-DarkBlueLetter);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.position-type {
+  font-weight: 300;
+  color: gray;
+}
+
+.position-work-hours {
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+.position-card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.position-recruiter,
+.position-course,
+.position-skills {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.position-recruiter .value,
+.position-course .value,
+.position-skills .value {
+  flex: 1;
+  min-width: 0;
+}
+
+.position-lab {
+  width: 100%;
+}
+
+.position-lab .value {
+  display: block;
+}
+
+.icon-badge {
+  width: 25px;
+  height: 25px;
+  border-radius: 9999px;
+  background: var(--Linkedu-Blue);
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--size);
+}
+
+.icon-badge .pi {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.position-lab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;             
+}
+
+.position-lab .value {
+  flex: 1;
+  min-width: 0;
 }
