@@ -277,7 +277,7 @@ const ProfileCandidatoPage: React.FC = () => {
               <Dialog
                 header="Experiência"
                 visible={dialogExperiencia}
-                style={{ width: "920px", maxWidth: "95vw" }}
+                style={{ width: "1200px", maxWidth: "95vw" }}
                 onHide={() => setDialogExperiencia(false)}
                 draggable={false}
               >

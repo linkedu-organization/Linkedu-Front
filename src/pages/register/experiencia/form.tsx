@@ -23,9 +23,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
     <div className="exp-form">
       <div className="exp-form-grid">
         <div className="exp-field">
-          <label>
-            Título <span className="req">*</span>
-          </label>
+          <label>Título *</label>
           <InputText
             value={formData.titulo}
             onChange={(e) => setField("titulo", e.target.value)}
@@ -36,9 +34,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>
-            Orientador <span className="req">*</span>
-          </label>
+          <label>Orientador *</label>
           <InputText
             value={formData.orientador}
             onChange={(e) => setField("orientador", e.target.value)}
@@ -51,9 +47,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>
-            Instituição de ensino <span className="req">*</span>
-          </label>
+          <label>Instituição de ensino *</label>
           <InputText
             value={formData.instituicao}
             onChange={(e) => setField("instituicao", e.target.value)}
@@ -75,9 +69,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>
-            Período de início (MM/AAAA) <span className="req">*</span>
-          </label>
+          <label>Período de início (MM/AAAA) *</label>
           <InputText
             value={formData.periodoInicio}
             onChange={(e) => setField("periodoInicio", e.target.value)}
@@ -103,9 +95,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field exp-field-full">
-          <label>
-            Descrição <span className="req">*</span>
-          </label>
+          <label>Descrição *</label>
           <InputTextarea
             value={formData.descricao}
             onChange={(e) => setField("descricao", e.target.value)}
@@ -123,7 +113,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
       <div className="exp-form-actions">
         <Button
           label="Cancelar"
-          className="p-button-text"
+          className="p-button-cancel-exp"
           onClick={() => {
             resetForm();
             switchVisibility();
@@ -131,6 +121,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         />
         <Button
           label="Salvar"
+          className="p-button-save-exp"
           onClick={async () => {
             await submit(candidato, () => switchVisibility());
           }}
