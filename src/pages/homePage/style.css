@@ -204,3 +204,11 @@
   flex: 1;
   min-width: 0;
 }
+
+.message {
+  align-self: center;
+  margin-top: 150px;
+  font-family: "Inter";
+  font-size: 20px;
+  color: var(--Linkedu-DarkBlueLetter);
+}

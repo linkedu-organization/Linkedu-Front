@@ -82,10 +82,15 @@ const HomePage = () => {
 
   }, []);
 
-  const items = useMemo(
-    () => [{ label: `Vagas (${vagas.length})` }, { label: "Perfis" }],
-    [vagas.length]
+  const vagasPublicas = useMemo(
+  () => vagas.filter(v => v.ehPublica),
+  [vagas]
   );
+
+  const items = useMemo(
+    () => [{ label: `Vagas (${vagasPublicas.length})` }, { label: "Perfis" }],
+    [vagasPublicas]
+  ); 
 
   const getPerfilId = (recrutadorId: number): number => {
     const recrutador = recrutadores.find((rec) => rec.id === recrutadorId);
@@ -115,10 +120,12 @@ const HomePage = () => {
         </div>
       </div>
 
+      {vagasPublicas.length === 0 && (
+          <div className="message"> Nenhuma vaga pública disponível. </div>
+      )} 
+
       <div className="position-list-cards">
-        {vagas
-        .filter((vaga) => vaga.ehPublica)
-        .map((vaga) => (
+        {vagasPublicas.map((vaga) => (
           <Card key={vaga.id} className="position-card"> 
 
             <div className="position-card-header">
