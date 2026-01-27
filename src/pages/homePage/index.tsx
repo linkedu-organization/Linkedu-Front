@@ -7,6 +7,7 @@ import { Card } from 'primereact/card';
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
+import VagaDetails from "./vagaDetails";
 
  type VagaAPI = {
   id: number;
@@ -182,106 +183,7 @@ const HomePage = () => {
           style={{ width: "70vw" }}
           onHide={closeDetails}
         >
-          {selectedVaga && (
-            <div>
-              <div className="vaga-description">
-                <h3>Descrição da Vaga</h3>
-                <p>{selectedVaga.descricao}</p>
-              </div>
-
-              <div className="vaga-details-grid">
-                <div className="vaga-row">
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-building" />
-                    </span>
-
-                    <span className="label"><b>Instituição</b></span>
-
-                    <div className="value">{selectedVaga.instituicao}</div>
-                  </div>
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-book" />
-                    </span>
-                    <span className="label"><b>Curso</b></span>
-                    <div className="value">{selectedVaga.curso}</div>
-                  </div>
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-user" />
-                    </span>
-                    <span className="label"><b>Público-alvo</b></span>
-                    <div className="value">{selectedVaga.publicoAlvo.join(", ")}</div>
-                  </div>
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-list" />
-                    </span>
-                    <span className="label"><b>Categoria</b></span>
-                    <div className="value">{selectedVaga.categoria}</div>
-                  </div>
-                </div>
-
-                <div className="vaga-row">
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-user" />
-                    </span>
-                    <span className="label"><b>Ofertada por</b></span>
-                    <div className="value">{getRecrutadorNome(selectedVaga.recrutadorId)}</div>
-                  </div>
-
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-clock" />
-                    </span>
-                    <span className="label"><b>Carga horária</b></span>
-                    <div className="value">{selectedVaga.cargaHoraria}h/semana </div>
-                  </div>
-
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-clock" />
-                    </span>
-                    <span className="label"><b>Tempo de duração</b></span>
-                    <div className="value">{selectedVaga.duracao}</div>
-                  </div>
-
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-dollar" />
-                    </span>
-                    <span className="remunerada"><b>{selectedVaga.ehRemunerada ? "Remunerada" : "Voluntária"}</b></span>
-                  </div>
-                </div>
-
-                <div className="vaga-row wide">
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-book" />
-                    </span>
-                    <span className="label"><b>Conhecimentos Obrigatórios</b></span>
-                    <div className="value">{selectedVaga.conhecimentosObrigatorios.join(", ")}</div>
-                  </div>
-
-                  <div className="item">
-                    <span className="icon-badge" aria-hidden="true">
-                      <i className="pi pi-book" />
-                    </span>
-                    <span className="label"><b>Conhecimentos Opcionais</b></span>
-                    <div className="value">{selectedVaga.conhecimentosOpcionais.join(", ")}</div>
-                  </div>
-                </div>
-
-                <div className="vaga-row link-row">
-                  <i className="pi pi-external-link" />
-                  <b>Link para inscrição:</b>
-                  <a href={selectedVaga.linkInscricao} target="_blank" rel="noreferrer">{selectedVaga.linkInscricao}</a>
-                </div>
-              </div>
-            </div>
-          )}
+          {selectedVaga && (<VagaDetails vaga={selectedVaga} recrutadorNome={getRecrutadorNome(selectedVaga.recrutadorId)} />)}
         </Dialog>
       </div>
     </div>
