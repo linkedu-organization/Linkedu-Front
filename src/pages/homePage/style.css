@@ -212,3 +212,115 @@
   font-size: 20px;
   color: var(--Linkedu-DarkBlueLetter);
 }
+
+.vaga-row{
+  display: flex;
+  gap: 24px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap; 
+}
+
+.vaga-row .item{
+  flex: 1 1 220px; 
+  min-width: 180px;
+}
+
+.vaga-row.wide{
+  gap: 30px;
+  margin-top: 28px;
+  margin-bottom: 20px;
+} 
+
+.vaga-row.wide .item{
+  flex: 1 1 420px; 
+}
+
+.vaga-row.link-row .pi{
+  color: #fff;
+  font-size: 12px;
+}
+
+.vaga-row.link-row{
+  height: 75px;
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-bottom: -32px;
+  margin-top: 30px;
+
+  background: var(--Linkedu-Blue);
+  border-radius: 0px;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
+}
+
+.vaga-row.link-row,
+.vaga-row.link-row .link-label{
+  color: #fff;
+  font-size: 14px;
+  font: "Inter";
+  font-weight: 100;
+  flex: 0 0 auto;         
+  white-space: nowrap;
+}
+
+
+.vaga-row.link-row a{
+  color: #fff;
+  font-weight: 300;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;             
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  border-bottom-left-radius: 24px;
+}
+
+.vaga-row .item .icon-badge{
+  margin-right: 10px;
+}
+
+.vaga-row .item .value{
+  margin-top: 6px;
+  margin-left: 35px;
+  font-weight: 300;
+}
+
+.vaga-dialog .p-dialog{
+  border-radius: 30px; 
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;  
+  overflow: hidden;     
+}
+.vaga-dialog .p-dialog-header{
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.p-dialog{
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.vaga-dialog .p-dialog-title,
+.vaga-dialog .p-dialog-header-icon{
+  color: #fff;
+}
+
+.vaga-dialog .p-dialog-header{
+  background: var(--Linkedu-Blue);     
+  color: #fff;
+  border-bottom: 0;
+  font: "Inter";
+}
+
+.vaga-description{
+  margin-bottom: 24px;
+}
