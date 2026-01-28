@@ -55,3 +55,9 @@ export const categorias = [
   { label: "Organização de Evento", value: "ORGANIZACAO_EVENTO" },
   { label: "Outros", value: "OUTROS" },
 ];
+
+export const cargosRecrutador = [
+  { label: "Professor", value: "PROFESSOR" },
+  { label: "Pesquisador", value: "PESQUISADOR" },
+  { label: "Técnico", value: "TECNICO" },
+];
