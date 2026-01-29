@@ -8,26 +8,7 @@ import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
 import VagaDetails from "./vagaDetails";
-
- type VagaAPI = {
-  id: number;
-  recrutadorId: number;
-  titulo: string;
-  descricao: string;
-  ehPublica: boolean;
-  ehRemunerada: boolean;
-  dataExpiracao: string;
-  cargaHoraria: number;
-  duracao: string;
-  instituicao: string;
-  curso: string;
-  linkInscricao: string;
-  local: string;
-  publicoAlvo: string[];
-  conhecimentosObrigatorios: string[];
-  conhecimentosOpcionais: string[];
-  categoria: string;
-};
+import type { Vaga } from "../../domains/Vaga";
 
 type RecrutadorAPI = {
   id: number;
@@ -42,7 +23,7 @@ type PerfilAPI = {
 const API_URL = "http://localhost:3333/api";
 
 const HomePage = () => {
-  const [vagas, setVagas] = useState<VagaAPI[]>([]);
+  const [vagas, setVagas] = useState<Vaga[]>([]);
   const [recrutadores, setRecrutadores] = useState<RecrutadorAPI[]>([]);
 
 
@@ -83,16 +64,15 @@ const HomePage = () => {
     [vagasPublicas]
   ); 
 
-
   const getRecrutadorNome = (recrutadorId: number): string => {
     const recrutador = recrutadores.find(r => r.id === recrutadorId);
     return recrutador?.perfil.nome || "NULL";
   }
 
   const [displayBasic, setDisplayBasic] = useState(false);
-  const [selectedVaga, setSelectedVaga] = useState<VagaAPI | null>(null);
+  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
 
-  const openDetails = (vaga: VagaAPI) => {
+  const openDetails = (vaga: Vaga) => {
     setSelectedVaga(vaga);
     setDisplayBasic(true);
   };
