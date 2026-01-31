@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
-import VagaDetails from "./VagaDetails";
+import VagaDetails from "./vagaDetails";
 import VagaCard from "./VagaCard";
 import type { Vaga } from "../../domains/Vaga";
 
