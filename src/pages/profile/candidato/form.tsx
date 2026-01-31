@@ -7,8 +7,17 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
+import { MultiSelect } from "primereact/multiselect";
+import { InputNumber } from "primereact/inputnumber";
 
 import { useRegisterEditCandidato } from "@stores/profile/candidato/formStore";
+import {
+  cargoCandidato,
+  habilidades,
+  interesses,
+  niveis,
+  simNao,
+} from "@utils/constants";
 import "./styleForm.css";
 
 type CandidatoEditFormProps = {
@@ -16,17 +25,6 @@ type CandidatoEditFormProps = {
   switchVisibility: () => void;
   onSaved: (updated: Candidato) => void;
 };
-
-const tipoCargoOptions = [
-  { label: "Aluno", value: "ALUNO" },
-  { label: "Técnico Administrativo", value: "TECNICO" },
-];
-
-const escolaridadeOptions = [
-  { label: "Graduação incompleta", value: "GRADUACAO_INCOMPLETA" },
-  { label: "Graduação completa", value: "GRADUACAO_COMPLETA" },
-  { label: "Pós-graduação", value: "POS_GRADUACAO" },
-];
 
 const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   candidato,
@@ -45,7 +43,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   useEffect(() => {
     if (candidato) setInitialData(candidato);
-  }, [candidato, setInitialData]);
+  }, [candidato]);
 
   if (!formData) return null;
 
@@ -59,7 +57,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-bio">
           <label>Biografia *</label>
           <InputTextarea
-            value={formData.perfil.biografia ?? ""}
+            value={formData.perfil.biografia}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
             className={errors["perfil.biografia"] ? "p-invalid" : ""}
             rows={4}
@@ -77,7 +75,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>Nome *</label>
           <InputText
-            value={formData.perfil.nome ?? ""}
+            value={formData.perfil.nome}
             onChange={(e) => setField("perfil.nome", e.target.value)}
             className={errors["perfil.nome"] ? "p-invalid" : ""}
             placeholder="Digite seu nome completo"
@@ -88,7 +86,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>E-mail (Institucional) *</label>
           <InputText
-            value={formData.perfil.email ?? ""}
+            value={formData.perfil.email}
             onChange={(e) => setField("perfil.email", e.target.value)}
             className={errors["perfil.email"] ? "p-invalid" : ""}
             placeholder="Digite seu endereço de e-mail"
@@ -99,7 +97,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>Você é *</label>
           <div className="radio-row">
-            {tipoCargoOptions.map((opt) => (
+            {cargoCandidato.map((opt) => (
               <div className="radio-item" key={opt.value}>
                 <RadioButton
                   inputId={`cargo-${opt.value}`}
@@ -118,7 +116,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>Instituição de Ensino *</label>
           <InputText
-            value={formData.instituicao ?? ""}
+            value={formData.instituicao}
             onChange={(e) => setField("instituicao", e.target.value)}
             className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Selecione a sua instituição"
@@ -129,7 +127,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>Curso/Área de atuação *</label>
           <InputText
-            value={formData.areaAtuacao ?? ""}
+            value={formData.areaAtuacao}
             onChange={(e) => setField("areaAtuacao", e.target.value)}
             className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
@@ -141,7 +139,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           <label>Nível de escolaridade *</label>
           <Dropdown
             value={formData.nivelEscolaridade}
-            options={escolaridadeOptions}
+            options={niveis}
             optionLabel="label"
             optionValue="value"
             onChange={(e) => setField("nivelEscolaridade", e.value)}
@@ -175,14 +173,15 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editcand-field">
           <label>Horas disponíveis</label>
-          <InputText
-            value={String(formData.tempoDisponivel ?? "")}
-            onChange={(e) =>
-              setField("tempoDisponivel", Number(e.target.value))
-            }
-            className={errors.tempoDisponivel ? "p-invalid" : ""}
+          <InputNumber
+            value={formData.tempoDisponivel}
+            onValueChange={(e) => setField("tempoDisponivel", e.value)}
+            min={0}
             placeholder="Selecione sua carga horária disponível na semana"
+            className={errors.tempoDisponivel ? "p-invalid" : ""}
+            inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
           />
+
           {errorsForm("tempoDisponivel")}
         </div>
 
@@ -207,10 +206,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <div className="editcand-field">
           <label>Disponível para contratação *</label>
           <div className="radio-row">
-            {[
-              { label: "Sim", value: true },
-              { label: "Não", value: false },
-            ].map((opt) => (
+            {simNao.map((opt) => (
               <div className="radio-item" key={String(opt.value)}>
                 <RadioButton
                   inputId={`disp-${opt.label}`}
@@ -229,38 +225,26 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
       <div className="editcand-half-grid">
         <div className="editcand-field">
           <label>Áreas de interesse *</label>
-          <InputText
-            value={(formData.areasInteresse ?? []).join(" | ")}
-            onChange={(e) =>
-              setField(
-                "areasInteresse",
-                e.target.value
-                  .split("|")
-                  .map((s) => s.trim())
-                  .filter(Boolean)
-              )
-            }
-            className={errors.areasInteresse ? "p-invalid" : ""}
+          <MultiSelect
+            value={formData.areasInteresse}
+            onChange={(e) => setField("areasInteresse", e.value)}
+            options={interesses}
             placeholder="Selecione as suas áreas de interesse"
+            className={errors.areasInteresse ? "p-invalid" : ""}
+            display="chip"
           />
           {errorsForm("areasInteresse")}
         </div>
 
         <div className="editcand-field">
           <label>Habilidades *</label>
-          <InputText
-            value={(formData.habilidades ?? []).join(" | ")}
-            onChange={(e) =>
-              setField(
-                "habilidades",
-                e.target.value
-                  .split("|")
-                  .map((s) => s.trim())
-                  .filter(Boolean)
-              )
-            }
-            className={errors.habilidades ? "p-invalid" : ""}
+          <MultiSelect
+            value={formData.habilidades}
+            onChange={(e) => setField("habilidades", e.value)}
+            options={habilidades}
             placeholder="Selecione as suas habilidades"
+            className={errors.habilidades ? "p-invalid" : ""}
+            display="chip"
           />
           {errorsForm("habilidades")}
         </div>
