@@ -12,9 +12,9 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.2.8",
     "@cloudinary/react": "^1.14.3",
     "@cloudinary/url-gen": "^1.22.0",
+    "@fontsource/inter": "^5.2.8",
     "axios": "^1.13.2",
     "email-validator": "^2.0.4",
     "moment": "^2.30.1",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@fontsource/inter": "^5.0.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -48,7 +49,6 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
-    "vite-tsconfig-paths": "^5.1.4",
-    "@fontsource/inter": "^5.0.0"
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

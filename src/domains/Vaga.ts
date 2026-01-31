@@ -1,3 +1,5 @@
+import type { Recrutador } from "./Recrutador";
+
 export interface Vaga {
     id: number;
     recrutadorId: number;
@@ -16,4 +18,5 @@ export interface Vaga {
     conhecimentosObrigatorios: string[];
     conhecimentosOpcionais: string[];
     categoria: string;
+    recrutador?: Recrutador;
 }

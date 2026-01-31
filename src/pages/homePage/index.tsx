@@ -10,35 +10,12 @@ import "./style.css";
 import VagaDetails from "./vagaDetails";
 import type { Vaga } from "../../domains/Vaga";
 
-type RecrutadorAPI = {
-  id: number;
-  perfil: PerfilAPI;
-};
-
-type PerfilAPI = {
-  id: number;
-  nome: string;
-}
-
-const API_URL = "http://localhost:3333/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const HomePage = () => {
   const [vagas, setVagas] = useState<Vaga[]>([]);
-  const [recrutadores, setRecrutadores] = useState<RecrutadorAPI[]>([]);
-
 
   useEffect(() => {
-
-    const fetchRecrutadores = async () => {
-      try {
-        const response = await fetch(`${API_URL}/recrutadores`);  
-        const data = await response.json();
-        setRecrutadores(data);  
-      } catch (error) {
-        console.error("Erro ao buscar recrutadores:", error);
-      }
-    };
-
      const fetchVagas = async () => {
       try {
         const response = await fetch(`${API_URL}/vagas`);
@@ -49,9 +26,7 @@ const HomePage = () => {
       }
     };
 
-    fetchRecrutadores();
     fetchVagas();
-
   }, []);
 
   const vagasPublicas = useMemo(
@@ -64,10 +39,10 @@ const HomePage = () => {
     [vagasPublicas]
   ); 
 
-  const getRecrutadorNome = (recrutadorId: number): string => {
-    const recrutador = recrutadores.find(r => r.id === recrutadorId);
-    return recrutador?.perfil.nome || "NULL";
-  }
+  const getRecrutadorNome = (vagaId: number): string => {
+    const vaga = vagas.find(v => v.id === vagaId);
+    return vaga?.recrutador?.perfil?.nome ?? "Desconhecido";
+  };
 
   const [displayBasic, setDisplayBasic] = useState(false);
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
@@ -127,7 +102,7 @@ const HomePage = () => {
                 <i className="pi pi-user" />
               </span>
               <b>Ofertada por: </b>
-              <span className="value ellipsis">{getRecrutadorNome(vaga.recrutadorId)}</span>
+              <span className="value ellipsis">{getRecrutadorNome(vaga.id)}</span>
               </p>
 
             <p className="position-course">
@@ -163,7 +138,7 @@ const HomePage = () => {
           style={{ width: "70vw" }}
           onHide={closeDetails}
         >
-          {selectedVaga && (<VagaDetails vaga={selectedVaga} recrutadorNome={getRecrutadorNome(selectedVaga.recrutadorId)} />)}
+          {selectedVaga && (<VagaDetails vaga={selectedVaga} />)}
         </Dialog>
       </div>
     </div>

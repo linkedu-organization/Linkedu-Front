@@ -1,26 +1,9 @@
 import "./style.css";
+import type { Vaga } from "../../domains/Vaga";
+import { publicoAlvoLabel, categoriaLabel } from "../../utils/constants";
+import { formatEnum, formatEnumList } from "../../utils/utils";
 
-type Vaga = {
-  id: number;
-  recrutadorId: number;
-  titulo: string;
-  descricao: string;
-  ehPublica: boolean;
-  ehRemunerada: boolean;
-  dataExpiracao: string;
-  cargaHoraria: number;
-  duracao: string;
-  instituicao: string;
-  curso: string;
-  linkInscricao: string;
-  local: string;
-  publicoAlvo: string[];
-  conhecimentosObrigatorios: string[];
-  conhecimentosOpcionais: string[];
-  categoria: string;
-};
-
-const VagaDetailsDialog = ({vaga, recrutadorNome} : {vaga: Vaga | null, recrutadorNome: string}) => { 
+const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => { 
     
     if (!vaga) return null;
     return (
@@ -53,14 +36,14 @@ const VagaDetailsDialog = ({vaga, recrutadorNome} : {vaga: Vaga | null, recrutad
                       <i className="pi pi-user" />
                     </span>
                     <span className="label"><b>Público-alvo</b></span>
-                    <div className="value">{vaga.publicoAlvo.join(", ")}</div>
+                    <div className="value">{formatEnumList(vaga.publicoAlvo, publicoAlvoLabel)}</div>
                   </div>
                   <div className="item">
                     <span className="icon-badge" aria-hidden="true">
                       <i className="pi pi-list" />
                     </span>
                     <span className="label"><b>Categoria</b></span>
-                    <div className="value">{vaga.categoria}</div>
+                    <div className="value">{formatEnum(vaga.categoria, categoriaLabel)}</div>
                   </div>
                 </div>
 
@@ -70,7 +53,7 @@ const VagaDetailsDialog = ({vaga, recrutadorNome} : {vaga: Vaga | null, recrutad
                       <i className="pi pi-user" />
                     </span>
                     <span className="label"><b>Ofertada por</b></span>
-                    <div className="value">{recrutadorNome}</div>
+                    <div className="value">{vaga.recrutador?.perfil?.nome ?? "Desconhecido"}</div>
                   </div>
 
                   <div className="item">

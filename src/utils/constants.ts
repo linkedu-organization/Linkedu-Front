@@ -32,3 +32,20 @@ export const habilidades = [
   { label: "Docker", value: "Docker" },
   { label: "Git", value: "Git" },
 ];
+
+export const publicoAlvoLabel: Record<string, string> = {
+  ALUNO_GRADUACAO: "Alunos de graduação",
+  ALUNO_POS_GRADUACAO: "Alunos de pós graduação",
+  TECNICO: "Técnicos",
+  PESQUISADOR: "Pesquisadores",
+};
+
+export const categoriaLabel: Record<string, string> = {
+  PROJETO_PESQUISA: "Projeto de Pesquisa",
+  PROJETO_PESQUISA_DESENVOLVIMENTO: "Projeto de Pesquisa e Desenvolvimento",
+  PROJETO_PESQUISA_DESENVOLVIMENTO_INOVACAO: "Projeto de Pesquisa, Desenvolvimento e Inovação",
+  PROJETO_EXTENSAO: "Projeto de Extensão",
+  MONITORIA: "Monitoria",
+  ORGANIZACAO_EVENTO: "Organização de Evento",
+  OUTROS: "Outros",
+};
