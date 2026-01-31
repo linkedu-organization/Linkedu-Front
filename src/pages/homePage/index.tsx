@@ -8,6 +8,7 @@ import "@fontsource/inter/300.css";
 import "./style.css";
 import VagaDetails from "./vagaDetails";
 import VagaCard from "./VagaCard";
+import PerfilCard from "./PerfilCard";
 import type { Vaga } from "../../domains/Vaga";
 import { useVagas } from "./hooks/UseVagas";
 import { usePerfil } from "./hooks/UsePerfil";
@@ -41,17 +42,17 @@ const HomePage = () => {
         className="tab-menu-homepage"
       />
 
-      <div className="position-header">
-        <h1 className="page-title">Painel de Vagas</h1>
-        <div className="position-buttons">
-          <Button label="Vagas Recomendadas" icon="pi pi-sparkles" className="recomendation-button"/>
-          <Button label="Filtros" icon="pi pi-filter" className="filter-button"/>
-          <Button label="Ordenação" icon="pi pi-sort-alt" className="sort-button"/>
-        </div>
-      </div>
-
         {activeIndex === 0 && (/*Vaga*/
           <>
+            <div className="position-header">
+              <h1 className="page-title">Painel de Vagas</h1>
+              <div className="position-buttons">
+                <Button label="Vagas Recomendadas" icon="pi pi-sparkles" className="recomendation-button"/>
+                <Button label="Filtros" icon="pi pi-filter" className="filter-button"/>
+                <Button label="Ordenação" icon="pi pi-sort-alt" className="sort-button"/>
+              </div>
+            </div>
+
             {vagasPublicas.length === 0 && (<div className="message"> Nenhuma vaga pública disponível.</div>)} 
 
             <div className="position-list-cards">
@@ -72,8 +73,18 @@ const HomePage = () => {
         
         {activeIndex === 1 && (/*Perfil*/
           <>
+            <div className="position-header">
+              <h1 className="page-title">Listagem de Perfis</h1>
+              <div className="position-buttons">
+                <Button label="Filtros" icon="pi pi-filter" className="filter-button"/>
+                <Button label="Ordenação" icon="pi pi-sort-alt" className="sort-button"/>
+              </div>
+            </div>
+
             {perfis.length === 0 && (<div className="message"> Nenhum perfil disponível.</div>)} 
-            <div className="perfis-list"></div>
+            
+            <div className="perfis-list-card"></div>
+              {perfis.map((perfil) => (<PerfilCard perfil={perfil}/>))}
           </>
         )}
 
