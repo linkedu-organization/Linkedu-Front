@@ -3,11 +3,11 @@ import { Dialog } from 'primereact/dialog';
 import { Layout } from "@components/Layout";
 import { TabMenu } from "primereact/tabmenu";
 import { Button } from "primereact/button";
-import { Card } from 'primereact/card';
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
-import VagaDetails from "./vagaDetails";
+import VagaDetails from "./VagaDetails";
+import VagaCard from "./VagaCard";
 import type { Vaga } from "../../domains/Vaga";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -29,33 +29,18 @@ const HomePage = () => {
     fetchVagas();
   }, []);
 
-  const vagasPublicas = useMemo(
-  () => vagas.filter(v => v.ehPublica),
-  [vagas]
-  );
+  const vagasPublicas = useMemo(() => vagas.filter(v => v.ehPublica),[vagas]);
 
   const items = useMemo(
     () => [{ label: `Vagas (${vagasPublicas.length})` }, { label: "Perfis" }],
-    [vagasPublicas]
+    [vagasPublicas.length]
   ); 
 
-  const getRecrutadorNome = (vagaId: number): string => {
-    const vaga = vagas.find(v => v.id === vagaId);
-    return vaga?.recrutador?.perfil?.nome ?? "Desconhecido";
-  };
-
-  const [displayBasic, setDisplayBasic] = useState(false);
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const isDetailsOpen = selectedVaga !== null;
 
-  const openDetails = (vaga: Vaga) => {
-    setSelectedVaga(vaga);
-    setDisplayBasic(true);
-  };
-
-  const closeDetails = () => {
-    setDisplayBasic(false);
-    setSelectedVaga(null);
-  };
+  const openDetails = (vaga: Vaga) => setSelectedVaga(vaga);
+  const closeDetails = () => setSelectedVaga(null);
 
   return (
 
@@ -78,65 +63,17 @@ const HomePage = () => {
       )} 
 
       <div className="position-list-cards">
-        {vagasPublicas.map((vaga) => (
-          <Card key={vaga.id} className="position-card"> 
-
-            <div className="position-card-header">
-              <h2 className="card-title">{vaga.titulo} - {vaga.categoria}</h2>
-              <p className="position-work-hours">{vaga.cargaHoraria}h/semana</p>
-            </div>  
-
-            <p className="position-type">
-              <span className="value ellipsis">{vaga.ehRemunerada ? "Remunerada" : "Voluntária"}</span>
-            </p>
-
-           <p className="position-lab">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-building" />
-              </span>
-              <span className="value ellipsis">{vaga.instituicao}</span>
-            </p>
-
-            <p className="position-recruiter">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-user" />
-              </span>
-              <b>Ofertada por: </b>
-              <span className="value ellipsis">{getRecrutadorNome(vaga.id)}</span>
-              </p>
-
-            <p className="position-course">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-book" />
-              </span>
-              <b>Curso: </b>
-              <span className="value ellipsis">{vaga.curso}</span>
-            </p>
-
-            <p className="position-skills">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-check-circle" />
-              </span>
-              <b>Conhecimentos Obrigatórios: </b>
-              <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
-            </p>
-            
-            <div className="position-card-footer">
-              <Button
-                  label="Ver Detalhes"
-                  className="details-button"
-                  onClick={() => openDetails(vaga)}
-                />
-            </div>
-          </Card> 
+        
+        {vagasPublicas.map((vaga) => ( 
+          <VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails}/> 
         ))} 
 
         <Dialog
           className="vaga-dialog"
-          header={selectedVaga ? selectedVaga.titulo : "Detalhes"}
-          visible={displayBasic}
-          style={{ width: "70vw" }}
+          visible={isDetailsOpen}
           onHide={closeDetails}
+          header={selectedVaga?.titulo}
+          style={{ width: "70vw" }}
         >
           {selectedVaga && (<VagaDetails vaga={selectedVaga} />)}
         </Dialog>
@@ -145,4 +82,5 @@ const HomePage = () => {
   </Layout>
   );
 };
+
 export default HomePage;
