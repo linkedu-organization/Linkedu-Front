@@ -40,12 +40,8 @@ export const getValueByKey = (
   return result;
 };
 
-export const getMultipleValuesByKey = (
-  values = [],
-  list = [],
-  key = "value",
-  label = "text"
-) => values.map((v) => getValueByKey(v, list, key, label)).join(", ");
+export const getMultipleValuesByKey = (values = [], list = [], format = ", ") =>
+  values.map((v) => getValueByKey(v, list)).join(format);
 
 export const getFormatMonthYear = (dataDesejavel: string) => {
   if (dataDesejavel) {

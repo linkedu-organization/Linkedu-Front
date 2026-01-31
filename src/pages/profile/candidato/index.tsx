@@ -13,8 +13,9 @@ import { experiencia1 } from "@stores/mock";
 import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
-import { cargoCandidato, niveis } from "@utils/constants";
+import { cargoCandidato, interesses, niveis } from "@utils/constants";
 import {
+  getMultipleValuesByKey,
   getValueByKey,
   getValueDate,
   joinTextPipes,
@@ -98,7 +99,11 @@ const aboutRows = (formData: Candidato): unknown => [
   {
     icon: "pi pi-eye",
     label: "Áreas de interesse:",
-    value: joinTextPipes(formData?.areasInteresse || []),
+    value: getMultipleValuesByKey(
+      formData?.areasInteresse || [],
+      interesses,
+      " | "
+    ),
   },
 ];
 
