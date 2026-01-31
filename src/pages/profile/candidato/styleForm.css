@@ -1,71 +1,56 @@
-.editcand {
-  padding: 6px 6px 2px;
-}
-
 .editcand-header {
   display: grid;
-  grid-template-columns: 84px 1fr;
-  gap: 14px;
+  grid-template-columns: 0.15fr 1fr;
   align-items: start;
   margin-bottom: 14px;
 }
 
 .editcand-avatar .p-avatar {
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
 }
 
 .editcand-bio label {
-  display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  margin-bottom: 6px;
   color: var(--Linkedu-DarkLetter);
 }
 
 .editcand-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px 14px;
+  gap: 10px;
 }
 
-.field {
+.editcand-half-grid {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.editcand-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.field label {
-  font-size: 12px;
+.editcand-field label {
+  font-size: 13px;
   font-weight: 700;
   color: var(--Linkedu-DarkLetter);
-}
-
-.req {
-  color: var(--Linkedu-Red);
-}
-
-.radio-row {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.radio-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .editcand-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 14px;
 }
 
-/* responsivo */
+.save-edit-button.p-button {
+  padding: 10px;
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
 @media (max-width: 1100px) {
   .editcand-grid {
     grid-template-columns: 1fr 1fr;

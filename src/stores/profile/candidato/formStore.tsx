@@ -8,13 +8,14 @@ import { updateCandidato } from "@routes/routesCandidato";
 type FieldErrors = Record<string, string>;
 
 interface RegisterEditCandidatoContextType {
-  formData: Candidato | undefined;
+  formData: Candidato;
   setInitialData: (candidato: Candidato) => void;
   setField: (field: string, value: unknown) => void;
   errors: FieldErrors;
   resetForm: () => void;
   validate: () => Promise<boolean>;
   submit: (callback: Function) => Promise<Candidato | null>;
+  errorsForm: (path: string) => ReactNode;
 }
 
 const RegisterEditCandidatoContext =
@@ -36,8 +37,8 @@ export const RegisterEditCandidatoProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [initialData, setInitialDataState] = useState<Candidato | undefined>();
-  const [formData, setFormData] = useState<Candidato | undefined>();
+  const [initialData, setInitialDataState] = useState<Candidato>();
+  const [formData, setFormData] = useState<Candidato>();
   const [errors, setErrors] = useState<FieldErrors>({});
   const { showNotification } = useNotification();
 
@@ -54,10 +55,8 @@ export const RegisterEditCandidatoProvider = ({
   };
 
   const setInitialData = (candidato: Candidato) => {
-    // snapshot
     setInitialDataState(candidato);
 
-    // clona pra edição (evita mutação do objeto da tela)
     const cloned =
       typeof structuredClone === "function"
         ? structuredClone(candidato)
@@ -101,12 +100,11 @@ export const RegisterEditCandidatoProvider = ({
     setErrors({});
   };
 
-  const validateEmailUnique = async (email: string): Promise<boolean> => {
+  const validateChangedEmail = async (email: string): Promise<boolean> => {
     try {
-      const oldEmail = (initialData?.perfil?.email ?? "").trim().toLowerCase();
-      const newEmail = (email ?? "").trim().toLowerCase();
+      const oldEmail = (initialData?.perfil?.email ?? "").trim();
+      const newEmail = (email ?? "").trim();
 
-      // se não mudou, não precisa checar no backend
       if (oldEmail && newEmail && oldEmail === newEmail) return true;
 
       const response = await validarEmail(email);
@@ -121,7 +119,6 @@ export const RegisterEditCandidatoProvider = ({
 
     const stepErrors: FieldErrors = {};
 
-    // obrigatórios (igual ao layout do print)
     const required: string[] = [
       "perfil.nome",
       "perfil.email",
@@ -141,29 +138,22 @@ export const RegisterEditCandidatoProvider = ({
       const v = getByPath(formData, path);
       const invalidArray = Array.isArray(v) && v.length === 0;
 
-      if (
-        !isValueValid(v) ||
-        invalidArray ||
-        (typeof v === "string" && !v.trim())
-      ) {
+      if (!isValueValid(v) || invalidArray) {
         stepErrors[path] = "Campo obrigatório";
       }
     });
 
-    // valida email
     const email = (formData.perfil?.email ?? "").trim();
     if (!isEmail(email)) {
       stepErrors["perfil.email"] = "E-mail inválido";
-    } else if (!(await validateEmailUnique(email))) {
+    } else if (!(await validateChangedEmail(email))) {
       stepErrors["perfil.email"] = "E-mail já cadastrado";
     }
 
-    // valida biografia tamanho
     if (!isMaxValue(formData?.perfil?.biografia, 255)) {
       stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
     }
 
-    // regra: se disponível, exige tempoDisponivel
     if (formData.disponivel && !isValueValid(formData.tempoDisponivel)) {
       stepErrors.tempoDisponivel = "Informe um tempo disponível válido";
     }
@@ -176,23 +166,21 @@ export const RegisterEditCandidatoProvider = ({
     return true;
   };
 
+  const errorsForm = (path: string) =>
+    errors[path] && <small className="p-error">{errors[path]}</small>;
+
   const submit = async (callback: Function): Promise<Candidato | null> => {
     try {
-      if (!formData) return null;
+      if (formData && (await validate())) {
+        const response = await updateCandidato(formData.id, formData);
 
-      const ok = await validate();
-      if (!ok) return null;
-
-      const response = await updateCandidato(formData, formData.id);
-
-      showNotification("success", null, "Dados atualizados com sucesso!");
-      setInitialData(response); // mantém o snapshot atualizado
-      callback?.();
-
-      return response;
+        showNotification("success", null, "Dados atualizados com sucesso!");
+        setInitialData(response);
+        callback?.();
+        return response;
+      }
     } catch (error) {
       showNotification("error", "Houve um erro ao atualizar a conta");
-      return null;
     }
   };
 
@@ -206,6 +194,7 @@ export const RegisterEditCandidatoProvider = ({
         resetForm,
         validate,
         submit,
+        errorsForm,
       }}
     >
       {children}

@@ -11,10 +11,10 @@ import { RadioButton } from "primereact/radiobutton";
 import { useRegisterEditCandidato } from "@stores/profile/candidato/formStore";
 import "./styleForm.css";
 
-type Props = {
-  candidato?: Candidato;
+type CandidatoEditFormProps = {
+  candidato: Candidato;
   switchVisibility: () => void;
-  onSaved?: (updated: Candidato) => void;
+  onSaved: (updated: Candidato) => void;
 };
 
 const tipoCargoOptions = [
@@ -28,82 +28,76 @@ const escolaridadeOptions = [
   { label: "Pós-graduação", value: "POS_GRADUACAO" },
 ];
 
-const CandidatoEditFormPage: React.FC<Props> = ({
+const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   candidato,
   switchVisibility,
   onSaved,
 }) => {
-  const { formData, setInitialData, setField, errors, submit, resetForm } =
-    useRegisterEditCandidato();
+  const {
+    formData,
+    setInitialData,
+    setField,
+    errors,
+    submit,
+    resetForm,
+    errorsForm,
+  } = useRegisterEditCandidato();
 
   useEffect(() => {
     if (candidato) setInitialData(candidato);
-  }, [candidato]);
+  }, [candidato, setInitialData]);
 
   if (!formData) return null;
 
-  const error = (path: string) => errors[path];
-
   return (
-    <div className="editcand">
+    <div>
       <div className="editcand-header">
         <div className="editcand-avatar">
           <Avatar image={formData.perfil.foto} size="xlarge" shape="circle" />
         </div>
 
         <div className="editcand-bio">
-          <label>
-            Biografia <span className="req">*</span>
-          </label>
+          <label>Biografia *</label>
           <InputTextarea
             value={formData.perfil.biografia ?? ""}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
-            className={error("perfil.biografia") ? "p-invalid" : ""}
+            className={errors["perfil.biografia"] ? "p-invalid" : ""}
             rows={4}
             autoResize
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
+            style={{
+              width: "-webkit-fill-available",
+            }}
           />
-          {error("perfil.biografia") && (
-            <small className="p-error">{error("perfil.biografia")}</small>
-          )}
+          {errorsForm("perfil.biografia")}
         </div>
       </div>
 
       <div className="editcand-grid">
-        <div className="field">
-          <label>
-            Nome <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Nome *</label>
           <InputText
             value={formData.perfil.nome ?? ""}
             onChange={(e) => setField("perfil.nome", e.target.value)}
-            className={error("perfil.nome") ? "p-invalid" : ""}
+            className={errors["perfil.nome"] ? "p-invalid" : ""}
             placeholder="Digite seu nome completo"
           />
-          {error("perfil.nome") && (
-            <small className="p-error">{error("perfil.nome")}</small>
-          )}
+          {errorsForm("perfil.nome")}
         </div>
 
-        <div className="field">
-          <label>
-            E-mail (Institucional) <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>E-mail (Institucional) *</label>
           <InputText
             value={formData.perfil.email ?? ""}
             onChange={(e) => setField("perfil.email", e.target.value)}
-            className={error("perfil.email") ? "p-invalid" : ""}
+            className={errors["perfil.email"] ? "p-invalid" : ""}
             placeholder="Digite seu endereço de e-mail"
           />
-          {error("perfil.email") && (
-            <small className="p-error">{error("perfil.email")}</small>
-          )}
+          {errorsForm("perfil.email")}
         </div>
 
-        <div className="field">
-          <label>
-            Você é <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Você é *</label>
           <div className="radio-row">
             {tipoCargoOptions.map((opt) => (
               <div className="radio-item" key={opt.value}>
@@ -118,101 +112,81 @@ const CandidatoEditFormPage: React.FC<Props> = ({
               </div>
             ))}
           </div>
-          {error("cargo") && (
-            <small className="p-error">{error("cargo")}</small>
-          )}
+          {errorsForm("cargo")}
         </div>
 
-        <div className="field">
-          <label>
-            Instituição de Ensino <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Instituição de Ensino *</label>
           <InputText
             value={formData.instituicao ?? ""}
             onChange={(e) => setField("instituicao", e.target.value)}
-            className={error("instituicao") ? "p-invalid" : ""}
+            className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Selecione a sua instituição"
           />
-          {error("instituicao") && (
-            <small className="p-error">{error("instituicao")}</small>
-          )}
+          {errorsForm("instituicao")}
         </div>
 
-        <div className="field">
-          <label>
-            Curso/Área de atuação <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Curso/Área de atuação *</label>
           <InputText
             value={formData.areaAtuacao ?? ""}
             onChange={(e) => setField("areaAtuacao", e.target.value)}
-            className={error("areaAtuacao") ? "p-invalid" : ""}
+            className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
           />
-          {error("areaAtuacao") && (
-            <small className="p-error">{error("areaAtuacao")}</small>
-          )}
+          {errorsForm("areaAtuacao")}
         </div>
 
-        <div className="field">
-          <label>
-            Nível de escolaridade <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Nível de escolaridade *</label>
           <Dropdown
             value={formData.nivelEscolaridade}
             options={escolaridadeOptions}
             optionLabel="label"
             optionValue="value"
             onChange={(e) => setField("nivelEscolaridade", e.value)}
-            className={error("nivelEscolaridade") ? "p-invalid" : ""}
+            className={errors.nivelEscolaridade ? "p-invalid" : ""}
             placeholder="Selecione seu nível de escolaridade"
           />
-          {error("nivelEscolaridade") && (
-            <small className="p-error">{error("nivelEscolaridade")}</small>
-          )}
+          {errorsForm("nivelEscolaridade")}
         </div>
 
-        <div className="field">
+        <div className="editcand-field">
           <label>Período de conclusão</label>
           <InputText
             value={formData.periodoConclusao ?? ""}
             onChange={(e) => setField("periodoConclusao", e.target.value)}
-            className={error("periodoConclusao") ? "p-invalid" : ""}
+            className={errors.periodoConclusao ? "p-invalid" : ""}
             placeholder="MM/AAAA"
           />
-          {error("periodoConclusao") && (
-            <small className="p-error">{error("periodoConclusao")}</small>
-          )}
+          {errorsForm("periodoConclusao")}
         </div>
 
-        <div className="field">
+        <div className="editcand-field">
           <label>Período de ingresso</label>
           <InputText
             value={formData.periodoIngresso ?? ""}
             onChange={(e) => setField("periodoIngresso", e.target.value)}
-            className={error("periodoIngresso") ? "p-invalid" : ""}
+            className={errors.periodoIngresso ? "p-invalid" : ""}
             placeholder="MM/AAAA"
           />
-          {error("periodoIngresso") && (
-            <small className="p-error">{error("periodoIngresso")}</small>
-          )}
+          {errorsForm("periodoIngresso")}
         </div>
 
-        <div className="field">
+        <div className="editcand-field">
           <label>Horas disponíveis</label>
           <InputText
             value={String(formData.tempoDisponivel ?? "")}
             onChange={(e) =>
               setField("tempoDisponivel", Number(e.target.value))
             }
-            className={error("tempoDisponivel") ? "p-invalid" : ""}
+            className={errors.tempoDisponivel ? "p-invalid" : ""}
             placeholder="Selecione sua carga horária disponível na semana"
           />
-          {error("tempoDisponivel") && (
-            <small className="p-error">{error("tempoDisponivel")}</small>
-          )}
+          {errorsForm("tempoDisponivel")}
         </div>
 
-        <div className="field">
+        <div className="editcand-field">
           <label>Currículo Lattes</label>
           <InputText
             value={formData.lattes ?? ""}
@@ -221,7 +195,7 @@ const CandidatoEditFormPage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="field">
+        <div className="editcand-field">
           <label>LinkedIn</label>
           <InputText
             value={formData.linkedin ?? ""}
@@ -230,10 +204,8 @@ const CandidatoEditFormPage: React.FC<Props> = ({
           />
         </div>
 
-        <div className="field">
-          <label>
-            Disponível para contratação <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Disponível para contratação *</label>
           <div className="radio-row">
             {[
               { label: "Sim", value: true },
@@ -251,15 +223,12 @@ const CandidatoEditFormPage: React.FC<Props> = ({
               </div>
             ))}
           </div>
-          {error("disponivel") && (
-            <small className="p-error">{error("disponivel")}</small>
-          )}
+          {errorsForm("disponivel")}
         </div>
-
-        <div className="field">
-          <label>
-            Áreas de interesse <span className="req">*</span>
-          </label>
+      </div>
+      <div className="editcand-half-grid">
+        <div className="editcand-field">
+          <label>Áreas de interesse *</label>
           <InputText
             value={(formData.areasInteresse ?? []).join(" | ")}
             onChange={(e) =>
@@ -271,18 +240,14 @@ const CandidatoEditFormPage: React.FC<Props> = ({
                   .filter(Boolean)
               )
             }
-            className={error("areasInteresse") ? "p-invalid" : ""}
+            className={errors.areasInteresse ? "p-invalid" : ""}
             placeholder="Selecione as suas áreas de interesse"
           />
-          {error("areasInteresse") && (
-            <small className="p-error">{error("areasInteresse")}</small>
-          )}
+          {errorsForm("areasInteresse")}
         </div>
 
-        <div className="field">
-          <label>
-            Habilidades <span className="req">*</span>
-          </label>
+        <div className="editcand-field">
+          <label>Habilidades *</label>
           <InputText
             value={(formData.habilidades ?? []).join(" | ")}
             onChange={(e) =>
@@ -294,18 +259,17 @@ const CandidatoEditFormPage: React.FC<Props> = ({
                   .filter(Boolean)
               )
             }
-            className={error("habilidades") ? "p-invalid" : ""}
+            className={errors.habilidades ? "p-invalid" : ""}
             placeholder="Selecione as suas habilidades"
           />
-          {error("habilidades") && (
-            <small className="p-error">{error("habilidades")}</small>
-          )}
+          {errorsForm("habilidades")}
         </div>
       </div>
 
       <div className="editcand-actions">
         <Button
           label="Salvar"
+          className="save-edit-button"
           onClick={() => submit(() => switchVisibility())}
         />
       </div>
