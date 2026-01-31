@@ -13,7 +13,7 @@ export interface Candidato {
   areasInteresse: string[];
   habilidades: string[];
   disponivel: boolean;
-  tempoDisponivel: string;
+  tempoDisponivel: number;
   cargo: string;
 }
 
@@ -37,6 +37,6 @@ export const defaultCandidato = {
   areasInteresse: [],
   habilidades: [],
   disponivel: true,
-  tempoDisponivel: "",
+  tempoDisponivel: 0,
   cargo: "",
 };

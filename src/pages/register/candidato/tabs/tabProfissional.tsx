@@ -1,11 +1,11 @@
 import { MultiSelect } from "primereact/multiselect";
 import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
 import type { Candidato } from "@domains/Candidato";
-import { cargaHoraria, habilidades, interesses } from "@utils/constants";
+import { habilidades, interesses } from "@utils/constants";
 import { hasError, invalid } from "@utils/utils";
 import "./tabs.css";
-import { Dropdown } from "primereact/dropdown";
 
 type TabProfissionalProps = {
   formData: Candidato;
@@ -54,15 +54,16 @@ const TabProfissional = ({
         )}
       </div>
 
-      {formData.disponivel && (
+      {formData.disponivel === true && (
         <div className="field">
           <label>Horas disponíveis *</label>
-          <Dropdown
+          <InputNumber
             value={formData.tempoDisponivel}
-            onChange={(e) => setField("tempoDisponivel", e.value)}
-            options={cargaHoraria}
-            placeholder="Selecione sua faixa de carga horária semanal"
+            onValueChange={(e) => setField("tempoDisponivel", e.value)}
+            min={0}
+            placeholder="Digite sua carga horária semanal"
             className={invalid(submitted, errors.tempoDisponivel)}
+            inputClassName={invalid(submitted, errors.tempoDisponivel)}
           />
           {hasError(submitted, errors.tempoDisponivel) && (
             <small>{errors.tempoDisponivel}</small>
