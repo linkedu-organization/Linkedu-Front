@@ -9,8 +9,8 @@ import { Tag } from "primereact/tag";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Dialog } from "primereact/dialog";
 
-import { experiencia1 } from "@stores/mock";
 import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
+import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
 import { cargoCandidato, interesses, niveis } from "@utils/constants";
@@ -29,7 +29,8 @@ import {
 import { Layout } from "@components/Layout";
 import CardExperiencia from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
-import "./style.css";
+import CandidatoEditFormPage from "./form";
+import "./styleIndex.css";
 
 const aboutRows = (formData: Candidato): unknown => [
   {
@@ -145,6 +146,7 @@ const ProfileCandidatoPage: React.FC = () => {
   const { formData, experiencias, updateCand, deleteCand, getCandById } =
     useProfileCandidato();
   const [dialogExperiencia, setDialogExperiencia] = useState<boolean>(false);
+  const [dialogEditCandidato, setDialogEditCandidato] = useState(false);
 
   const confirmExcluir = (event) => {
     confirmDialog({
@@ -217,7 +219,28 @@ const ProfileCandidatoPage: React.FC = () => {
                     border: "1px solid var(--Linkedu-Green)",
                   }}
                   size="small"
+                  onClick={() => setDialogEditCandidato(true)}
                 />
+                {dialogEditCandidato && (
+                  <RegisterEditCandidatoProvider>
+                    <Dialog
+                      header="Editar perfil"
+                      visible={dialogEditCandidato}
+                      style={{ width: "1200px", maxWidth: "95vw" }}
+                      onHide={() => setDialogEditCandidato(false)}
+                      draggable={false}
+                    >
+                      <CandidatoEditFormPage
+                        candidato={formData}
+                        switchVisibility={() => setDialogEditCandidato(false)}
+                        onSaved={(updated) => {
+                          if (id) getCandById(id);
+                        }}
+                      />
+                    </Dialog>
+                  </RegisterEditCandidatoProvider>
+                )}
+
                 <Button
                   label="Excluir perfil"
                   icon="pi pi-trash"
@@ -296,9 +319,13 @@ const ProfileCandidatoPage: React.FC = () => {
         </div>
 
         <div className="exp-list">
-          {(experiencias || [experiencia1, experiencia1]).map((experiencia) => (
-            <CardExperiencia data={experiencia} />
-          ))}
+          {experiencias ? (
+            (experiencias || []).map((experiencia) => (
+              <CardExperiencia data={experiencia} />
+            ))
+          ) : (
+            <p className="bio-text">Nenhuma experiência cadastrada</p>
+          )}
         </div>
       </div>
     </Layout>
