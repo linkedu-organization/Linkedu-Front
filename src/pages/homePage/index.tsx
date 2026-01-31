@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Dialog } from 'primereact/dialog';
 import { Layout } from "@components/Layout";
 import { TabMenu } from "primereact/tabmenu";
@@ -9,26 +9,12 @@ import "./style.css";
 import VagaDetails from "./vagaDetails";
 import VagaCard from "./VagaCard";
 import type { Vaga } from "../../domains/Vaga";
-
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+import { useVagas } from "./hooks/UseVagas";
+import { usePerfil } from "./hooks/UsePerfil";
 
 const HomePage = () => {
-  const [vagas, setVagas] = useState<Vaga[]>([]);
-
-  useEffect(() => {
-     const fetchVagas = async () => {
-      try {
-        const response = await fetch(`${API_URL}/vagas`);
-        const data = await response.json();
-        setVagas(data);
-      } catch (error) {
-        console.error("Erro ao buscar vagas:", error);
-      }
-    };
-
-    fetchVagas();
-  }, []);
-
+  const { vagas } = useVagas();
+  const { perfis } = usePerfil();
   const vagasPublicas = useMemo(() => vagas.filter(v => v.ehPublica),[vagas]);
 
   const items = useMemo(
@@ -42,15 +28,21 @@ const HomePage = () => {
   const openDetails = (vaga: Vaga) => setSelectedVaga(vaga);
   const closeDetails = () => setSelectedVaga(null);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
 
   <Layout showFooter headerType="full">
     <div className="main-context">
-      <TabMenu model={items} className="tab-menu-homepage" />
+      <TabMenu
+        model={items}
+        activeIndex={activeIndex}
+        onTabChange={(e) => setActiveIndex(e.index)}
+        className="tab-menu-homepage"
+      />
 
       <div className="position-header">
         <h1 className="page-title">Painel de Vagas</h1>
-
         <div className="position-buttons">
           <Button label="Vagas Recomendadas" icon="pi pi-sparkles" className="recomendation-button"/>
           <Button label="Filtros" icon="pi pi-filter" className="filter-button"/>
@@ -58,26 +50,33 @@ const HomePage = () => {
         </div>
       </div>
 
-      {vagasPublicas.length === 0 && (
-          <div className="message"> Nenhuma vaga pública disponível. </div>
-      )} 
+        {activeIndex === 0 && (/*Vaga*/
+          <>
+            {vagasPublicas.length === 0 && (<div className="message"> Nenhuma vaga pública disponível.</div>)} 
 
-      <div className="position-list-cards">
+            <div className="position-list-cards">
+              {vagasPublicas.map((vaga) => (<VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails}/>))} 
+          
+              <Dialog
+                className="vaga-dialog"
+                visible={isDetailsOpen}
+                onHide={closeDetails}
+                header={selectedVaga?.titulo}
+                style={{ width: "70vw" }}
+              >
+                {selectedVaga && (<VagaDetails vaga={selectedVaga}/>)}
+              </Dialog>
+            </div>
+          </>
+        )}
         
-        {vagasPublicas.map((vaga) => ( 
-          <VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails}/> 
-        ))} 
+        {activeIndex === 1 && (/*Perfil*/
+          <>
+            {perfis.length === 0 && (<div className="message"> Nenhum perfil disponível.</div>)} 
+            <div className="perfis-list"></div>
+          </>
+        )}
 
-        <Dialog
-          className="vaga-dialog"
-          visible={isDetailsOpen}
-          onHide={closeDetails}
-          header={selectedVaga?.titulo}
-          style={{ width: "70vw" }}
-        >
-          {selectedVaga && (<VagaDetails vaga={selectedVaga} />)}
-        </Dialog>
-      </div>
     </div>
   </Layout>
   );
