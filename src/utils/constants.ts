@@ -33,6 +33,27 @@ export const habilidades = [
   { label: "Git", value: "Git" },
 ];
 
+export const tipoPerfil = [
+  { label: "Candidato", value: "CANDIDATO" },
+  { label: "Recrutador", value: "RECRUTADOR" },
+];
+
+export const cargoCandidato = [
+  { label: "Aluno", value: "ALUNO" },
+  { label: "Técnico Administrativo", value: "TECNICO" },
+];
+
+export const cargaHoraria = [
+  { label: "Até 10h", value: "ATE_10H" },
+  { label: "De 10 a 20h", value: "DE_10_A_20H" },
+  { label: "De 20 a 30h", value: "DE_20_A_30H" },
+  { label: "Acima de 30h", value: "ACIMA_DE_30H" },
+];
+
+export const simNao = [
+  { label: "Sim", value: true },
+  { label: "Não", value: false },
+];
 export const cargosRecrutador = [
   { label: "Professor", value: "PROFESSOR" },
   { label: "Pesquisador", value: "PESQUISADOR" },

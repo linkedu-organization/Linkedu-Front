@@ -4,6 +4,8 @@ import RegistrationPage from "@pages/register";
 import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
+import ProfileCandidatoPage from "@pages/profile/candidato";
+import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
 import RegisterRecrutador from "@pages/register/recrutador/form";
 import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
 
@@ -22,6 +24,11 @@ const App = () => (
           }
         />
         <Route
+          path="/profile/candidato/:id?"
+          element={
+            <ProfileCandidatoProvider>
+              <ProfileCandidatoPage />
+            </ProfileCandidatoProvider>
           path="/register/recrutador"
           element={
             <RegisterRecrutadorProvider>

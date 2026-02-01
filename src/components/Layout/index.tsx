@@ -11,11 +11,7 @@ export interface LayoutProps {
   showFooter: boolean;
 }
 
-export const Layout: React.FC<LayoutProps> = ({
-  children,
-  showFooter,
-  headerType,
-}) => (
+export const Layout = ({ children, showFooter, headerType }: LayoutProps) => (
   <div className="layout-root">
     {headerType !== "none" && <Header headerType={headerType} />}
     <main className="layout-main">{children}</main>
