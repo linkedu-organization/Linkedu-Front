@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Vaga } from "../../../domains/Vaga";
+import type { Vaga } from "@domains/Vaga";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 

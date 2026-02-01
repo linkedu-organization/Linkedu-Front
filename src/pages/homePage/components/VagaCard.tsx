@@ -1,6 +1,6 @@
 import { Card } from 'primereact/card';
 import { Button } from "primereact/button";
-import type { Vaga } from "../../domains/Vaga";
+import type { Vaga } from "@domains/Vaga";
 
 type Props = {
   vaga: Vaga;

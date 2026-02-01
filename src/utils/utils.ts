@@ -90,7 +90,6 @@ export const hasError = (submitted: boolean, msg: string) =>
 export const invalid = (submitted: boolean, msg: string) =>
   classNames({ "p-invalid": hasError(submitted, msg) });
 
-
 export const formatEnum = (value: string, labels: Record<string, string>) =>
   value ? (labels[value] ?? value) : "";
 

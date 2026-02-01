@@ -2,6 +2,7 @@ import type { Candidato } from "./Candidato";
 import type { Recrutador } from "./Recrutador";
 
 export interface Perfil {
+  perfil: any;
   id?: number;
   nome: string;
   email: string;

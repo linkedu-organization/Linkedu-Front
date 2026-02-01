@@ -1,7 +1,7 @@
-import "./style.css";
-import type { Vaga } from "../../domains/Vaga";
-import { publicoAlvoLabel, categoriaLabel } from "../../utils/constants";
-import { formatEnum, formatEnumList } from "../../utils/utils";
+import "@pages/homePage/style.css";
+import type { Vaga } from "@domains/Vaga";
+import { publicoAlvoLabel, categoriaLabel } from "@utils/constants";
+import { formatEnum, formatEnumList } from "@utils/utils";
 
 const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => { 
     
