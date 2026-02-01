@@ -1,13 +1,14 @@
 import { Card } from 'primereact/card';
 import { Button } from "primereact/button";
 import type { Vaga } from "@domains/Vaga";
+import { Avatar } from "primereact/avatar"
 
-type Props = {
+type VagaCardProps = {
   vaga: Vaga;
   openDetails: (vaga: Vaga) => void;
 };
 
-const VagaCard = ({vaga, openDetails}: Props) => {
+const VagaCard = ({vaga, openDetails}: VagaCardProps) => {
 
     return(
         <Card key={vaga.id} className="position-card"> 
@@ -22,32 +23,25 @@ const VagaCard = ({vaga, openDetails}: Props) => {
             </p>
 
            <p className="position-lab">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-building" />
-              </span>
+              <Avatar icon="pi pi-building" shape="circle" className="icon-badge mr-2" />
+              <b>Instituição: </b>
               <span className="value ellipsis">{vaga.instituicao}</span>
             </p>
 
             <p className="position-recruiter">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-user" />
-              </span>
+              <Avatar icon="pi pi-user" shape="circle" className="icon-badge mr-2" />
               <b>Ofertada por: </b>
               <span className="value ellipsis">{vaga.recrutador?.perfil?.nome ?? "Desconhecido"}</span>
               </p>
 
             <p className="position-course">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-book" />
-              </span>
+              <Avatar icon="pi pi-book" shape="circle" className="icon-badge mr-2" />
               <b>Curso: </b>
               <span className="value ellipsis">{vaga.curso}</span>
             </p>
 
             <p className="position-skills">
-              <span className="icon-badge" aria-hidden="true">
-                <i className="pi pi-check-circle" />
-              </span>
+              <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge mr-2" />
               <b>Conhecimentos Obrigatórios: </b>
               <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
             </p>

@@ -1,6 +1,6 @@
 import "@pages/homePage/style.css";
 import type { Vaga } from "@domains/Vaga";
-import { publicoAlvoLabel, categoriaLabel } from "@utils/constants";
+import { publicoAlvo, categorias } from "@utils/constants";
 import { formatEnum, formatEnumList } from "@utils/utils";
 
 const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => { 
@@ -36,14 +36,14 @@ const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => {
                       <i className="pi pi-user" />
                     </span>
                     <span className="label"><b>Público-alvo</b></span>
-                    <div className="value">{formatEnumList(vaga.publicoAlvo, publicoAlvoLabel)}</div>
+                    <div className="value">{formatEnumList(vaga.publicoAlvo, publicoAlvo)}</div>
                   </div>
                   <div className="item">
                     <span className="icon-badge" aria-hidden="true">
                       <i className="pi pi-list" />
                     </span>
                     <span className="label"><b>Categoria</b></span>
-                    <div className="value">{formatEnum(vaga.categoria, categoriaLabel)}</div>
+                    <div className="value">{formatEnum(vaga.categoria, categorias)}</div>
                   </div>
                 </div>
 
