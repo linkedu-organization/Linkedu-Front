@@ -22,29 +22,29 @@ const VagaCard = ({vaga, openDetails}: VagaCardProps) => {
               <span className="value ellipsis">{vaga.ehRemunerada ? "Remunerada" : "Voluntária"}</span>
             </p>
 
-           <p className="position-lab">
+           <div className="position-lab">
               <Avatar icon="pi pi-building" shape="circle" className="icon-badge mr-2" />
               <b>Instituição: </b>
               <span className="value ellipsis">{vaga.instituicao}</span>
-            </p>
+            </div>
 
-            <p className="position-recruiter">
+            <div className="position-recruiter">
               <Avatar icon="pi pi-user" shape="circle" className="icon-badge mr-2" />
               <b>Ofertada por: </b>
               <span className="value ellipsis">{vaga.recrutador?.perfil?.nome ?? "Desconhecido"}</span>
-              </p>
+            </div>
 
-            <p className="position-course">
+            <div className="position-course">
               <Avatar icon="pi pi-book" shape="circle" className="icon-badge mr-2" />
               <b>Curso: </b>
               <span className="value ellipsis">{vaga.curso}</span>
-            </p>
+            </div>
 
-            <p className="position-skills">
+            <div className="position-skills">
               <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge mr-2" />
               <b>Conhecimentos Obrigatórios: </b>
               <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
-            </p>
+            </div>
             
             <div className="position-card-footer">
               <Button

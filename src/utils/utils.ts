@@ -89,18 +89,3 @@ export const hasError = (submitted: boolean, msg: string) =>
 
 export const invalid = (submitted: boolean, msg: string) =>
   classNames({ "p-invalid": hasError(submitted, msg) });
-
-type Option = { label: string; value: string };
-
-export const formatEnum = (value: string, labels: Option[]) => {
-  if (!value) return "";
-  const found = labels.find((o) => o.value === value);
-  return found?.label ?? value;
-};
-
-export const formatEnumList = (values: string[], labels: Option[]) => {
-  if (!values?.length) return "";
-  return values
-    .map((v) => labels.find((o) => o.value === v)?.label ?? v)
-    .join(", ");
-};
