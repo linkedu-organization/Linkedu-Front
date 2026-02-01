@@ -23,5 +23,22 @@
 }
 
 .icon-image {
+  font-size: 18px;
   color: var(--Linkedu-DarkLetter);
+  z-index: 2;
+}
+
+.picture-form.has-image .icon-image {
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  padding: 8px;
+  border-radius: 50%;
+  opacity: 0.85;
+  transition: all 0.2s ease;
+}
+
+.picture-form.has-image:hover .icon-image {
+  opacity: 1;
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.7);
 }

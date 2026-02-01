@@ -11,6 +11,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { InputNumber } from "primereact/inputnumber";
 
 import { useRegisterEditCandidato } from "@stores/profile/candidato/formStore";
+import PhotoUpload from "@components/PhotoUpload";
 import {
   cargoCandidato,
   habilidades,
@@ -51,7 +52,11 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
     <div>
       <div className="editcand-header">
         <div className="editcand-avatar">
-          <Avatar image={formData.perfil.foto} size="xlarge" shape="circle" />
+          <PhotoUpload
+            canUpload
+            setField={setField}
+            imageProfile={formData?.perfil?.foto || ""}
+          />
         </div>
 
         <div className="editcand-bio">
