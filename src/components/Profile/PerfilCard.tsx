@@ -1,11 +1,12 @@
+import "./style.css";
 import { Card } from "primereact/card";
 import type { Perfil } from "@domains/Perfil";
 
-type Props = {
+type PerfilCardProps = {
   perfil: Perfil;
 };
 
-const PerfilCard = ({ perfil }: Props) => {
+const PerfilCard = ({ perfil }: PerfilCardProps) => {
   return (
     <Card className="perfil-card">
       <div className="perfil-header">

@@ -1,3 +1,4 @@
+import "./style.css";
 import { Card } from 'primereact/card';
 import { Button } from "primereact/button";
 import type { Vaga } from "@domains/Vaga";
@@ -23,25 +24,25 @@ const VagaCard = ({vaga, openDetails}: VagaCardProps) => {
             </p>
 
            <div className="position-lab">
-              <Avatar icon="pi pi-building" shape="circle" className="icon-badge mr-2" />
+              <Avatar icon="pi pi-building" shape="circle" className="icon-badge" />
               <b>Instituição: </b>
               <span className="value ellipsis">{vaga.instituicao}</span>
             </div>
 
             <div className="position-recruiter">
-              <Avatar icon="pi pi-user" shape="circle" className="icon-badge mr-2" />
+              <Avatar icon="pi pi-user" shape="circle" className="icon-badge" />
               <b>Ofertada por: </b>
               <span className="value ellipsis">{vaga.recrutador?.perfil?.nome ?? "Desconhecido"}</span>
             </div>
 
             <div className="position-course">
-              <Avatar icon="pi pi-book" shape="circle" className="icon-badge mr-2" />
+              <Avatar icon="pi pi-book" shape="circle" className="icon-badge" />
               <b>Curso: </b>
               <span className="value ellipsis">{vaga.curso}</span>
             </div>
 
             <div className="position-skills">
-              <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge mr-2" />
+              <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge" />
               <b>Conhecimentos Obrigatórios: </b>
               <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
             </div>

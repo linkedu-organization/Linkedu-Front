@@ -89,3 +89,11 @@ export const hasError = (submitted: boolean, msg: string) =>
 
 export const invalid = (submitted: boolean, msg: string) =>
   classNames({ "p-invalid": hasError(submitted, msg) });
+
+
+export const normalizeUrl = (url?: string) => {
+  const u = (url ?? "").trim();
+  if (!u) return "";
+  return u.startsWith("http://") || u.startsWith("https://") ? u : `https://${u}`;
+};
+

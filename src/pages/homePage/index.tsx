@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Layout } from "@components/Layout";
 import { TabMenu } from "primereact/tabmenu";
@@ -6,36 +5,24 @@ import { Button } from "primereact/button";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 import "./style.css";
-import VagaDetails from "./components/vagaDetails";
-import VagaCard from "./components/VagaCard";
-import PerfilCard from "./components/PerfilCard";
-import type { Vaga } from "@domains/Vaga";
-import { useVagas } from "@stores/home/vagaStore";
-import { usePerfil } from "@stores/home/perfilStore";
+import VagaDetails from "@components/Vaga/vagaDetails";
+import VagaCard from "@components/Vaga/VagaCard";
+import PerfilCard from "@components/Profile/PerfilCard";
+import { useHomePage } from "@stores/home/homePageStore";
 
 const HomePage = () => {
-  const { vagas } = useVagas();
-  const { perfis } = usePerfil();
-  const vagasPublicas = useMemo(
-    () => vagas.filter((v) => v.ehPublica),
-    [vagas]
-  );
 
-  const items = useMemo(
-    () => [
-      { label: `Vagas (${vagasPublicas.length})` },
-      { label: `Perfis (${perfis.length})` },
-    ],
-    [vagasPublicas.length]
-  );
-
-  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
-  const isDetailsOpen = selectedVaga !== null;
-
-  const openDetails = (vaga: Vaga) => setSelectedVaga(vaga);
-  const closeDetails = () => setSelectedVaga(null);
-
-  const [activeIndex, setActiveIndex] = useState(0);
+  const {
+    vagas,
+    perfis,
+    items,
+    activeIndex,
+    setActiveIndex,
+    selectedVaga,
+    isDetailsOpen,
+    openDetails,
+    closeDetails,
+  } = useHomePage();
 
   return (
     <Layout showFooter headerType="full">
@@ -70,12 +57,12 @@ const HomePage = () => {
               </div>
             </div>
 
-            {vagasPublicas.length === 0 && (
+            {vagas.length === 0 && (
               <div className="message"> Nenhuma vaga pública disponível.</div>
             )}
 
             <div className="position-list-cards">
-              {vagasPublicas.map((vaga) => (
+              {vagas.map((vaga) => (
                 <VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails} />
               ))}
 

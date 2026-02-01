@@ -1,7 +1,8 @@
-import "@pages/homePage/style.css";
+import "./style.css";
 import type { Vaga } from "@domains/Vaga";
 import { publicoAlvo, categorias } from "@utils/constants";
 import { getValueByKey } from "@utils/utils";
+import { normalizeUrl } from "@utils/utils";
 
 const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => { 
     
@@ -38,8 +39,8 @@ const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => {
                     <span className="label"><b>Público-alvo</b></span>
                     <div className="value">
                       {(vaga.publicoAlvo ?? [])
-                      .map((v) => getValueByKey(v, publicoAlvo as any, "value", "label"))
-                      .join(", ") || "-"}
+                        .map((v) => getValueByKey(v, publicoAlvo as any, "value", "label"))
+                        .join(", ") || "-"}
                     </div>
                   </div>
                   <div className="item">
@@ -105,7 +106,9 @@ const VagaDetailsDialog = ({vaga} : {vaga: Vaga | null}) => {
                 <div className="vaga-row link-row">
                   <i className="pi pi-external-link" />
                   <b>Link para inscrição:</b>
-                  <a href={vaga.linkInscricao} target="_blank" rel="noreferrer">{vaga.linkInscricao}</a>
+                  <a href={normalizeUrl(vaga.linkInscricao)} target="_blank" rel="noopener noreferrer">
+                    {vaga.linkInscricao}
+                  </a>
                 </div>
               </div>
             </div>

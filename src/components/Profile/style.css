@@ -1,0 +1,24 @@
+.perfil-card {
+  display: flex;
+  width: 1312px;
+  height: auto;
+  padding-bottom: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+}
+
+.perfil-name{
+  color: black;
+  font-feature-settings: 'liga' off, 'clig' off;
+
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; 
+}

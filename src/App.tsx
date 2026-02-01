@@ -4,12 +4,20 @@ import RegistrationPage from "@pages/register";
 import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
+import { HomePageProvider } from "@stores/home/homePageStore";
 
 const App = () => (
   <BrowserRouter>
     <NotificationProvider>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route 
+          path="/" 
+          element=
+            {
+              <HomePageProvider>
+                  <HomePage />
+                </HomePageProvider>
+            } />
         <Route path="/register" element={<RegistrationPage />} />
         <Route
           path="/register/candidato"
