@@ -32,3 +32,9 @@ export const habilidades = [
   { label: "Docker", value: "Docker" },
   { label: "Git", value: "Git" },
 ];
+
+export const cargosRecrutador = [
+  { label: "Professor", value: "PROFESSOR" },
+  { label: "Pesquisador", value: "PESQUISADOR" },
+  { label: "Técnico", value: "TECNICO" },
+];
