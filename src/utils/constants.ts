@@ -54,3 +54,8 @@ export const simNao = [
   { label: "Sim", value: true },
   { label: "Não", value: false },
 ];
+export const cargosRecrutador = [
+  { label: "Professor", value: "PROFESSOR" },
+  { label: "Pesquisador", value: "PESQUISADOR" },
+  { label: "Técnico", value: "TECNICO" },
+];

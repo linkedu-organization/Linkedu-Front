@@ -1,21 +1,16 @@
-import { useRegisterCandidato } from "@stores/register/candidato/formStore";
+import { useRegisterRecrutador } from "@stores/register/recrutador/formStore";
 import RegisterWizard from "@components/RegisterWizard";
 import TabDadosBasicos from "./tabs/tabDadosBasicos";
-import TabEscolaridade from "./tabs/tabEscolaridade";
 import TabProfissional from "./tabs/tabProfissional";
 
-const RegisterCandidato = () => (
+const RegisterRecrutador = () => (
   <RegisterWizard
-    title="Cadastro de Candidato"
-    useStore={useRegisterCandidato}
+    title="Cadastro de Recrutador"
+    useStore={useRegisterRecrutador}
     steps={[
       {
         label: "Dados básicos",
         render: (p) => <TabDadosBasicos {...p} />,
-      },
-      {
-        label: "Escolaridade",
-        render: (p) => <TabEscolaridade {...p} />,
       },
       {
         label: "Profissional",
@@ -25,4 +20,4 @@ const RegisterCandidato = () => (
   />
 );
 
-export default RegisterCandidato;
+export default RegisterRecrutador;
