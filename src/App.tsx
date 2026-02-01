@@ -6,6 +6,8 @@ import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
 import RegisterRecrutador from "@pages/register/recrutador/form";
 import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
+import ProfileCandidatoPage from "@pages/profile/candidato";
+import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
 
 const App = () => (
   <BrowserRouter>
@@ -19,6 +21,14 @@ const App = () => (
             <RegisterCandidatoProvider>
               <RegisterCandidato />
             </RegisterCandidatoProvider>
+          }
+        />
+        <Route
+          path="/profile/candidato/:id?"
+          element={
+            <ProfileCandidatoProvider>
+              <ProfileCandidatoPage />
+            </ProfileCandidatoProvider>
           }
         />
         <Route

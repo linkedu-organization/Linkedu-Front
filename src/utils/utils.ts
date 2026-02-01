@@ -30,7 +30,7 @@ export const getValueByKey = (
   value: string,
   list = [],
   key = "value",
-  label = "text"
+  label = "label"
 ) => {
   let result = "-";
   const filtered = list.filter((item) => item[key] === value);
@@ -40,12 +40,8 @@ export const getValueByKey = (
   return result;
 };
 
-export const getMultipleValuesByKey = (
-  values = [],
-  list = [],
-  key = "value",
-  label = "text"
-) => values.map((v) => getValueByKey(v, list, key, label)).join(", ");
+export const getMultipleValuesByKey = (values = [], list = [], format = ", ") =>
+  values.map((v) => getValueByKey(v, list)).join(format);
 
 export const getFormatMonthYear = (dataDesejavel: string) => {
   if (dataDesejavel) {
@@ -83,6 +79,9 @@ export const formatTypedValue = (value: string, maxSize: number) => {
   }
   return value;
 };
+
+export const joinTextPipes = (items: string[]) =>
+  items.filter(Boolean).join(" | ");
 
 export const hasError = (submitted: boolean, msg: string) =>
   submitted && isValueValid(msg);

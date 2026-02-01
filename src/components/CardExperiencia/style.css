@@ -1,0 +1,84 @@
+.exp-card .p-card,
+.exp-card .p-card-content,
+.exp-card .p-card-body {
+  padding: 0 !important;
+}
+
+.exp-bar {
+  background: var(--Linkedu-Blue);
+  color: var(--Linkedu-White);
+  padding: 10px 12px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.exp-bar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.exp-bar-title {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.exp-bar-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exp-bar-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.exp-action.p-button {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px !important;
+}
+
+.exp-action.p-button .pi {
+  font-size: 12px;
+}
+
+.edit.p-button {
+  background: var(--Linkedu-Green) !important;
+  border-color: var(--Linkedu-Green) !important;
+}
+
+.del.p-button {
+  background: var(--Linkedu-Red) !important;
+  border-color: var(--Linkedu-Red) !important;
+}
+
+.exp-body {
+  padding: 12px;
+}
+
+.exp-place {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--Linkedu-DarkLetter);
+  margin-bottom: 4px;
+}
+
+.exp-mentor {
+  font-size: 12px;
+  margin-bottom: 8px;
+  color: var(--Linkedu-DarkLetterSecond);
+}
+
+.exp-desc {
+  font-size: 12px;
+  color: var(--Linkedu-Gray);
+  line-height: 1.5;
+  margin: 0;
+}

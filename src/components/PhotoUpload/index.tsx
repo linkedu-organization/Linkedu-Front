@@ -40,7 +40,9 @@ const PhotoUpload = ({
       style={{ cursor: canUpload ? "pointer" : "default" }}
     >
       <div
-        className={canUpload ? "picture-form" : "profile-picture"}
+        className={`${canUpload ? "picture-form" : "profile-picture"} ${
+          canUpload && image ? "has-image" : ""
+        }`}
         style={{
           backgroundImage: `url(${image})`,
         }}

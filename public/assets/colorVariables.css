@@ -1,10 +1,13 @@
 :root {
-  --Linkedu-OffWhite: #FBF8F3;
-  --Linkedu-Blue: #364FAB;
-  --Linkedu-LightBlue: #C5DFFC;
-  --Linkedu-LighterBlue: #F9FAFB;
-  --Linkedu-DarkLetter: #2D313B;
-  --Linkedu-DarkLetterSecond: #2F292A;
-  --Linkedu-White: #FFF;
-  --Linkedu-Red: #d32f2f;
+  --Linkedu-OffWhite: #fbf8f3;
+  --Linkedu-Blue: #364fab;
+  --Linkedu-LightBlue: #c5dffc;
+  --Linkedu-LighterBlue: #f9fafb;
+  --Linkedu-DarkLetter: #2d313b;
+  --Linkedu-DarkLetterSecond: #2f292a;
+  --Linkedu-White: #fff;
+  --Linkedu-Error: #d32f2f;
+  --Linkedu-Red: #c73b3c;
+  --Linkedu-Green: #096a34;
+  --Linkedu-Gray: #696e79;
 }
