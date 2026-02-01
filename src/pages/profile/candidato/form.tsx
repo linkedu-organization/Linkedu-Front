@@ -24,7 +24,7 @@ import "./styleForm.css";
 type CandidatoEditFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
-  onSaved: (updated: Candidato) => void;
+  onSaved: () => void;
 };
 
 const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
@@ -32,15 +32,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   switchVisibility,
   onSaved,
 }) => {
-  const {
-    formData,
-    setInitialData,
-    setField,
-    errors,
-    submit,
-    resetForm,
-    errorsForm,
-  } = useRegisterEditCandidato();
+  const { formData, setInitialData, setField, errors, submit, errorsForm } =
+    useRegisterEditCandidato();
 
   useEffect(() => {
     if (candidato) setInitialData(candidato);
@@ -259,7 +252,12 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         <Button
           label="Salvar"
           className="save-edit-button"
-          onClick={() => submit(() => switchVisibility())}
+          onClick={() =>
+            submit(() => {
+              onSaved();
+              switchVisibility();
+            })
+          }
         />
       </div>
     </div>

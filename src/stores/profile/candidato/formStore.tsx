@@ -12,7 +12,6 @@ interface RegisterEditCandidatoContextType {
   setInitialData: (candidato: Candidato) => void;
   setField: (field: string, value: unknown) => void;
   errors: FieldErrors;
-  resetForm: () => void;
   validate: () => Promise<boolean>;
   submit: (callback: Function) => Promise<Candidato | null>;
   errorsForm: (path: string) => ReactNode;
@@ -86,18 +85,6 @@ export const RegisterEditCandidatoProvider = ({
     });
 
     clearErrors([field]);
-  };
-
-  const resetForm = () => {
-    if (!initialData) return;
-
-    const cloned =
-      typeof structuredClone === "function"
-        ? structuredClone(initialData)
-        : JSON.parse(JSON.stringify(initialData));
-
-    setFormData(cloned);
-    setErrors({});
   };
 
   const validateChangedEmail = async (email: string): Promise<boolean> => {
@@ -191,7 +178,6 @@ export const RegisterEditCandidatoProvider = ({
         setInitialData,
         setField,
         errors,
-        resetForm,
         validate,
         submit,
         errorsForm,

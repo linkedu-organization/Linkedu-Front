@@ -233,7 +233,7 @@ const ProfileCandidatoPage: React.FC = () => {
                       <CandidatoEditFormPage
                         candidato={formData}
                         switchVisibility={() => setDialogEditCandidato(false)}
-                        onSaved={(updated) => {
+                        onSaved={() => {
                           if (id) getCandById(id);
                         }}
                       />
