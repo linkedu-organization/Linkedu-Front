@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   createContext,
   useContext,
@@ -9,6 +10,8 @@ import {
 } from "react";
 import type { Perfil } from "@domains/Perfil";
 import type { Vaga } from "@domains/Vaga";
+import { getAllCandidato } from "@routes/routesCandidato";
+import { getAllRecrutador } from "@routes/routesRecrutador";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -97,33 +100,33 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
 
   const refreshPerfis = useCallback(async () => {
     try {
-      const [candidatosRes, recrutadoresRes] = await Promise.all([
-        fetch(`${API_URL}/candidatos`),
-        fetch(`${API_URL}/recrutadores`),
-      ]);
-
-      if (!candidatosRes.ok)
-        throw new Error(`Erro HTTP ${candidatosRes.status} ao buscar candidatos`);
-      if (!recrutadoresRes.ok)
-        throw new Error(`Erro HTTP ${recrutadoresRes.status} ao buscar recrutadores`);
-
       const [candidatos, recrutadores] = await Promise.all([
-        candidatosRes.json() as Promise<Array<{ perfil?: Perfil }>>,
-        recrutadoresRes.json() as Promise<Array<{ perfil?: Perfil }>>,
+        getAllCandidato(),
+        getAllRecrutador(),
       ]);
-
+      
       const perfisExtraidos = [
-        ...(Array.isArray(candidatos) ? candidatos : [])
-          .map((c) => c?.perfil)
-          .filter(Boolean),
-        ...(Array.isArray(recrutadores) ? recrutadores : [])
-          .map((r) => r?.perfil)
-          .filter(Boolean),
+      ...(Array.isArray(candidatos) ? candidatos : [])
+        .map((c: { perfil?: Perfil }) => c?.perfil)
+        .filter(Boolean),
+      ...(Array.isArray(recrutadores) ? recrutadores : [])
+        .map((r: { perfil?: Perfil }) => r?.perfil)
+        .filter(Boolean),
       ] as Perfil[];
 
       setPerfis(uniquePerfisById(perfisExtraidos));
+
     } catch (err) {
-      console.error("Erro ao buscar perfis:", err);
+
+      if (axios.isAxiosError(err)) {
+      console.error(
+        "Erro ao buscar perfis:",
+        err.response?.status,
+        err.response?.data ?? err.message
+      );
+      } else {
+        console.error("Erro ao buscar perfis:", err);
+      }
       setPerfis([]);
     }
   }, []);
