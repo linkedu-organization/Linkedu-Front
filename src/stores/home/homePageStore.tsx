@@ -105,9 +105,7 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
       if (!candidatosRes.ok)
         throw new Error(`Erro HTTP ${candidatosRes.status} ao buscar candidatos`);
       if (!recrutadoresRes.ok)
-        throw new Error(
-          `Erro HTTP ${recrutadoresRes.status} ao buscar recrutadores`
-        );
+        throw new Error(`Erro HTTP ${recrutadoresRes.status} ao buscar recrutadores`);
 
       const [candidatos, recrutadores] = await Promise.all([
         candidatosRes.json() as Promise<Array<{ perfil?: Perfil }>>,

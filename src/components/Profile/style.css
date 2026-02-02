@@ -1,24 +1,81 @@
 .perfil-card {
-  display: flex;
+  --card-inner-pad: 42px;
   width: 1312px;
-  height: auto;
-  padding-bottom: 10px;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-shrink: 0;
+  height: 199px;
 
+  display: flex;
+  flex-direction: column;
+
+  background: #fff;
   border-radius: 10px;
-  background: #FFF;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 5px rgba(0,0,0,.25);
+  overflow: hidden;
+
+  padding: 0 !important;
+}
+
+.perfil-header {
+  height: 56px;
+  background: var(--LinkeduBlue, #364FAB);
+  box-shadow: 0 1px 5px rgba(0,0,0,.25);
+
+  margin-top: calc(-1 * var(--card-inner-pad));
+  margin-left: calc(-1 * var(--card-inner-pad));
+  margin-right: calc(-1 * var(--card-inner-pad));
+
+  display: flex;
+  align-items: center;
+}
+
+.perfil-title {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: calc(10px + var(--card-inner-pad));
 }
 
 .perfil-name{
-  color: black;
-  font-feature-settings: 'liga' off, 'clig' off;
-
-  font-family: Inter;
+  margin: 0;
+  color: #fff;
+  font-family: Inter, sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 24px; 
+  line-height: 24px;
+}
+
+.perfil-content {
+  padding-top: 16px;
+}
+
+.perfil-email,
+.perfil-areas-interesse,
+.perfil-disponibilidade-conclusao{
+  padding: 0 20px;
+  margin-top: 8px;
+}
+
+.position-card-footer{
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 20px 16px;
+}
+
+.perfil-name-row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.perfil-badge{
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #cfe1ff;
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
 }

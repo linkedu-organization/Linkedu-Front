@@ -91,3 +91,9 @@
   height: auto;
   --cardHeight: 330px;
 }
+
+.perfis-list-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}

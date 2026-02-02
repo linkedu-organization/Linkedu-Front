@@ -101,10 +101,11 @@ const HomePage = () => {
               <div className="message"> Nenhum perfil disponível.</div>
             )}
 
-            <div className="perfis-list-card"></div>
-            {perfis.map((perfil) => (
-              <PerfilCard key={`${perfil.id}`} perfil={perfil} />
-            ))}
+            <div className="perfis-list-card">
+              {perfis.map((perfil) => (
+                <PerfilCard key={`${perfil.id}`} perfil={perfil} />
+              ))}
+            </div>
           </>
         )}
       </div>
