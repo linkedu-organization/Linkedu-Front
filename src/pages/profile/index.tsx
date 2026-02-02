@@ -29,7 +29,6 @@ type ProfilePageProps = {
     close: () => void;
     formData: any;
   }) => React.ReactNode;
-  onAfterEditSaved?: (id?: string) => void;
   listTitle: string;
   addLabel: string;
   addDialogHeader: string;
@@ -50,7 +49,6 @@ export const ProfilePage = ({
   buildAboutRows,
   EditProvider,
   renderEditForm,
-  onAfterEditSaved,
   listTitle,
   addLabel,
   addDialogHeader,
