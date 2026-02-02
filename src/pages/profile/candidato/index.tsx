@@ -35,7 +35,7 @@ const aboutRows = (formData: Candidato): unknown => [
                     {getValueDate(
                       formData?.periodoIngresso,
                       DATE_FORMAT_PERIOD
-                    )}{" "}
+                    )}
                     -
                   </span>
                 </>

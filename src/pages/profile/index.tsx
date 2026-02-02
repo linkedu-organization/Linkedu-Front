@@ -94,7 +94,6 @@ export const ProfilePage = ({
   return (
     <Layout showFooter headerType="full">
       <div className="profile-container">
-        {/* HEADER */}
         <Card className="profile-card">
           <div className="profile-card-content">
             <div className="profile-avatar">
@@ -188,7 +187,7 @@ export const ProfilePage = ({
 
           <div className="bio-update">
             <span className="last-update">
-              Última atualização:{" "}
+              Última atualização:
               {getValueDate(
                 formData?.perfil?.ultimoAcesso,
                 DATE_FORMAT_WITH_HOURS_AND_SECONDS,
@@ -198,7 +197,6 @@ export const ProfilePage = ({
           </div>
         </Card>
 
-        {/* ABOUT */}
         <Card className="profile-card">
           <h3>Sobre</h3>
           <div className="about-grid">
@@ -226,7 +224,6 @@ export const ProfilePage = ({
 
         <Divider />
 
-        {/* LISTA */}
         <div className="exp-header">
           <h3>{listTitle}</h3>
           <Button
