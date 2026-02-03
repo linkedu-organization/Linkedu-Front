@@ -49,7 +49,7 @@ export const ProfileRecrutadorProvider = ({
       setFormData(response);
       // rotas buscar vagas
       // const vagasCand = await getAllVagasByCandidato(response?.id);
-      setVagas(vagasCand);
+      // setVagas(vagasCand);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
     }

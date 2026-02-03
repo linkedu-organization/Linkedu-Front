@@ -3,16 +3,15 @@ import type { Candidato } from "@domains/Candidato";
 import { cargoCandidato } from "@utils/constants";
 import { getValueByKey } from "@utils/utils";
 
-import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore"; // ajuste isso
+import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore";
 /*
-import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
 import { RegisterVagaProvider } from "@stores/register/vaga/formStore"; // exemplo
-
 import VagaFormPage from "@pages/register/vaga/form";
 import CardVaga from "@components/CardVaga";
-import RecrutadorEditFormPage from "./form";
 */
+import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
 import ProfilePage from "../index";
+import RecrutadorEditFormPage from "./form";
 
 const aboutRows = (formData: Recrutador): unknown => [
   {
@@ -54,17 +53,17 @@ export default function ProfileRecrutadorPage() {
       deleteProfile={deleteRec}
       buildTags={tags}
       buildAboutRows={aboutRows}
-      /*
       EditProvider={RegisterEditRecrutadorProvider}
       renderEditForm={({ close, formData }) => (
         <RecrutadorEditFormPage
           recrutador={formData}
           switchVisibility={close}
           onSaved={() => {
-            if (formData?.id) getRecrById(formData?.id);
+            if (formData?.id) getRecById(formData?.id);
           }}
         />
       )}
+      /*
       listTitle="Vagas Ofertadas"
       addLabel="Adicionar Vaga"
       addDialogHeader="Vaga"

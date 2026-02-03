@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import type { Candidato } from "@domains/Candidato";
 
-import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
@@ -19,7 +18,7 @@ import {
   niveis,
   simNao,
 } from "@utils/constants";
-import "./styleForm.css";
+import "../styleForm.css";
 
 type CandidatoEditFormProps = {
   candidato: Candidato;
