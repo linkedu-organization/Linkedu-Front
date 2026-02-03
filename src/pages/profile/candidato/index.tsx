@@ -13,6 +13,7 @@ import { RegisterExperienciaProvider } from "@stores/register/experiencia/formSt
 import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
+import type { Experiencia } from "@domains/Experiencia";
 import { cargoCandidato, interesses, niveis } from "@utils/constants";
 import {
   getMultipleValuesByKey,
@@ -143,10 +144,35 @@ const tags = (formData: Candidato): unknown => [
 
 const ProfileCandidatoPage: React.FC = () => {
   const { id } = useParams();
-  const { formData, experiencias, deleteCand, getCandById } =
+  const { formData, experiencias, deleteCand, getCandById, deleteExp } =
     useProfileCandidato();
-  const [dialogExperiencia, setDialogExperiencia] = useState<boolean>(false);
   const [dialogEditCandidato, setDialogEditCandidato] = useState(false);
+  const [dialogExperiencia, setDialogExperiencia] = useState(false);
+  const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
+
+  const openCreate = () => {
+    setSelectedExp(null);
+    setDialogExperiencia(true);
+  };
+
+  const openEdit = (exp: Experiencia) => {
+    setSelectedExp(exp);
+    setDialogExperiencia(true);
+  };
+
+  const confirmDeleteExp = (event: any, exp: Experiencia) => {
+    confirmDialog({
+      trigger: event.currentTarget,
+      message: "Deseja excluir esta experiência?",
+      header: "Excluir experiência",
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: "Excluir",
+      accept: async () => {
+        await deleteExp(exp.id);
+        if (id) getCandById(id);
+      },
+    });
+  };
 
   const confirmExcluir = (event) => {
     confirmDialog({
@@ -298,12 +324,13 @@ const ProfileCandidatoPage: React.FC = () => {
             icon="pi pi-plus"
             className="exp-button"
             size="small"
-            onClick={() => setDialogExperiencia(true)}
+            onClick={openCreate}
           />
+
           {dialogExperiencia && (
             <RegisterExperienciaProvider>
               <Dialog
-                header="Experiência"
+                header={selectedExp ? "Editar Experiência" : "Experiência"}
                 visible={dialogExperiencia}
                 style={{ width: "1200px", maxWidth: "95vw" }}
                 onHide={() => setDialogExperiencia(false)}
@@ -311,9 +338,10 @@ const ProfileCandidatoPage: React.FC = () => {
               >
                 <ExperienciaFormPage
                   candidato={formData}
+                  experiencia={selectedExp}
                   switchVisibility={() => {
                     setDialogExperiencia(false);
-                    getCandById(formData?.id);
+                    getCandById(String(formData?.id));
                   }}
                 />
               </Dialog>
@@ -322,13 +350,17 @@ const ProfileCandidatoPage: React.FC = () => {
         </div>
 
         <div className="exp-list">
-          {experiencias ? (
-            (experiencias || []).map((experiencia) => (
-              <CardExperiencia data={experiencia} />
-            ))
-          ) : (
-            <p className="bio-text">Nenhuma experiência cadastrada</p>
-          )}
+          {(experiencias || []).map((exp) => (
+            <CardExperiencia
+              key={exp.id}
+              data={exp}
+              onEdit={openEdit}
+              onDelete={(e) => {
+                confirmDeleteExp(window.event, e);
+                getCandById(String(formData?.id));
+              }}
+            />
+          ))}
         </div>
       </div>
     </Layout>

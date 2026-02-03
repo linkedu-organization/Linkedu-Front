@@ -4,11 +4,13 @@ import { getCandidato, deleteCandidato } from "@routes/routesCandidato";
 import { type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import type { Experiencia } from "@domains/Experiencia";
+import { deleteExperiencia } from "@routes/routesExperiencia";
 
 interface ProfileCandidatoContextType {
   formData: Candidato;
   experiencias: Experiencia[];
   deleteCand: () => void;
+  deleteExp: (id: number) => void;
   getCandById: (id: string) => void;
 }
 
@@ -58,6 +60,15 @@ export const ProfileCandidatoProvider = ({
     }
   };
 
+  const deleteExp = async (idExp: number) => {
+    try {
+      await deleteExperiencia(idExp);
+      showNotification("success", "Experiência excluída com sucesso!");
+    } catch (error) {
+      showNotification("error", "Houve um erro ao excluir a conta");
+    }
+  };
+
   return (
     <ProfileCandidatoContext.Provider
       value={{
@@ -65,6 +76,7 @@ export const ProfileCandidatoProvider = ({
         experiencias,
         deleteCand,
         getCandById,
+        deleteExp,
       }}
     >
       {children}
