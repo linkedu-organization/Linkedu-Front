@@ -23,7 +23,7 @@ const aboutRows = (formData: Recrutador): unknown => [
   ...(formData?.laboratorios
     ? [
         {
-          icon: "pi pi-calendar",
+          icon: "pi pi-bookmark",
           value: formData?.laboratorios,
         },
       ]
