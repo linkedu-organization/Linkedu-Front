@@ -4,10 +4,10 @@ import RegistrationPage from "@pages/register";
 import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
-import RegisterRecrutador from "@pages/register/recrutador/form";
-import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
 import ProfileCandidatoPage from "@pages/profile/candidato";
 import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
+import RegisterRecrutador from "@pages/register/recrutador/form";
+import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
 import ProfileRecrutadorPage from "@pages/profile/recrutador";
 import { ProfileRecrutadorProvider } from "@stores/profile/recrutador/indexStore";
 
