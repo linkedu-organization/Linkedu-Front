@@ -61,3 +61,8 @@ export const cargosRecrutador = [
   { label: "Pesquisador", value: "PESQUISADOR" },
   { label: "Técnico", value: "TECNICO" },
 ];
+
+export const cargosCandidato = [
+  { label: "Aluno", value: "ALUNO" },
+  { label: "Técnico", value: "TECNICO" },
+];

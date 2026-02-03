@@ -2,20 +2,29 @@ import "./style.css";
 import { Card } from "primereact/card";
 import type { Perfil } from "@domains/Perfil";
 import { Button } from "primereact/button";
+import { 
+  joinTextPipes,
+  getIniciais,
+  getCargo,
+  getAreas,
+  getTempoDisponivel,
+  formatDisponibilidade 
+} from "@utils/utils";
+
 
 type PerfilCardProps = {
   perfil: Perfil;
 };
 
-
 const PerfilCard = ({ perfil }: PerfilCardProps) => {
 
-  const iniciais = perfil.nome
-  .split(" ")
-  .filter(Boolean)
-  .slice(0, 2)
-  .map((p) => p[0]!.toUpperCase())
-  .join("");
+  const iniciais = getIniciais(perfil.nome);
+  const cargo = getCargo(perfil);
+  const areas = getAreas(perfil);
+  const tempo = getTempoDisponivel(perfil);
+
+  const areasReturn = areas?.length ? joinTextPipes(areas) : "Não informado";
+  const disponibilidade = formatDisponibilidade(tempo);
 
   return (
     <Card className="perfil-card">
@@ -29,9 +38,7 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
               )}
               <h2 className="perfil-name">{perfil.nome}</h2>
               <span className="perfil-badge">
-                  {perfil.tipo === "CANDIDATO"
-                    ? perfil.candidato?.cargo ?? "-"
-                    : perfil.recrutador?.cargo ?? "-"}
+                  {cargo}
               </span>
             </div>
         </div>
@@ -45,20 +52,14 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
 
         <div className="perfil-areas-interesse">
           <b>Áreas de interesse: </b>
-          <span>{perfil.tipo === "CANDIDATO"
-            ? perfil.candidato?.areasInteresse ?? "-"
-            : perfil.recrutador?.areaAtuacao ?? "-"}
-          </span>
+          <span>{areasReturn} </span>
         </div>
 
         <div className="perfil-disponibilidade-conclusao">
           <span>
             <b>Disponibilidade: </b>
-             <span>
-              {perfil.tipo === "CANDIDATO"
-                ? perfil.candidato?.tempoDisponivel ?? "-"
-                : perfil.recrutador?.areaAtuacao ?? "-"}h/semana
-             </span>
+            <span>{disponibilidade}
+            </span>
           </span>
         </div>
       </div>
@@ -66,7 +67,6 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
       <div className="position-card-footer">
         <Button label="Visualizar Perfil" className="details-button"></Button>
       </div>
-
     </Card>
   );
 };
