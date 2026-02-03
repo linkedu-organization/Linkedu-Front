@@ -63,10 +63,10 @@ export default function ProfileRecrutadorPage() {
           }}
         />
       )}
-      /*
       listTitle="Vagas Ofertadas"
       addLabel="Adicionar Vaga"
       addDialogHeader="Vaga"
+      /*
       AddProvider={RegisterVagaProvider}
       renderAddForm={({ close, formData }) => (
         <VagaFormPage recrutador={formData} switchVisibility={close} />
