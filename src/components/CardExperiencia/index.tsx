@@ -1,8 +1,6 @@
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import type { Experiencia } from "@domains/Experiencia";
-import { getValueDate } from "@utils/utils";
-import { DATE_FORMAT_PERIOD } from "@utils/date";
 import "./style.css";
 
 export interface CardExperienciaProps {
@@ -18,7 +16,7 @@ const CardExperiencia = ({
     <div className="exp-bar">
       <div className="exp-bar-left">
         <span className="exp-bar-title">{data.titulo}</span>
-        <span className="exp-bar-subtitle">{`${getValueDate(data.periodoInicio, DATE_FORMAT_PERIOD)} - ${data.periodoFim ? getValueDate(data.periodoFim, DATE_FORMAT_PERIOD) : "Atual"}`}</span>
+        <span className="exp-bar-subtitle">{data.periodoInicio} - {data.periodoFim ? data.periodoFim : "Atual"}</span>
       </div>
 
       {showActions && (
