@@ -17,6 +17,7 @@ export const getCandidato = async (id: number) => {
 
 export const getAllCandidato = async () => {
   const response = await api.get("/");
+  console.log("getAllCandidato response.data:", response.data);
   return response.data;
 };
 

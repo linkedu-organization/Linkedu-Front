@@ -104,16 +104,27 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
         getAllCandidato(),
         getAllRecrutador(),
       ]);
-      
-      const perfisExtraidos = [
-      ...(Array.isArray(candidatos) ? candidatos : [])
-        .map((c: { perfil?: Perfil }) => c?.perfil)
-        .filter(Boolean),
-      ...(Array.isArray(recrutadores) ? recrutadores : [])
-        .map((r: { perfil?: Perfil }) => r?.perfil)
-        .filter(Boolean),
-      ] as Perfil[];
 
+      const candidatosData = (Array.isArray(candidatos) ? candidatos : []);
+      const recrutadoresData = (Array.isArray(recrutadores) ? recrutadores : []);
+
+      const perfisExtraidos: Perfil[] = [
+        ...candidatosData
+          .filter((c) => c?.perfil)
+          .map((c) => ({
+            ...c.perfil,
+            candidato: c,      
+            recrutador: undefined,
+          })),
+        ...recrutadoresData
+          .filter((r) => r?.perfil)
+          .map((r) => ({
+            ...r.perfil,
+            recrutador: r,     
+            candidato: undefined,
+          })),
+      ];
+      
       setPerfis(uniquePerfisById(perfisExtraidos));
 
     } catch (err) {
