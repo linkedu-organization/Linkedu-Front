@@ -29,6 +29,9 @@ const App = () => (
             <ProfileCandidatoProvider>
               <ProfileCandidatoPage />
             </ProfileCandidatoProvider>
+          }
+        />
+        <Route
           path="/register/recrutador"
           element={
             <RegisterRecrutadorProvider>
