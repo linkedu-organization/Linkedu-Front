@@ -1,8 +1,8 @@
 import * as validator from "email-validator";
 import moment from "moment";
 import { classNames } from "primereact/utils";
-import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
 import type { Perfil } from "@domains/Perfil";
+import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
 import { cargosCandidato } from "./constants";
 
 export const isValueValid = (value: unknown) => {
@@ -94,11 +94,10 @@ export const invalid = (submitted: boolean, msg: string) =>
 export const normalizeUrl = (url?: string) => {
   const u = (url ?? "").trim();
   if (!u) return "";
-  return u.startsWith("http://") || u.startsWith("https://") ? u : `https://${u}`;
+  return u.startsWith("http://") || u.startsWith("https://")
+    ? u
+    : `https://${u}`;
 };
-
-export const joinTextPipes = (items: string[]) =>
-  items.filter(Boolean).join(" | ");
 
 export function getIniciais(nome: string): string {
   return nome
@@ -139,11 +138,11 @@ export function getAreas(perfil: Perfil): string[] | undefined {
 }
 
 export function getTempoDisponivel(perfil: Perfil): number | null | undefined {
-  return perfil.tipo === "CANDIDATO"
-    ? perfil.candidato?.tempoDisponivel
-    : null;
+  return perfil.tipo === "CANDIDATO" ? perfil.candidato?.tempoDisponivel : null;
 }
 
-export function formatDisponibilidade(tempo: number | null | undefined): string {
+export function formatDisponibilidade(
+  tempo: number | null | undefined
+): string {
   return tempo != null ? `${tempo}h/semanais` : "Não informado";
 }
