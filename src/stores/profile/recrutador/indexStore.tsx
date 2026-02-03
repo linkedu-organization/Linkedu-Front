@@ -47,7 +47,8 @@ export const ProfileRecrutadorProvider = ({
     try {
       const response = await getRecrutador(Number(id));
       setFormData(response);
-      const vagasCand = await getAllExperienciaByCandidato(response?.id);
+      // rotas buscar vagas
+      // const vagasCand = await getAllVagasByCandidato(response?.id);
       setVagas(vagasCand);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");

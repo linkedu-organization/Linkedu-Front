@@ -4,12 +4,14 @@ import { cargoCandidato } from "@utils/constants";
 import { getValueByKey } from "@utils/utils";
 
 import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore"; // ajuste isso
+/*
 import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
 import { RegisterVagaProvider } from "@stores/register/vaga/formStore"; // exemplo
 
 import VagaFormPage from "@pages/register/vaga/form";
 import CardVaga from "@components/CardVaga";
 import RecrutadorEditFormPage from "./form";
+*/
 import ProfilePage from "../index";
 
 const aboutRows = (formData: Recrutador): unknown => [
@@ -42,16 +44,17 @@ const tags = (formData: Candidato): unknown => [
 ];
 
 export default function ProfileRecrutadorPage() {
-  const { formData, vagas, deleteRecr, getRecrById } = useProfileRecrutador();
+  const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
 
   return (
     <ProfilePage
       formData={formData}
       items={vagas}
-      getById={getRecrById}
-      deleteProfile={deleteRecr}
+      getById={getRecById}
+      deleteProfile={deleteRec}
       buildTags={tags}
       buildAboutRows={aboutRows}
+      /*
       EditProvider={RegisterEditRecrutadorProvider}
       renderEditForm={({ close, formData }) => (
         <RecrutadorEditFormPage
@@ -70,7 +73,7 @@ export default function ProfileRecrutadorPage() {
         <VagaFormPage recrutador={formData} switchVisibility={close} />
       )}
       renderItem={(vaga) => <CardVaga data={vaga} />}
-      emptyText="Nenhuma vaga cadastrada"
+      emptyText="Nenhuma vaga cadastrada" */
     />
   );
 }
