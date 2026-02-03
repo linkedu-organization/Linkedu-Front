@@ -1,10 +1,17 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
 
-import { defaultExperiencia, type Experiencia } from "@domains/Experiencia";
+import {
+  defaultExperiencia,
+  type Experiencia,
+  type ExperienciaSubmit,
+} from "@domains/Experiencia";
 import type { Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import { isValueValid } from "@utils/utils";
-import { registerExperiencia } from "@routes/routesExperiencia";
+import {
+  registerExperiencia,
+  updateExperiencia,
+} from "@routes/routesExperiencia";
 
 type FieldErrors = Record<string, string>;
 
@@ -14,9 +21,11 @@ interface RegisterExperienciaContextType {
   errors: FieldErrors;
   resetForm: () => void;
   validate: () => boolean;
+  load: (exp: Experiencia) => void;
   submit: (
     candidato: Candidato,
-    callback: Function
+    callback: Function,
+    experienciaId?: string | number
   ) => Promise<Experiencia | null>;
 }
 
@@ -113,20 +122,46 @@ export const RegisterExperienciaProvider = ({
     return true;
   };
 
-  const submit = async (candidato: Candidato, callback: Function) => {
+  const load = (exp: Experiencia) => {
+    setFormData({
+      ...initialFormData,
+      ...exp,
+    });
+    setErrors({});
+  };
+
+  const submit = async (
+    candidato: Candidato,
+    callback: Function,
+    experienciaId?: string | number
+  ) => {
     try {
-      if (validate()) {
-        const payload: Experiencia = {
-          ...formData,
-          candidato,
-        };
+      if (!validate()) return null;
+
+      const payload: ExperienciaSubmit = {
+        candidatoId: candidato?.id,
+        ...formData,
+      };
+
+      if (experienciaId) {
+        await updateExperiencia(Number(experienciaId), payload);
+        showNotification("success", "Experiência atualizada com sucesso!");
+      } else {
         await registerExperiencia(payload);
         showNotification("success", "Experiência criada com sucesso!");
-        callback();
-        resetForm();
       }
+
+      callback();
+      resetForm();
+      return formData;
     } catch (error) {
-      showNotification("error", "Houve um erro ao criar a experiência");
+      showNotification(
+        "error",
+        experienciaId
+          ? "Houve um erro ao atualizar a experiência"
+          : "Houve um erro ao criar a experiência"
+      );
+      return null;
     }
   };
 
@@ -138,6 +173,7 @@ export const RegisterExperienciaProvider = ({
         errors,
         resetForm,
         validate,
+        load,
         submit,
       }}
     >

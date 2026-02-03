@@ -1,7 +1,9 @@
 import * as validator from "email-validator";
 import moment from "moment";
 import { classNames } from "primereact/utils";
+import type { Perfil } from "@domains/Perfil";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
+import { cargosCandidato } from "./constants";
 
 export const isValueValid = (value: unknown) => {
   if (value === undefined || value === null) return false;
@@ -88,3 +90,59 @@ export const hasError = (submitted: boolean, msg: string) =>
 
 export const invalid = (submitted: boolean, msg: string) =>
   classNames({ "p-invalid": hasError(submitted, msg) });
+
+export const normalizeUrl = (url?: string) => {
+  const u = (url ?? "").trim();
+  if (!u) return "";
+  return u.startsWith("http://") || u.startsWith("https://")
+    ? u
+    : `https://${u}`;
+};
+
+export function getIniciais(nome: string): string {
+  return nome
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]!.toUpperCase())
+    .join("");
+}
+
+export function isCandidato(perfil: Perfil): boolean {
+  return perfil.tipo === "CANDIDATO";
+}
+
+export function getCargo(perfil: Perfil): string {
+  const cargoValue =
+    perfil.tipo === "CANDIDATO"
+      ? perfil.candidato?.cargo
+      : perfil.recrutador?.cargo;
+
+  if (!cargoValue) return "Não informado";
+
+  return (
+    getValueByKey(cargoValue, cargosCandidato as any, "value", "label") ??
+    cargoValue
+  );
+}
+
+export function getAreas(perfil: Perfil): string[] | undefined {
+  const raw =
+    perfil.tipo === "CANDIDATO"
+      ? perfil.candidato?.areasInteresse
+      : perfil.recrutador?.areaAtuacao;
+
+  if (raw == null) return undefined;
+  return Array.isArray(raw) ? raw : [raw];
+}
+
+export function getTempoDisponivel(perfil: Perfil): number | null | undefined {
+  return perfil.tipo === "CANDIDATO" ? perfil.candidato?.tempoDisponivel : null;
+}
+
+export function formatDisponibilidade(
+  tempo: number | null | undefined
+): string {
+  return tempo != null ? `${tempo}h/semanais` : "Não informado";
+}

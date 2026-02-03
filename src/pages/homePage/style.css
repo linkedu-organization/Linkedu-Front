@@ -5,4 +5,95 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 48px;
+}
+
+.tab-menu-homepage {
+  width: 1312px;
+  height: 65px;
+}
+
+.tab-menu-homepage .p-tabmenu-nav {
+  background-color: var(--Linkedu-OffWhite);
+  border-bottom: 0;
+}
+
+.tab-menu-homepage .p-menuitem-link,
+.tab-menu-homepage .p-menuitem-link:hover,
+.tab-menu-homepage .p-menuitem-link:focus {
+  background: var(--Linkedu-OffWhite) !important;
+}
+
+.position-header {
+  width: 1312px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.page-title {
+  margin: 0;
+  font-family: "Inter";
+  font-size: 32px;
+  color: var(--Linkedu-DarkBlueLetter);
+}
+
+.position-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.position-buttons .p-button,
+.details-button.p-button {
+  height: 33px;
+  padding: 0 18px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.position-buttons .p-button .p-button-label,
+.details-button.p-button .p-button-label {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.position-buttons .p-button .p-button-icon {
+  font-size: 14px;
+}
+
+.recomendation-button.p-button {
+  background: #3F905A;
+  border-color: #3F905A;
+}
+
+.filter-button.p-button,
+.sort-button.p-button,
+.details-button.p-button {
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
+.message {
+  align-self: center;
+  margin-top: 150px;
+  font-family: "Inter";
+  font-size: 20px;
+  color: var(--Linkedu-DarkBlueLetter);
+}
+
+.position-list-cards {
+  width: 1312px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 20px;
+  column-gap: 30px;
+  height: auto;
+  --cardHeight: 330px;
+}
+
+.perfis-list-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
 }

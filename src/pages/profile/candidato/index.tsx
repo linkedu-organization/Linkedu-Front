@@ -16,7 +16,7 @@ import { DATE_FORMAT_PERIOD } from "@utils/date";
 import ProfilePage from "../index";
 import CandidatoEditFormPage from "./form";
 
-const aboutRows = (formData: Candidato): unknown => [
+const aboutRows = (formData: Candidato) => [
   {
     icon: "pi pi-building",
     label: "Instituição:",
@@ -35,7 +35,7 @@ const aboutRows = (formData: Candidato): unknown => [
                     {getValueDate(
                       formData?.periodoIngresso,
                       DATE_FORMAT_PERIOD
-                    )}
+                    )}{" "}
                     -
                   </span>
                 </>
@@ -69,6 +69,7 @@ const aboutRows = (formData: Candidato): unknown => [
         <span>{parseBoolean(formData?.disponivel)}</span>
         {formData?.disponivel && (
           <>
+            {" "}
             - <strong>Disponibilidade:</strong>
             <span>{formData?.tempoDisponivel}h/semana</span>
           </>
@@ -92,7 +93,7 @@ const aboutRows = (formData: Candidato): unknown => [
   },
 ];
 
-const tags = (formData: Candidato): unknown => [
+const tags = (formData: Candidato) => [
   {
     icon: "pi pi-user",
     label: getValueByKey(formData?.cargo, cargoCandidato),
@@ -143,7 +144,7 @@ export default function ProfileCandidatoPage() {
           candidato={formData}
           switchVisibility={close}
           onSaved={() => {
-            if (formData?.id) getCandById(formData?.id);
+            if (formData?.id) getCandById(String(formData.id));
           }}
         />
       )}
@@ -151,8 +152,8 @@ export default function ProfileCandidatoPage() {
       addLabel="Adicionar Experiência"
       addDialogHeader="Experiência"
       AddProvider={RegisterExperienciaProvider}
-      renderAddForm={({ close, data }) => (
-        <ExperienciaFormPage candidato={data} switchVisibility={close} />
+      renderAddForm={({ close, formData }) => (
+        <ExperienciaFormPage candidato={formData} switchVisibility={close} />
       )}
       renderItem={(exp) => <CardExperiencia data={exp} />}
     />
