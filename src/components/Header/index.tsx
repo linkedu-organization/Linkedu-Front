@@ -26,7 +26,7 @@ const Header = ({ headerType }: HeaderProps) => {
       <img
         alt="logo"
         src="/images/logo-clara.png"
-        height="30"
+        height="50"
         width="100px"
         className="ml-2 mr-4"
       />

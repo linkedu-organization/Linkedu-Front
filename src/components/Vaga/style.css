@@ -1,0 +1,209 @@
+
+  .position-card {
+    height: var(--cardHeight);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .position-card .p-card-body {
+    padding: 24px 24px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .position-card .p-card-content {
+    padding: 1px;
+  }
+
+  .position-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card-title {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    font-family: "Inter";
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--Linkedu-DarkBlueLetter);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .position-type {
+    font-weight: 300;
+    color: gray;
+  }
+
+  .position-work-hours {
+    margin: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+
+  .position-card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+  }
+
+  .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .icon-badge {
+    width: 25px;
+    height: 25px;
+    border-radius: 9999px;
+    background: var(--Linkedu-Blue);
+    color: #fff;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 25px;
+  }
+
+  .icon-badge .pi {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .position-lab,
+  .position-recruiter,
+  .position-course,
+  .position-skills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .position-lab {
+    margin-top: 0;
+  }
+
+  .position-recruiter .value,
+  .position-course .value,
+  .position-skills .value,
+  .position-lab .value {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .vaga-description {
+    margin-bottom: 24px;
+  }
+
+  .vaga-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .vaga-row .item {
+    flex: 1 1 220px;
+    min-width: 180px;
+  }
+
+  .vaga-row.wide {
+    gap: 30px;
+    margin-top: 28px;
+    margin-bottom: 20px;
+  }
+
+  .vaga-row.wide .item {
+    flex: 1 1 420px;
+  }
+
+  .vaga-row.link-row {
+    height: 75px;
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-bottom: -32px;
+    margin-top: 30px;
+
+    background: var(--Linkedu-Blue);
+    border-radius: 0px;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    overflow: hidden;
+  }
+
+  .vaga-row.link-row .pi {
+    color: #fff;
+    font-size: 12px;
+  }
+
+  .vaga-row.link-row,
+  .vaga-row.link-row .link-label {
+    color: #fff;
+    font-size: 14px;
+    font: "Inter";
+    font-weight: 100;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .vaga-row.link-row a {
+    color: #fff;
+    font-weight: 300;
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom-left-radius: 24px;
+  }
+
+  .vaga-row .item .icon-badge {
+    margin-right: 10px;
+  }
+
+  .vaga-row .item .value {
+    margin-top: 6px;
+    margin-left: 35px;
+    font-weight: 300;
+  }
+
+  .vaga-dialog {
+    border-radius: 30px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    overflow: hidden;
+  }
+
+  .vaga-dialog .p-dialog-title,
+  .vaga-dialog .p-dialog-header-icon {
+    color: #fff;
+  }
+
+  .p-dialog-header {
+    background: var(--Linkedu-Blue);
+    color: #fff;
+    border-bottom: 0;
+    font: "Inter";
+  }

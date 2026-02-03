@@ -5,8 +5,6 @@ export interface Perfil {
   id?: number;
   nome: string;
   email: string;
-  senha: string;
-  confirmaSenha: string;
   tipo: string;
   biografia?: string;
   foto?: string;

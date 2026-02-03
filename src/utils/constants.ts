@@ -33,6 +33,29 @@ export const habilidades = [
   { label: "Git", value: "Git" },
 ];
 
+export const publicoAlvo = [
+  { label: "Alunos de graduação", value: "ALUNO_GRADUACAO" },
+  { label: "Alunos de pós graduação", value: "ALUNO_POS_GRADUACAO" },
+  { label: "Técnicos", value: "TECNICO" },
+  { label: "Pesquisadores", value: "PESQUISADOR" },
+];
+
+export const categorias = [
+  { label: "Projeto de Pesquisa", value: "PROJETO_PESQUISA" },
+  {
+    label: "Projeto de Pesquisa e Desenvolvimento",
+    value: "PROJETO_PESQUISA_DESENVOLVIMENTO",
+  },
+  {
+    label: "Projeto de Pesquisa, Desenvolvimento e Inovação",
+    value: "PROJETO_PESQUISA_DESENVOLVIMENTO_INOVACAO",
+  },
+  { label: "Projeto de Extensão", value: "PROJETO_EXTENSAO" },
+  { label: "Monitoria", value: "MONITORIA" },
+  { label: "Organização de Evento", value: "ORGANIZACAO_EVENTO" },
+  { label: "Outros", value: "OUTROS" },
+];
+
 export const tipoPerfil = [
   { label: "Candidato", value: "CANDIDATO" },
   { label: "Recrutador", value: "RECRUTADOR" },
@@ -57,5 +80,10 @@ export const simNao = [
 export const cargosRecrutador = [
   { label: "Professor", value: "PROFESSOR" },
   { label: "Pesquisador", value: "PESQUISADOR" },
+  { label: "Técnico", value: "TECNICO" },
+];
+
+export const cargosCandidato = [
+  { label: "Aluno", value: "ALUNO" },
   { label: "Técnico", value: "TECNICO" },
 ];

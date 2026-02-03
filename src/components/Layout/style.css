@@ -1,17 +1,18 @@
 @import url("/public/assets/colorVariables");
 
 .layout-root {
-  min-height: 100vh;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .layout-main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .layout-footer {
@@ -31,4 +32,24 @@
   font-size: 0.85rem;
   color: var(--Linkedu-OffWhite);
   text-decoration: none;
+}
+
+.layout-main::-webkit-scrollbar {
+  width: 10px;
+}
+
+.layout-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layout-main::-webkit-scrollbar-thumb {
+  background: #b6bcc6;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.layout-main::-webkit-scrollbar-thumb:hover {
+  background: #98a0ad;
+  background-clip: content-box;
 }
