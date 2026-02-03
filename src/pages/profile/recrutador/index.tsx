@@ -97,7 +97,6 @@ export default function ProfileRecrutadorPage() {
     />
 
     <Dialog
-      className="vaga-dialog"
       visible={isDetailsOpen}
       onHide={closeDetails}
       header={selectedVaga?.titulo}
