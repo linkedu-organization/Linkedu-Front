@@ -8,6 +8,28 @@ export interface Experiencia {
   instituicao: string;
   periodoInicio: string;
   periodoFim: string;
-  local: string;
+  local?: string;
   candidato: Candidato;
+}
+
+export const defaultExperiencia: Omit<Experiencia, "id" | "candidato"> = {
+  titulo: "",
+  descricao: "",
+  orientador: "",
+  instituicao: "",
+  periodoInicio: "",
+  periodoFim: "",
+  local: "",
+};
+
+export interface ExperienciaSubmit {
+  id?: number;
+  titulo: string;
+  descricao: string;
+  orientador: string;
+  instituicao: string;
+  periodoInicio: string;
+  periodoFim: string;
+  local?: string;
+  candidatoId: number;
 }

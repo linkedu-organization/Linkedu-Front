@@ -10,7 +10,7 @@ export const registerCandidato = async (data: Candidato) => {
   return response.data;
 };
 
-export const getCandidato = async (id: number) => {
+export const getCandidato = async (id: unknown) => {
   const response = await api.get(`/${id}`);
   return response.data;
 };

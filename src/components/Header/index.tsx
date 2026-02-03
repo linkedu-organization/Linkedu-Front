@@ -13,7 +13,7 @@ interface HeaderProps {
   headerType: "simple" | "full";
 }
 
-export default function Header({ headerType }: HeaderProps) {
+const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -109,4 +109,6 @@ export default function Header({ headerType }: HeaderProps) {
     );
   }
   return content;
-}
+};
+
+export default Header;
