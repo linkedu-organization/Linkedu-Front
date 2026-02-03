@@ -10,7 +10,7 @@ import { RegisterVagaProvider } from "@stores/register/vaga/formStore"; // exemp
 import VagaFormPage from "@pages/register/vaga/form";
 import CardVaga from "@components/CardVaga";
 import RecrutadorEditFormPage from "./form";
-import ProfilePage from "@/components/ProfilePage";
+import ProfilePage from "../index";
 
 const aboutRows = (formData: Recrutador): unknown => [
   {

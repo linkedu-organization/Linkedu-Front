@@ -66,7 +66,7 @@ export const ProfilePage = ({
     else {
       // recuperar usuario logado
     }
-  }, [id, getById]);
+  }, [id]);
 
   const confirmExcluir = (event: any) => {
     confirmDialog({

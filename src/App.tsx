@@ -8,6 +8,8 @@ import RegisterRecrutador from "@pages/register/recrutador/form";
 import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
 import ProfileCandidatoPage from "@pages/profile/candidato";
 import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
+import ProfileRecrutadorPage from "@pages/profile/recrutador";
+import { ProfileRecrutadorProvider } from "@stores/profile/recrutador/indexStore";
 
 const App = () => (
   <BrowserRouter>
@@ -37,6 +39,14 @@ const App = () => (
             <RegisterRecrutadorProvider>
               <RegisterRecrutador />
             </RegisterRecrutadorProvider>
+          }
+        />
+        <Route
+          path="/profile/recrutador/:id?"
+          element={
+            <ProfileRecrutadorProvider>
+              <ProfileRecrutadorPage />
+            </ProfileRecrutadorProvider>
           }
         />
       </Routes>
