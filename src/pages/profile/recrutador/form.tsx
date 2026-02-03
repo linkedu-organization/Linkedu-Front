@@ -60,7 +60,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
       </div>
 
       <div className="edit-grid recrutador">
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>Nome *</label>
           <InputText
             value={formData.perfil.nome}
@@ -71,7 +71,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("perfil.nome")}
         </div>
 
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>E-mail (Institucional) *</label>
           <InputText
             value={formData.perfil.email}
@@ -82,7 +82,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("perfil.email")}
         </div>
 
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>Você é *</label>
           <div className="radio-row">
             {cargosRecrutador.map((opt) => (
@@ -101,7 +101,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("cargo")}
         </div>
 
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>Instituição de Ensino *</label>
           <InputText
             value={formData.instituicao}
@@ -112,7 +112,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("instituicao")}
         </div>
 
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>Curso/Área de atuação *</label>
           <InputText
             value={formData.areaAtuacao}
@@ -123,7 +123,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("areaAtuacao")}
         </div>
 
-        <div className="editperfl-field">
+        <div className="editperfil-field">
           <label>Laboratório(s) Associado(s)</label>
           <InputText
             value={formData.laboratorios ?? ""}

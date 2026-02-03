@@ -37,12 +37,12 @@
   gap: 10px;
 }
 
-.editperfl-field {
+.editperfil-field {
   display: flex;
   flex-direction: column;
 }
 
-.editperfl-field label {
+.editperfil-field label {
   font-size: 13px;
   font-weight: 700;
   color: var(--Linkedu-DarkLetter);
