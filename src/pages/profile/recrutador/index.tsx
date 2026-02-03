@@ -1,6 +1,6 @@
 import type { Recrutador } from "@domains/Recrutador";
 import type { Candidato } from "@domains/Candidato";
-import { cargoCandidato } from "@utils/constants";
+import { cargosRecrutador } from "@utils/constants";
 import { getValueByKey } from "@utils/utils";
 
 import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore";
@@ -32,7 +32,7 @@ const aboutRows = (formData: Recrutador): unknown => [
 const tags = (formData: Candidato): unknown => [
   {
     icon: "pi pi-user",
-    label: getValueByKey(formData?.cargo, cargoCandidato),
+    label: getValueByKey(formData?.cargo, cargosRecrutador),
     color: "#EBF4FF",
   },
   {

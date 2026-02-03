@@ -2,7 +2,6 @@ import { createContext, useContext, type ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useNotification } from "@contexts/notificationContext";
-import { getAllExperienciaByCandidato } from "@routes/routesExperiencia";
 import type { Recrutador } from "@domains/Recrutador";
 import {
   deleteRecrutador,
