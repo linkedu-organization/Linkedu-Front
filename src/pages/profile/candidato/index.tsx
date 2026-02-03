@@ -311,7 +311,10 @@ const ProfileCandidatoPage: React.FC = () => {
               >
                 <ExperienciaFormPage
                   candidato={formData}
-                  switchVisibility={() => setDialogExperiencia(false)}
+                  switchVisibility={() => {
+                    setDialogExperiencia(false);
+                    getCandById(formData?.id);
+                  }}
                 />
               </Dialog>
             </RegisterExperienciaProvider>
