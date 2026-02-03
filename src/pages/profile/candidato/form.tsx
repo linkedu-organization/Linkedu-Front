@@ -42,8 +42,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   return (
     <div>
-      <div className="editcand-header">
-        <div className="editcand-avatar">
+      <div className="editperfil-header">
+        <div className="editperfil-avatar">
           <PhotoUpload
             canUpload
             setField={setField}
@@ -51,7 +51,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           />
         </div>
 
-        <div className="editcand-bio">
+        <div className="editperfil-bio">
           <label>Biografia *</label>
           <InputTextarea
             value={formData.perfil.biografia}
@@ -68,8 +68,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         </div>
       </div>
 
-      <div className="editcand-grid">
-        <div className="editcand-field">
+      <div className="edit-grid candidato">
+        <div className="editperfl-field">
           <label>Nome *</label>
           <InputText
             value={formData.perfil.nome}
@@ -80,7 +80,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("perfil.nome")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>E-mail (Institucional) *</label>
           <InputText
             value={formData.perfil.email}
@@ -91,7 +91,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("perfil.email")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Você é *</label>
           <div className="radio-row">
             {cargoCandidato.map((opt) => (
@@ -110,7 +110,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("cargo")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Instituição de Ensino *</label>
           <InputText
             value={formData.instituicao}
@@ -121,7 +121,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("instituicao")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Curso/Área de atuação *</label>
           <InputText
             value={formData.areaAtuacao}
@@ -132,7 +132,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("areaAtuacao")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Nível de escolaridade *</label>
           <Dropdown
             value={formData.nivelEscolaridade}
@@ -146,7 +146,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("nivelEscolaridade")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Período de conclusão</label>
           <InputText
             value={formData.periodoConclusao ?? ""}
@@ -157,7 +157,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("periodoConclusao")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Período de ingresso</label>
           <InputText
             value={formData.periodoIngresso ?? ""}
@@ -168,7 +168,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("periodoIngresso")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Horas disponíveis</label>
           <InputNumber
             value={formData.tempoDisponivel}
@@ -182,7 +182,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("tempoDisponivel")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Currículo Lattes</label>
           <InputText
             value={formData.lattes ?? ""}
@@ -191,7 +191,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           />
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>LinkedIn</label>
           <InputText
             value={formData.linkedin ?? ""}
@@ -200,7 +200,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           />
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Disponível para contratação *</label>
           <div className="radio-row">
             {simNao.map((opt) => (
@@ -220,7 +220,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         </div>
       </div>
       <div className="editcand-half-grid">
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Áreas de interesse *</label>
           <MultiSelect
             value={formData.areasInteresse}
@@ -233,7 +233,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("areasInteresse")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Habilidades *</label>
           <MultiSelect
             value={formData.habilidades}
@@ -247,7 +247,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         </div>
       </div>
 
-      <div className="editcand-actions">
+      <div className="editperfil-actions">
         <Button
           label="Salvar"
           className="save-edit-button"

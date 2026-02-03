@@ -33,8 +33,8 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
 
   return (
     <div>
-      <div className="editcand-header">
-        <div className="editcand-avatar">
+      <div className="editperfil-header">
+        <div className="editperfil-avatar">
           <PhotoUpload
             canUpload
             setField={setField}
@@ -42,7 +42,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           />
         </div>
 
-        <div className="editcand-bio">
+        <div className="editperfil-bio">
           <label>Biografia *</label>
           <InputTextarea
             value={formData.perfil.biografia}
@@ -59,8 +59,8 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
         </div>
       </div>
 
-      <div className="editcand-grid">
-        <div className="editcand-field">
+      <div className="edit-grid recrutador">
+        <div className="editperfl-field">
           <label>Nome *</label>
           <InputText
             value={formData.perfil.nome}
@@ -71,7 +71,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("perfil.nome")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>E-mail (Institucional) *</label>
           <InputText
             value={formData.perfil.email}
@@ -82,7 +82,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("perfil.email")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Você é *</label>
           <div className="radio-row">
             {cargosRecrutador.map((opt) => (
@@ -101,7 +101,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("cargo")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Instituição de Ensino *</label>
           <InputText
             value={formData.instituicao}
@@ -112,7 +112,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("instituicao")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Curso/Área de atuação *</label>
           <InputText
             value={formData.areaAtuacao}
@@ -123,7 +123,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
           {errorsForm("areaAtuacao")}
         </div>
 
-        <div className="editcand-field">
+        <div className="editperfl-field">
           <label>Laboratório(s) Associado(s)</label>
           <InputText
             value={formData.laboratorios ?? ""}
@@ -134,7 +134,7 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
         </div>
       </div>
 
-      <div className="editcand-actions">
+      <div className="editperfil-actions">
         <Button
           label="Salvar"
           className="save-edit-button"
