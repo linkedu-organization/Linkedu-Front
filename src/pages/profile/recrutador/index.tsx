@@ -8,6 +8,15 @@ import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formS
 import VagaFormPage from "@pages/register/vaga/form";
 import ProfilePage from "../index";
 import RecrutadorEditFormPage from "./form";
+import VagaCard from "@components/Vaga/VagaCard";
+import type { Vaga } from "@domains/Vaga";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/300.css";
+
+import { useState } from "react";
+import { Dialog } from "primereact/dialog";
+import VagaDetails from "@components/Vaga/vagaDetails";
+
 
 const aboutRows = (formData: Recrutador): unknown => [
   {
@@ -41,7 +50,21 @@ const tags = (formData: Candidato): unknown => [
 export default function ProfileRecrutadorPage() {
   const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
 
+  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  const openDetails = (vaga: Vaga) => {
+    setSelectedVaga(vaga);
+    setIsDetailsOpen(true);
+  };
+
+  const closeDetails = () => {
+    setIsDetailsOpen(false);
+    setSelectedVaga(null);
+  };
+
   return (
+    <>
     <ProfilePage
       formData={formData}
       items={vagas}
@@ -67,8 +90,22 @@ export default function ProfileRecrutadorPage() {
       renderAddForm={({ close, formData }) => (
         <VagaFormPage recrutador={formData} switchVisibility={close} />
       )}
-      renderItem={(vaga) => <CardVaga data={vaga} />}
-      emptyText="Nenhuma vaga cadastrada" 
+      renderItem={(vaga: Vaga) => (
+          <VagaCard vaga={vaga} openDetails={openDetails} />
+        )}
+        emptyText="Nenhuma vaga cadastrada"
     />
+
+    <Dialog
+      className="vaga-dialog"
+      visible={isDetailsOpen}
+      onHide={closeDetails}
+      header={selectedVaga?.titulo}
+      style={{ width: "70vw" }}
+    >
+      {selectedVaga && <VagaDetails vaga={selectedVaga} />}
+    </Dialog>
+
+    </>
   );
 }

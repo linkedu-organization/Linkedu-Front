@@ -15,10 +15,10 @@ export const getVaga = async (id: unknown) => {
   return response.data;
 };
 
-// export const getAllVagaByCandidato = async (idCand: unknown) => {
-//   const response = await api.get(`/${idCand}`);
-//   return response.data;
-// };
+export const getAllVagas = async () => {
+  const response = await api.get(`/`);
+  return response.data as Vaga[];
+};
 
 export const updateVaga = async (id: number, data: Vaga) => {
   const response = await api.put(`/${id}`, data);

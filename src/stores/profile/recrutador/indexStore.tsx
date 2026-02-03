@@ -1,9 +1,9 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useNotification } from "@contexts/notificationContext";
-import { getAllExperienciaByCandidato } from "@routes/routesExperiencia";
 import type { Recrutador } from "@domains/Recrutador";
+import type { Vaga } from "@domains/Vaga";
+import { getAllVagas } from "@routes/routesVaga";
 import {
   deleteRecrutador,
   getRecrutador,
@@ -47,9 +47,15 @@ export const ProfileRecrutadorProvider = ({
     try {
       const response = await getRecrutador(Number(id));
       setFormData(response);
-      // rotas buscar vagas
-      // const vagasCand = await getAllVagasByCandidato(response?.id);
-      // setVagas(vagasCand);
+
+      const allVagas = await getAllVagas();
+
+      const recrutadorVagas = (allVagas ?? []).filter((v) => {
+      const recId = v.recrutadorId ?? v.recrutador?.id;
+      return recId === response.id;
+    });
+
+    setVagas(recrutadorVagas);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
     }
