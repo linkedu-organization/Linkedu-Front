@@ -143,7 +143,7 @@ const tags = (formData: Candidato): unknown => [
 
 const ProfileCandidatoPage: React.FC = () => {
   const { id } = useParams();
-  const { formData, experiencias, updateCand, deleteCand, getCandById } =
+  const { formData, experiencias, deleteCand, getCandById } =
     useProfileCandidato();
   const [dialogExperiencia, setDialogExperiencia] = useState<boolean>(false);
   const [dialogEditCandidato, setDialogEditCandidato] = useState(false);

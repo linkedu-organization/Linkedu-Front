@@ -1,6 +1,10 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
 
-import { defaultExperiencia, type Experiencia } from "@domains/Experiencia";
+import {
+  defaultExperiencia,
+  type Experiencia,
+  type ExperienciaSubmit,
+} from "@domains/Experiencia";
 import type { Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import { isValueValid } from "@utils/utils";
@@ -116,9 +120,9 @@ export const RegisterExperienciaProvider = ({
   const submit = async (candidato: Candidato, callback: Function) => {
     try {
       if (validate()) {
-        const payload: Experiencia = {
+        const payload: ExperienciaSubmit = {
+          candidatoId: candidato?.id,
           ...formData,
-          candidato,
         };
         await registerExperiencia(payload);
         showNotification("success", "Experiência criada com sucesso!");

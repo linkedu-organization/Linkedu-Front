@@ -1,19 +1,13 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getCandidato,
-  deleteCandidato,
-  updateCandidato,
-} from "@routes/routesCandidato";
+import { getCandidato, deleteCandidato } from "@routes/routesCandidato";
 import { type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import type { Experiencia } from "@domains/Experiencia";
-import { getAllExperienciaByCandidato } from "@routes/routesExperiencia";
 
 interface ProfileCandidatoContextType {
   formData: Candidato;
   experiencias: Experiencia[];
-  updateCand: () => void;
   deleteCand: () => void;
   getCandById: (id: string) => void;
 }
@@ -47,22 +41,9 @@ export const ProfileCandidatoProvider = ({
     try {
       const response = await getCandidato(id);
       setFormData(response);
-      const experienciasCand = await getAllExperienciaByCandidato(response?.id);
-      setExperiencias(experienciasCand);
+      setExperiencias(response.experiencias ?? []);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
-    }
-  };
-
-  const updateCand = async () => {
-    try {
-      // validar campos
-      const response = await updateCandidato(formData, formData?.id);
-      setFormData(response);
-      navigate("/profile/candidato");
-      showNotification("success", "Dados atualizados com sucesso!");
-    } catch (error) {
-      showNotification("error", "Houve um erro ao atualizar a conta");
     }
   };
 
@@ -82,7 +63,6 @@ export const ProfileCandidatoProvider = ({
       value={{
         formData,
         experiencias,
-        updateCand,
         deleteCand,
         getCandById,
       }}
