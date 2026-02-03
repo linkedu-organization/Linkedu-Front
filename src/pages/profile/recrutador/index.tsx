@@ -2,14 +2,10 @@ import type { Recrutador } from "@domains/Recrutador";
 import type { Candidato } from "@domains/Candidato";
 import { cargoCandidato } from "@utils/constants";
 import { getValueByKey } from "@utils/utils";
-
 import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore";
-/*
-import { RegisterVagaProvider } from "@stores/register/vaga/formStore"; // exemplo
-import VagaFormPage from "@pages/register/vaga/form";
-import CardVaga from "@components/CardVaga";
-*/
+import { RegisterVagaProvider } from "@stores/register/vaga/formStore"; 
 import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
+import VagaFormPage from "@pages/register/vaga/form";
 import ProfilePage from "../index";
 import RecrutadorEditFormPage from "./form";
 
@@ -66,13 +62,13 @@ export default function ProfileRecrutadorPage() {
       listTitle="Vagas Ofertadas"
       addLabel="Adicionar Vaga"
       addDialogHeader="Vaga"
-      /*
+      
       AddProvider={RegisterVagaProvider}
       renderAddForm={({ close, formData }) => (
         <VagaFormPage recrutador={formData} switchVisibility={close} />
       )}
       renderItem={(vaga) => <CardVaga data={vaga} />}
-      emptyText="Nenhuma vaga cadastrada" */
+      emptyText="Nenhuma vaga cadastrada" 
     />
   );
 }
