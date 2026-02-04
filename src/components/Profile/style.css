@@ -11,7 +11,13 @@
   box-shadow: 0 1px 5px rgba(0,0,0,.25);
   overflow: hidden;
 
-  padding: 0 !important;
+  padding: 0 !important; 
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 240px 1fr;    
+  align-items: center;  
+
 }
 
 .perfil-header {

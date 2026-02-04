@@ -2,6 +2,7 @@ import "./style.css";
 import { Card } from "primereact/card";
 import type { Perfil } from "@domains/Perfil";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 import { 
   joinTextPipes,
   getIniciais,
@@ -25,6 +26,7 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
 
   const areasReturn = areas?.length ? joinTextPipes(areas) : "Não informado";
   const disponibilidade = formatDisponibilidade(tempo);
+  const navigate = useNavigate();
 
   return (
     <Card className="perfil-card">
@@ -65,7 +67,11 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
       </div>
 
       <div className="position-card-footer">
-        <Button label="Visualizar Perfil" className="details-button"></Button>
+        <Button 
+        label="Visualizar Perfil" 
+        className="details-button"
+        onClick={() => navigate(`/profile/candidato/${perfil.id}`)}
+        ></Button>
       </div>
     </Card>
   );
