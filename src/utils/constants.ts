@@ -2,7 +2,9 @@ export const instituicoes = [
   { label: "UFCG", value: "UFCG" },
   { label: "UFPB", value: "UFPB" },
   { label: "IFPB", value: "IFPB" },
-  { label: "Outra", value: "Outra" },
+  { label: "USP", value: "USP" },
+  { label: "SENAI", value: "SENAI" },
+  { label: "Outra", value: "OUTRA" },
 ];
 
 export const niveis = [
@@ -16,21 +18,33 @@ export const niveis = [
 ];
 
 export const interesses = [
-  { label: "IA / ML", value: "IA/ML" },
-  { label: "Web", value: "WEB" },
-  { label: "Mobile", value: "MOBILE" },
+  { label: "Inteligência Artificial", value: "IA" },
+  { label: "Ciência de Dados", value: "CIENCIA_DE_DADOS" },
+  { label: "Desenvolvimento Web", value: "DESENVOLVIMENTO_WEB" },
+  { label: "Backend", value: "BACKEND" },
+  { label: "Arquitetura de Software", value: "ARQUITETURA" },
   { label: "DevOps", value: "DEVOPS" },
-  { label: "Dados", value: "DADOS" },
-  { label: "Testes", value: "TESTES" },
+  { label: "Infraestrutura", value: "INFRAESTRUTURA" },
+  { label: "Suporte", value: "SUPORTE" },
+  { label: "Suporte Técnico", value: "SUPORTE_TECNICO" },
 ];
 
 export const habilidades = [
-  { label: "Java", value: "Java" },
-  { label: "Python", value: "Python" },
-  { label: "React", value: "React" },
+  { label: "Java", value: "JAVA" },
+  { label: "Spring", value: "SPRING" },
+  { label: "JavaScript", value: "JAVASCRIPT" },
+  { label: "React", value: "REACT" },
+  { label: "Python", value: "PYTHON" },
+  { label: "Machine Learning", value: "MACHINE_LEARNING" },
+  { label: "Deep Learning", value: "DEEP_LEARNING" },
   { label: "SQL", value: "SQL" },
-  { label: "Docker", value: "Docker" },
-  { label: "Git", value: "Git" },
+  { label: "PostgreSQL", value: "POSTGRESQL" },
+  { label: "Docker", value: "DOCKER" },
+  { label: "Git", value: "GIT" },
+  { label: "Linux", value: "LINUX" },
+  { label: "Windows", value: "WINDOWS" },
+  { label: "Redes", value: "REDES" },
+  { label: "Hardware", value: "HARDWARE" },
 ];
 
 export const publicoAlvo = [
@@ -77,7 +91,6 @@ export const simNao = [
   { label: "Sim", value: true },
   { label: "Não", value: false },
 ];
-
 export const cargosRecrutador = [
   { label: "Professor", value: "PROFESSOR" },
   { label: "Pesquisador", value: "PESQUISADOR" },

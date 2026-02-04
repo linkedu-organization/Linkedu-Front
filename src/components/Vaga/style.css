@@ -141,6 +141,7 @@
 }
 
 .vaga-row.link-row {
+  background: var(--Linkedu-Blue) !important;
   height: 75px;
   width: calc(100% + 48px);
   margin-left: -24px;
@@ -148,7 +149,6 @@
   margin-bottom: -32px;
   margin-top: 30px;
 
-  background: var(--Linkedu-Blue);
   border-radius: 0px;
   padding: 14px 24px;
   display: flex;
@@ -210,7 +210,7 @@
 }
 
 .vaga-dialog .p-dialog-header {
-  background: var(--Linkedu-Blue);
+  background: var(--Linkedu-Blue) !important;
   color: #fff;
   border-bottom: 0;
   font: "Inter";

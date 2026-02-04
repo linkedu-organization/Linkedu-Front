@@ -188,3 +188,33 @@
     max-width: 980px;
   }
 }
+
+.recrutador-vaga-dialog .p-dialog-header {
+  background: #364fab !important;
+  color: #fff !important;
+  border-bottom: none !important;
+}
+
+.recrutador-vaga-dialog .p-dialog-header .p-dialog-title {
+  color: #fff !important;
+}
+
+.recrutador-vaga-dialog .p-dialog-header .p-dialog-header-icon {
+  color: #fff !important;
+}
+
+.recrutador-vaga-dialog .p-dialog-content {
+  background: #fff !important;
+  color: #111 !important;
+}
+
+.recrutador-vaga-dialog.p-dialog {
+  border-radius: 24px !important;
+  overflow: hidden !important;
+}
+
+.recrutador-vaga-dialog.p-dialog .p-dialog-header {
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+}
+

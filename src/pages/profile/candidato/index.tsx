@@ -14,12 +14,16 @@ import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formSto
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
-import { cargoCandidato, interesses, niveis } from "@utils/constants";
+import {
+  cargoCandidato,
+  habilidades,
+  interesses,
+  niveis,
+} from "@utils/constants";
 import {
   getMultipleValuesByKey,
   getValueByKey,
   getValueDate,
-  joinTextPipes,
   parseBoolean,
 } from "@utils/utils";
 import {
@@ -96,7 +100,11 @@ const aboutRows = (formData: Candidato): unknown => [
   {
     icon: "pi pi-wrench",
     label: "Habilidades:",
-    value: joinTextPipes(formData?.habilidades || []),
+    value: getMultipleValuesByKey(
+      formData?.habilidades || [],
+      habilidades,
+      " | "
+    ),
   },
   {
     icon: "pi pi-eye",

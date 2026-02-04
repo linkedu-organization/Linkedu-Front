@@ -52,11 +52,10 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         </div>
 
         <div className="editperfil-bio">
-          <label>Biografia *</label>
+          <label>Biografia</label>
           <InputTextarea
             value={formData.perfil.biografia}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
-            className={errors["perfil.biografia"] ? "p-invalid" : ""}
             rows={4}
             autoResize
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
@@ -64,7 +63,6 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               width: "-webkit-fill-available",
             }}
           />
-          {errorsForm("perfil.biografia")}
         </div>
       </div>
 
@@ -151,10 +149,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           <InputText
             value={formData.periodoConclusao ?? ""}
             onChange={(e) => setField("periodoConclusao", e.target.value)}
-            className={errors.periodoConclusao ? "p-invalid" : ""}
             placeholder="MM/AAAA"
           />
-          {errorsForm("periodoConclusao")}
         </div>
 
         <div className="editperfil-field">
@@ -162,10 +158,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           <InputText
             value={formData.periodoIngresso ?? ""}
             onChange={(e) => setField("periodoIngresso", e.target.value)}
-            className={errors.periodoIngresso ? "p-invalid" : ""}
             placeholder="MM/AAAA"
           />
-          {errorsForm("periodoIngresso")}
         </div>
 
         <div className="editperfil-field">

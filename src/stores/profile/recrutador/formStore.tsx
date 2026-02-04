@@ -109,7 +109,6 @@ export const RegisterEditRecrutadorProvider = ({
     const required: string[] = [
       "perfil.nome",
       "perfil.email",
-      "perfil.biografia",
       "cargo",
       "instituicao",
       "areaAtuacao",
