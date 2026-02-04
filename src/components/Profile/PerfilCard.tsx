@@ -67,7 +67,13 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
         <Button
           label="Visualizar Perfil"
           className="details-button"
-          onClick={() => navigate(`/profile/candidato/${perfil.id}`)}
+          onClick={() =>
+            navigate(
+              perfil.tipo === "CANDIDATO"
+                ? `/profile/candidato/${perfil.candidato?.id}`
+                : `/profile/recrutador/${perfil.recrutador?.id}`
+            )
+          }
         />
       </div>
     </Card>
