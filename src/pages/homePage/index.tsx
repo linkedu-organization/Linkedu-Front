@@ -11,7 +11,6 @@ import PerfilCard from "@components/Profile/PerfilCard";
 import { useHomePage } from "@stores/home/homePageStore";
 
 const HomePage = () => {
-
   const {
     vagas,
     perfis,

@@ -3,7 +3,7 @@ import moment from "moment";
 import { classNames } from "primereact/utils";
 import type { Perfil } from "@domains/Perfil";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
-import { cargosCandidato, interesses } from "./constants";
+import { cargosCandidato, cargosRecrutador, interesses } from "./constants";
 
 export const isValueValid = (value: unknown) => {
   if (value === undefined || value === null) return false;
@@ -122,8 +122,12 @@ export function getCargo(perfil: Perfil): string {
   if (!cargoValue) return "Não informado";
 
   return (
-    getValueByKey(cargoValue, cargosCandidato as any, "value", "label") ??
-    cargoValue
+    getValueByKey(
+      cargoValue,
+      [...cargosCandidato, ...cargosRecrutador] as any,
+      "value",
+      "label"
+    ) ?? cargoValue
   );
 }
 
