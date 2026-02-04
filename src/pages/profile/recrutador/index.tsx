@@ -101,6 +101,7 @@ export default function ProfileRecrutadorPage() {
       onHide={closeDetails}
       header={selectedVaga?.titulo}
       style={{ width: "70vw" }}
+      className="recrutador-vaga-dialog"
     >
       {selectedVaga && <VagaDetails vaga={selectedVaga} />}
     </Dialog>
