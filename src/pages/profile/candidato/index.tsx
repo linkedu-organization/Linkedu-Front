@@ -31,7 +31,7 @@ import { Layout } from "@components/Layout";
 import CardExperiencia from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
 import CandidatoEditFormPage from "./form";
-import "./styleIndex.css";
+import "../style.css";
 
 const aboutRows = (formData: Candidato): unknown => [
   {

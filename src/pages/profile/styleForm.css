@@ -1,25 +1,33 @@
-.editcand-header {
+.editperfil-header {
   display: grid;
   grid-template-columns: 0.15fr 1fr;
   align-items: start;
   margin-bottom: 14px;
 }
 
-.editcand-avatar .picture-form {
+.editperfil-avatar .picture-form {
   width: 120px;
   height: 120px;
 }
 
-.editcand-bio label {
+.editperfil-bio label {
   font-size: 13px;
   font-weight: 700;
   color: var(--Linkedu-DarkLetter);
 }
 
-.editcand-grid {
+.edit-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
+}
+
+.candidato {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.recrutador {
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 10px;
 }
 
 .editcand-half-grid {
@@ -29,18 +37,18 @@
   gap: 10px;
 }
 
-.editcand-field {
+.editperfil-field {
   display: flex;
   flex-direction: column;
 }
 
-.editcand-field label {
+.editperfil-field label {
   font-size: 13px;
   font-weight: 700;
   color: var(--Linkedu-DarkLetter);
 }
 
-.editcand-actions {
+.editperfil-actions {
   display: flex;
   justify-content: flex-end;
 }
@@ -58,7 +66,7 @@
 }
 
 @media (max-width: 700px) {
-  .editcand-header {
+  .editperfil-header {
     grid-template-columns: 1fr;
   }
   .editcand-grid {
