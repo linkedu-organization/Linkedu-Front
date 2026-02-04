@@ -21,3 +21,15 @@ export const defaultExperiencia: Omit<Experiencia, "id" | "candidato"> = {
   periodoFim: "",
   local: "",
 };
+
+export interface ExperienciaSubmit {
+  id?: number;
+  titulo: string;
+  descricao: string;
+  orientador: string;
+  instituicao: string;
+  periodoInicio: string;
+  periodoFim: string;
+  local?: string;
+  candidatoId: number;
+}

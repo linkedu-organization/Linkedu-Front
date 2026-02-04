@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 
 import type { Candidato } from "@domains/Candidato";
+import type { Experiencia } from "@domains/Experiencia";
 import { useRegisterExperiencia } from "@stores/register/experiencia/formStore";
 import "./style.css";
 
 type ExperienciaFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
+  experiencia?: Experiencia | null;
 };
 
 const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
   candidato,
   switchVisibility,
+  experiencia,
 }) => {
-  const { formData, setField, errors, submit, resetForm } =
+  const { formData, setField, errors, submit, resetForm, load } =
     useRegisterExperiencia();
+
+  useEffect(() => {
+    if (experiencia) load(experiencia);
+    else resetForm();
+  }, [experiencia]);
 
   return (
     <div className="exp-form">
@@ -114,6 +122,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         <Button
           label="Cancelar"
           className="p-button-cancel-exp"
+          type="button"
           onClick={() => {
             resetForm();
             switchVisibility();
@@ -122,8 +131,9 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         <Button
           label="Salvar"
           className="p-button-save-exp"
+          type="button"
           onClick={async () => {
-            await submit(candidato, () => switchVisibility());
+            await submit(candidato, () => switchVisibility(), experiencia?.id);
           }}
         />
       </div>

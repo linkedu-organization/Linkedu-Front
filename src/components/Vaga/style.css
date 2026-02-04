@@ -2,7 +2,7 @@
   --cardHeight: auto;
   --Linkedu-DarkBlueLetter: #1f2a44;
   --Linkedu-Blue: #2f57d8;
-}  
+}
 
 .position-card {
   height: var(--cardHeight);
