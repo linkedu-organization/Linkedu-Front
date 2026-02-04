@@ -19,8 +19,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
   switchVisibility,
 }) => {
-  const { formData, setField, errors, submit, resetForm } =
-    useRegisterVaga();
+  const { formData, setField, errors, submit, resetForm } = useRegisterVaga();
 
   return (
     <div className="exp-form">
@@ -44,7 +43,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               <RadioButton
                 inputId="vis-publica"
                 name="ehPublica"
-                value={true}
+                value
                 onChange={(e) => setField("ehPublica", e.value)}
                 checked={formData.ehPublica === true}
               />
@@ -63,11 +62,11 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             </div>
           </div>
 
-          {errors["ehPublica"] && (
-            <small className="p-error">{errors["ehPublica"]}</small>
+          {errors.ehPublica && (
+            <small className="p-error">{errors.ehPublica}</small>
           )}
         </div>
-        
+
         <div className="exp-field">
           <label>Categoria *</label>
           <Dropdown
@@ -77,15 +76,13 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             optionValue="value"
             onChange={(e) => setField("categoria", e.value)}
             placeholder="Selecione a categoria"
-            className={errors["categoria"] ? "p-invalid" : ""}
+            className={errors.categoria ? "p-invalid" : ""}
             style={{ width: "100%" }}
           />
-          {errors["categoria"] && (
-            <small className="p-error">{errors["categoria"]}</small>
+          {errors.categoria && (
+            <small className="p-error">{errors.categoria}</small>
           )}
         </div>
-
-
 
         <div className="exp-field">
           <label>A vaga é *</label>
@@ -106,7 +103,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               <RadioButton
                 inputId="remunerada-sim"
                 name="ehRemunerada"
-                value={true}
+                value
                 onChange={(e) => setField("ehRemunerada", e.value)}
                 checked={formData.ehRemunerada === true}
               />
@@ -114,11 +111,10 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             </div>
           </div>
 
-          {errors["ehRemunerada"] && (
-            <small className="p-error">{errors["ehRemunerada"]}</small>
+          {errors.ehRemunerada && (
+            <small className="p-error">{errors.ehRemunerada}</small>
           )}
         </div>
-        
 
         <div className="exp-field">
           <label>Data de expiração da vaga *</label>
@@ -133,7 +129,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           )}
         </div>
 
-       <div className="exp-field">
+        <div className="exp-field">
           <label>Carga horária *</label>
           <InputText
             value={formData.cargaHoraria ? String(formData.cargaHoraria) : ""}
@@ -148,7 +144,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           )}
         </div>
 
-         <div className="exp-field">
+        <div className="exp-field">
           <label>Tempo de duração (em meses) *</label>
           <InputText
             value={formData.duracao}
@@ -161,20 +157,20 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           )}
         </div>
 
-         <div className="exp-field">
+        <div className="exp-field">
           <label>Público-alvo *</label>
-         <MultiSelect
+          <MultiSelect
             value={formData.publicoAlvo}
             options={publicoAlvo}
             optionLabel="label"
             optionValue="value"
-            onChange={(e) => setField("publicoAlvo", e.value)} 
+            onChange={(e) => setField("publicoAlvo", e.value)}
             placeholder="Selecione um ou mais públicos..."
             className={errors.publicoAlvo ? "p-invalid" : ""}
             style={{ width: "100%" }}
-          />          
-          {errors["publicoAlvo"] && (
-            <small className="p-error">{errors["publicoAlvo"]}</small>
+          />
+          {errors.publicoAlvo && (
+            <small className="p-error">{errors.publicoAlvo}</small>
           )}
         </div>
 
@@ -187,15 +183,15 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             optionValue="value"
             onChange={(e) => setField("instituicao", e.value)}
             placeholder="Selecione a instituição"
-            className={errors["instituicao"] ? "p-invalid" : ""}
+            className={errors.instituicao ? "p-invalid" : ""}
             style={{ width: "100%" }}
           />
-          {errors["instituicao"] && (
-            <small className="p-error">{errors["instituicao"]}</small>
+          {errors.instituicao && (
+            <small className="p-error">{errors.instituicao}</small>
           )}
         </div>
 
-         <div className="exp-field">
+        <div className="exp-field">
           <label>Curso *</label>
           <InputText
             value={formData.curso}
@@ -203,16 +199,14 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             className={errors.curso ? "p-invalid" : ""}
             placeholder="Digite o curso"
           />
-          {errors.curso && (
-            <small className="p-error">{errors.curso}</small>
-          )}
+          {errors.curso && <small className="p-error">{errors.curso}</small>}
         </div>
 
-         <div className="exp-field">
+        <div className="exp-field">
           <label>Conhecimentos Obrigatórios *</label>
           <InputText
             value={formData.conhecimentosObrigatorios.join(", ")}
-             onChange={(e) =>
+            onChange={(e) =>
               setField(
                 "conhecimentosObrigatorios",
                 e.target.value
@@ -225,7 +219,9 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             placeholder="Digite os conhecimentos obrigatórios"
           />
           {errors.conhecimentosObrigatorios && (
-            <small className="p-error">{errors.conhecimentosObrigatorios}</small>
+            <small className="p-error">
+              {errors.conhecimentosObrigatorios}
+            </small>
           )}
         </div>
 
@@ -233,7 +229,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           <label>Conhecimentos Opcionais *</label>
           <InputText
             value={formData.conhecimentosOpcionais.join(", ")}
-             onChange={(e) =>
+            onChange={(e) =>
               setField(
                 "conhecimentosOpcionais",
                 e.target.value
@@ -250,12 +246,12 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           )}
         </div>
 
-         <div className="exp-field">
+        <div className="exp-field">
           <label>Link para inscrição *</label>
           <InputText
             value={formData.linkInscricao}
             onChange={(e) => setField("linkInscricao", e.target.value)}
-            className={errors.linkInscricao? "p-invalid" : ""}
+            className={errors.linkInscricao ? "p-invalid" : ""}
             placeholder="Digite o link do formulário ou site da inscrição"
           />
           {errors.linkInscricao && (
@@ -271,9 +267,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             className={errors.local ? "p-invalid" : ""}
             placeholder="Digite o nome do laboratório ou o local associado"
           />
-          {errors.local && (
-            <small className="p-error">{errors.local}</small>
-          )}
+          {errors.local && <small className="p-error">{errors.local}</small>}
         </div>
 
         <div className="exp-field exp-field-full">

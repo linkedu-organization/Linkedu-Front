@@ -47,7 +47,9 @@ const VagaCard = ({ vaga, openDetails }: VagaCardProps) => (
     <div className="position-skills">
       <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge" />
       <b>Conhecimentos Obrigatórios: </b>
-      <span className="value ellipsis">{vaga.conhecimentosObrigatorios}</span>
+      <span className="value ellipsis">
+        {vaga.conhecimentosObrigatorios.join(", ")}
+      </span>
     </div>
 
     <div className="position-card-footer">
