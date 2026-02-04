@@ -109,13 +109,10 @@ export const RegisterEditCandidatoProvider = ({
     const required: string[] = [
       "perfil.nome",
       "perfil.email",
-      "perfil.biografia",
       "cargo",
       "instituicao",
       "areaAtuacao",
       "nivelEscolaridade",
-      "periodoIngresso",
-      "periodoConclusao",
       "areasInteresse",
       "habilidades",
       "disponivel",

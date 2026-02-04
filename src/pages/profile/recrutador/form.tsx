@@ -43,11 +43,10 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
         </div>
 
         <div className="editperfil-bio">
-          <label>Biografia *</label>
+          <label>Biografia</label>
           <InputTextarea
             value={formData.perfil.biografia}
             onChange={(e) => setField("perfil.biografia", e.target.value)}
-            className={errors["perfil.biografia"] ? "p-invalid" : ""}
             rows={4}
             autoResize
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
@@ -55,7 +54,6 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
               width: "-webkit-fill-available",
             }}
           />
-          {errorsForm("perfil.biografia")}
         </div>
       </div>
 

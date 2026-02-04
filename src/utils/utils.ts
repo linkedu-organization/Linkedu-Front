@@ -3,7 +3,7 @@ import moment from "moment";
 import { classNames } from "primereact/utils";
 import type { Perfil } from "@domains/Perfil";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
-import { cargosCandidato } from "./constants";
+import { cargosCandidato, interesses } from "./constants";
 
 export const isValueValid = (value: unknown) => {
   if (value === undefined || value === null) return false;
@@ -127,14 +127,18 @@ export function getCargo(perfil: Perfil): string {
   );
 }
 
-export function getAreas(perfil: Perfil): string[] | undefined {
+export function getAreas(perfil: Perfil): string[] | string | undefined {
   const raw =
     perfil.tipo === "CANDIDATO"
-      ? perfil.candidato?.areasInteresse
+      ? getMultipleValuesByKey(
+          perfil.candidato?.areasInteresse || [],
+          interesses,
+          " | "
+        )
       : perfil.recrutador?.areaAtuacao;
 
   if (raw == null) return undefined;
-  return Array.isArray(raw) ? raw : [raw];
+  return Array.isArray(raw) ? raw : raw;
 }
 
 export function getTempoDisponivel(perfil: Perfil): number | null | undefined {
