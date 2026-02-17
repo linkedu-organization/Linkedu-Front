@@ -6,7 +6,7 @@ import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore";
 import { RegisterVagaProvider } from "@stores/register/vaga/formStore";
 import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
 import VagaFormPage from "@pages/register/vaga/form";
-import VagaCard from "@components/Vaga";
+import { VagaCard } from "@components/Vaga";
 import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
@@ -48,16 +48,17 @@ const tags = (formData: Candidato): unknown => [
   },
 ];
 
-export default function ProfileRecrutadorPage() {
+const ProfileRecrutadorPage: React.FC = () => {
   const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
 
-  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const [vagaDetail, setVagaDetail] = useState<Vaga | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [selectedExp, setSelectedExp] = useState<Vaga | null>(null);
+
+  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
 
   const openEdit = (exp: Vaga) => {
-    setSelectedExp(exp);
+    setSelectedVaga(exp);
     setDialogVaga(true);
   };
 
@@ -76,13 +77,13 @@ export default function ProfileRecrutadorPage() {
   };
 
   const openDetails = (vaga: Vaga) => {
-    setSelectedVaga(vaga);
+    setVagaDetail(vaga);
     setIsDetailsOpen(true);
   };
 
   const closeDetails = () => {
     setIsDetailsOpen(false);
-    setSelectedVaga(null);
+    setVagaDetail(null);
   };
 
   return (
@@ -129,11 +130,11 @@ export default function ProfileRecrutadorPage() {
       <Dialog
         visible={isDetailsOpen}
         onHide={closeDetails}
-        header={selectedVaga?.titulo}
+        header={vagaDetail?.titulo}
         style={{ width: "70vw" }}
         className="recrutador-vaga-dialog"
       >
-        {selectedVaga && <VagaDetails vaga={selectedVaga} />}
+        {vagaDetail && <VagaDetails vaga={vagaDetail} />}
       </Dialog>
       {dialogVaga && (
         <RegisterVagaProvider>
@@ -146,7 +147,7 @@ export default function ProfileRecrutadorPage() {
           >
             <VagaFormPage
               recrutador={formData}
-              vaga={selectedExp}
+              vaga={selectedVaga}
               switchVisibility={() => {
                 setDialogVaga(false);
                 getRecById(String(formData?.id));
@@ -157,4 +158,6 @@ export default function ProfileRecrutadorPage() {
       )}
     </>
   );
-}
+};
+
+export default ProfileRecrutadorPage;

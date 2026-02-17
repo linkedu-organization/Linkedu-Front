@@ -4,11 +4,11 @@ import { TabMenu } from "primereact/tabmenu";
 import { Button } from "primereact/button";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
-import "./style.css";
 import VagaDetails from "@components/Vaga/indexDetail";
-import VagaCard from "@components/Vaga";
+import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/home/homePageStore";
+import "./style.css";
 
 const HomePage = () => {
   const {
