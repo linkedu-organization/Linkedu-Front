@@ -1,27 +1,30 @@
-import "./style.css";
 import { Card } from "primereact/card";
 import type { Perfil } from "@domains/Perfil";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import {
-  getIniciais,
   getCargo,
-  getAreas,
-  getTempoDisponivel,
   formatDisponibilidade,
+  getMultipleValuesByKey,
+  getIniciais,
 } from "@utils/utils";
+import { interesses } from "@utils/constants";
+import "./style.css";
 
-type PerfilCardProps = {
+export interface PerfilCardProps {
   perfil: Perfil;
-};
+}
 
 const PerfilCard = ({ perfil }: PerfilCardProps) => {
-  const iniciais = getIniciais(perfil.nome);
-  const cargo = getCargo(perfil);
-  const areas = getAreas(perfil);
-  const tempo = getTempoDisponivel(perfil);
-
-  const disponibilidade = formatDisponibilidade(tempo);
+  const isCandidato = perfil.tipo === "CANDIDATO";
+  const areas = isCandidato
+    ? getMultipleValuesByKey(
+        perfil.candidato?.areasInteresse || [],
+        interesses,
+        " | "
+      )
+    : perfil.recrutador?.areaAtuacao;
+  const tempo = isCandidato ? perfil.candidato?.tempoDisponivel : null;
   const navigate = useNavigate();
 
   return (
@@ -36,10 +39,12 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
                 alt={`Foto de ${perfil.nome}`}
               />
             ) : (
-              <div className="perfil-avatar-fallback">{iniciais}</div>
+              <div className="perfil-avatar-fallback">
+                {getIniciais(perfil?.nome)}
+              </div>
             )}
             <h2 className="perfil-name">{perfil.nome}</h2>
-            <span className="perfil-badge">{cargo}</span>
+            <span className="perfil-badge">{getCargo(perfil)}</span>
           </div>
         </div>
       </div>
@@ -58,7 +63,7 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
         <div className="perfil-disponibilidade-conclusao">
           <span>
             <b>Disponibilidade: </b>
-            <span>{disponibilidade}</span>
+            <span>{formatDisponibilidade(tempo)}</span>
           </span>
         </div>
       </div>

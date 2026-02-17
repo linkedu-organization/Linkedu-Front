@@ -10,7 +10,7 @@ export interface CardExperienciaProps {
   onDelete?: (exp: Experiencia) => void;
 }
 
-const CardExperiencia = ({
+export const CardExperiencia = ({
   data,
   showActions = true,
   onEdit,
@@ -56,5 +56,3 @@ const CardExperiencia = ({
     </div>
   </Card>
 );
-
-export default CardExperiencia;
