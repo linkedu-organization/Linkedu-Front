@@ -1,19 +1,18 @@
-import "./style.css";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import type { Vaga } from "@domains/Vaga";
 import { Avatar } from "primereact/avatar";
+import "./style.css";
 
-type VagaCardProps = {
+export interface VagaCardProps {
   vaga: Vaga;
   openDetails: (vaga: Vaga) => void;
   showActions?: boolean;
-
   onEdit?: (exp: Vaga) => void;
   onDelete?: (exp: Vaga) => void;
-};
+}
 
-const VagaCard = ({
+export const VagaCard = ({
   vaga,
   openDetails,
   onEdit,
@@ -98,5 +97,3 @@ const VagaCard = ({
     </div>
   </Card>
 );
-
-export default VagaCard;

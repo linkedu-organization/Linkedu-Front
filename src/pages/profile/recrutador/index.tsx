@@ -6,14 +6,14 @@ import { useProfileRecrutador } from "@stores/profile/recrutador/indexStore";
 import { RegisterVagaProvider } from "@stores/register/vaga/formStore";
 import { RegisterEditRecrutadorProvider } from "@stores/profile/recrutador/formStore";
 import VagaFormPage from "@pages/register/vaga/form";
-import VagaCard from "@components/Vaga/VagaCard";
+import VagaCard from "@components/Vaga";
 import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
-import VagaDetails from "@components/Vaga/vagaDetails";
+import VagaDetails from "@components/Vaga/indexDetail";
 import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
 import RecrutadorEditFormPage from "./form";
