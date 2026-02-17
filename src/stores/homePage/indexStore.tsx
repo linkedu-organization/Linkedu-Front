@@ -1,37 +1,21 @@
-import axios from "axios";
 import {
   createContext,
   useContext,
   type ReactNode,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import type { Perfil } from "@domains/Perfil";
 import type { Vaga } from "@domains/Vaga";
 import { getAllCandidato } from "@routes/routesCandidato";
 import { getAllRecrutador } from "@routes/routesRecrutador";
-
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+import { getAllVagas } from "@routes/routesVaga";
+import { useNotification } from "@contexts/notificationContext";
 
 interface HomePageContextType {
   vagas: Vaga[];
   perfis: Perfil[];
-
-  activeIndex: number;
-  setActiveIndex: (index: number) => void;
-
-  selectedVaga: Vaga | null;
-  isDetailsOpen: boolean;
-  openDetails: (vaga: Vaga) => void;
-  closeDetails: () => void;
-
-  items: { label: string }[];
-
-  refreshVagas: () => Promise<void>;
-  refreshPerfis: () => Promise<void>;
-  refreshAll: () => Promise<void>;
 }
 
 const HomePageContext = createContext<HomePageContextType | null>(null);
@@ -44,14 +28,6 @@ export const useHomePage = (): HomePageContextType => {
   return context;
 };
 
-function uniquePerfisById(perfis: Perfil[]) {
-  const map = new Map<number, Perfil>();
-  for (const p of perfis) {
-    if (p?.id != null) map.set(p.id, p);
-  }
-  return Array.from(map.values());
-}
-
 interface HomePageProviderProps {
   children: ReactNode;
 }
@@ -59,114 +35,67 @@ interface HomePageProviderProps {
 export const HomePageProvider = ({ children }: HomePageProviderProps) => {
   const [vagas, setVagas] = useState<Vaga[]>([]);
   const [perfis, setPerfis] = useState<Perfil[]>([]);
+  const { showNotification } = useNotification();
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const uniquePerfisById = (perfis: Perfil[]) => {
+    const map = new Map<number, Perfil>();
+    perfis.forEach((p) => p?.id != null && map.set(p.id, p));
+    return Array.from(map.values());
+  };
 
-  const items = useMemo(
-    () => [
-      { label: `Vagas (${vagas.length})` },
-      { label: `Perfis (${perfis.length})` },
-    ],
-    [vagas.length, perfis.length]
-  );
+  const getVagas = useCallback(async () => {
+    try {
+      const response = await getAllVagas();
+      const vagasPublicas = (response ?? []).filter((v) => v?.ehPublica);
 
-  const isDetailsOpen = selectedVaga !== null;
-
-  const openDetails = useCallback((vaga: Vaga) => {
-    setSelectedVaga(vaga);
+      setVagas(vagasPublicas);
+    } catch (error) {
+      showNotification("error", "Erro ao carregar vagas");
+    }
   }, []);
 
-  const closeDetails = useCallback(() => {
-    setSelectedVaga(null);
-  }, []);
-
-  const refreshVagas = useCallback(async () => {
-  try {
-    const res = await fetch(`${API_URL}/vagas`);
-    if (!res.ok) throw new Error(`Erro HTTP ${res.status} ao buscar vagas`);
-    const data = (await res.json()) as Vaga[];
-
-    const vPublicas = (Array.isArray(data) ? data : []).filter(
-      (v) => v?.ehPublica
-    );
-
-    setVagas(vPublicas);
-  } catch (err) {
-    console.error("Erro ao buscar vagas:", err);
-    setVagas([]);
-  }
-}, []);
-
-  const refreshPerfis = useCallback(async () => {
+  const getPerfis = useCallback(async () => {
     try {
       const [candidatos, recrutadores] = await Promise.all([
         getAllCandidato(),
         getAllRecrutador(),
       ]);
 
-      const candidatosData = (Array.isArray(candidatos) ? candidatos : []);
-      const recrutadoresData = (Array.isArray(recrutadores) ? recrutadores : []);
-
-      const perfisExtraidos: Perfil[] = [
-        ...candidatosData
+      const perfisData: Perfil[] = [
+        ...(candidatos ?? [])
           .filter((c) => c?.perfil)
           .map((c) => ({
             ...c.perfil,
-            candidato: c,      
+            candidato: c,
             recrutador: undefined,
           })),
-        ...recrutadoresData
+        ...(recrutadores ?? [])
           .filter((r) => r?.perfil)
           .map((r) => ({
             ...r.perfil,
-            recrutador: r,     
+            recrutador: r,
             candidato: undefined,
           })),
       ];
-      
-      setPerfis(uniquePerfisById(perfisExtraidos));
 
+      setPerfis(uniquePerfisById(perfisData));
     } catch (err) {
-
-      if (axios.isAxiosError(err)) {
-      console.error(
-        "Erro ao buscar perfis:",
-        err.response?.status,
-        err.response?.data ?? err.message
-      );
-      } else {
-        console.error("Erro ao buscar perfis:", err);
-      }
+      showNotification("error", "Erro ao carregar perfis");
       setPerfis([]);
     }
   }, []);
 
-  const refreshAll = useCallback(async () => {
-    await Promise.all([refreshVagas(), refreshPerfis()]);
-  }, [refreshVagas, refreshPerfis]);
+  const getAllData = useCallback(async () => {
+    await Promise.all([getVagas(), getPerfis()]);
+  }, [getVagas, getPerfis]);
 
   useEffect(() => {
-    void refreshAll();
-  }, [refreshAll]);
+    getAllData();
+  }, [getAllData]);
 
   const value: HomePageContextType = {
     vagas,
     perfis,
-
-    activeIndex,
-    setActiveIndex,
-
-    selectedVaga,
-    isDetailsOpen,
-    openDetails,
-    closeDetails,
-
-    items,
-
-    refreshVagas,
-    refreshPerfis,
-    refreshAll,
   };
 
   return (

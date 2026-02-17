@@ -8,20 +8,31 @@ import VagaDetails from "@components/Vaga/indexDetail";
 import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/homePage/indexStore";
+import { useCallback, useMemo, useState } from "react";
+import type { Vaga } from "@domains/Vaga";
 import "./style.css";
 
 const HomePage = () => {
-  const {
-    vagas,
-    perfis,
-    items,
-    activeIndex,
-    setActiveIndex,
-    selectedVaga,
-    isDetailsOpen,
-    openDetails,
-    closeDetails,
-  } = useHomePage();
+  const { vagas, perfis } = useHomePage();
+  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const items = useMemo(
+    () => [
+      { label: `Vagas (${vagas.length})` },
+      { label: `Perfis (${perfis.length})` },
+    ],
+    [vagas.length, perfis.length]
+  );
+  const isDetailsOpen = selectedVaga !== null;
+
+  const openDetails = useCallback((vaga: Vaga) => {
+    setSelectedVaga(vaga);
+  }, []);
+
+  const closeDetails = useCallback(() => {
+    setSelectedVaga(null);
+  }, []);
 
   return (
     <Layout showFooter headerType="full">
