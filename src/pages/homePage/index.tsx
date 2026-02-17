@@ -62,7 +62,12 @@ const HomePage = () => {
 
             <div className="position-list-cards">
               {vagas.map((vaga) => (
-                <VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails} />
+                <VagaCard
+                  key={vaga.id}
+                  vaga={vaga}
+                  openDetails={openDetails}
+                  showActions={false}
+                />
               ))}
 
               <Dialog
