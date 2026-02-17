@@ -7,7 +7,7 @@ import "@fontsource/inter/300.css";
 import VagaDetails from "@components/Vaga/indexDetail";
 import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
-import { useHomePage } from "@stores/home/homePageStore";
+import { useHomePage } from "@stores/homePage/indexStore";
 import "./style.css";
 
 const HomePage = () => {
