@@ -191,21 +191,21 @@
 
 .recrutador-vaga-dialog .p-dialog-header {
   background: #364fab !important;
-  color: #fff !important;
+  color: var(--Linkedu-White) !important;
   border-bottom: none !important;
 }
 
 .recrutador-vaga-dialog .p-dialog-header .p-dialog-title {
-  color: #fff !important;
+  color: var(--Linkedu-White) !important;
 }
 
 .recrutador-vaga-dialog .p-dialog-header .p-dialog-header-icon {
-  color: #fff !important;
+  color: var(--Linkedu-White) !important;
 }
 
 .recrutador-vaga-dialog .p-dialog-content {
-  background: #fff !important;
-  color: #111 !important;
+  background: var(--Linkedu-White) !important;
+  color: var(--Linkedu-DarkLetter) !important;
 }
 
 .recrutador-vaga-dialog.p-dialog {
@@ -217,4 +217,3 @@
   border-top-left-radius: 16px !important;
   border-top-right-radius: 16px !important;
 }
-

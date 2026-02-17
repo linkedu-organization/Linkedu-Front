@@ -63,8 +63,8 @@
 }
 
 .recomendation-button.p-button {
-  background: #3f905a;
-  border-color: #3f905a;
+  background: var(--Linkedu-LightGreen);
+  border-color: var(--Linkedu-LightGreen);
 }
 
 .filter-button.p-button,
