@@ -40,6 +40,61 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   if (!formData) return null;
 
+  const conditionalFields = [
+    <>
+      <div className="editperfil-field">
+        <label>Horas disponíveis</label>
+        <InputNumber
+          value={formData.tempoDisponivel}
+          onValueChange={(e) => setField("tempoDisponivel", e.value)}
+          min={0}
+          placeholder="Selecione sua carga horária disponível na semana"
+          className={errors.tempoDisponivel ? "p-invalid" : ""}
+          inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
+        />
+
+        {errorsForm("tempoDisponivel")}
+      </div>
+
+      <div className="editperfil-field">
+        <label>Currículo Lattes</label>
+        <InputText
+          value={formData.lattes ?? ""}
+          onChange={(e) => setField("lattes", e.target.value)}
+          placeholder="Digite o link do seu currículo"
+        />
+      </div>
+    </>,
+    <>
+      <div className="editperfil-field">
+        <label>LinkedIn</label>
+        <InputText
+          value={formData.linkedin ?? ""}
+          onChange={(e) => setField("linkedin", e.target.value)}
+          placeholder="Digite o link do seu perfil"
+        />
+      </div>
+      <div className="editperfil-field">
+        <label>Disponível para contratação *</label>
+        <div className="radio-row">
+          {simNao.map((opt) => (
+            <div className="radio-item" key={String(opt.value)}>
+              <RadioButton
+                inputId={`disp-${opt.label}`}
+                name="disponivel"
+                value={opt.value}
+                onChange={(e) => setField("disponivel", e.value)}
+                checked={formData.disponivel === opt.value}
+              />
+              <label htmlFor={`disp-${opt.label}`}>{opt.label}</label>
+            </div>
+          ))}
+        </div>
+        {errorsForm("disponivel")}
+      </div>
+    </>,
+  ];
+
   return (
     <div>
       <div className="editperfil-header">
@@ -144,75 +199,33 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           {errorsForm("nivelEscolaridade")}
         </div>
 
-        <div className="editperfil-field">
-          <label>Período de conclusão</label>
-          <InputText
-            value={formData.periodoConclusao ?? ""}
-            onChange={(e) => setField("periodoConclusao", e.target.value)}
-            placeholder="MM/AAAA"
-          />
-        </div>
+        {formData.cargo === "ALUNO" && (
+          <>
+            <div className="editperfil-field">
+              <label>Período de conclusão</label>
+              <InputText
+                value={formData.periodoConclusao ?? ""}
+                onChange={(e) => setField("periodoConclusao", e.target.value)}
+                placeholder="MM/AAAA"
+              />
+            </div>
 
-        <div className="editperfil-field">
-          <label>Período de ingresso</label>
-          <InputText
-            value={formData.periodoIngresso ?? ""}
-            onChange={(e) => setField("periodoIngresso", e.target.value)}
-            placeholder="MM/AAAA"
-          />
-        </div>
-
-        <div className="editperfil-field">
-          <label>Horas disponíveis</label>
-          <InputNumber
-            value={formData.tempoDisponivel}
-            onValueChange={(e) => setField("tempoDisponivel", e.value)}
-            min={0}
-            placeholder="Selecione sua carga horária disponível na semana"
-            className={errors.tempoDisponivel ? "p-invalid" : ""}
-            inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
-          />
-
-          {errorsForm("tempoDisponivel")}
-        </div>
-
-        <div className="editperfil-field">
-          <label>Currículo Lattes</label>
-          <InputText
-            value={formData.lattes ?? ""}
-            onChange={(e) => setField("lattes", e.target.value)}
-            placeholder="Digite o link do seu currículo"
-          />
-        </div>
-
-        <div className="editperfil-field">
-          <label>LinkedIn</label>
-          <InputText
-            value={formData.linkedin ?? ""}
-            onChange={(e) => setField("linkedin", e.target.value)}
-            placeholder="Digite o link do seu perfil"
-          />
-        </div>
-
-        <div className="editperfil-field">
-          <label>Disponível para contratação *</label>
-          <div className="radio-row">
-            {simNao.map((opt) => (
-              <div className="radio-item" key={String(opt.value)}>
-                <RadioButton
-                  inputId={`disp-${opt.label}`}
-                  name="disponivel"
-                  value={opt.value}
-                  onChange={(e) => setField("disponivel", e.value)}
-                  checked={formData.disponivel === opt.value}
-                />
-                <label htmlFor={`disp-${opt.label}`}>{opt.label}</label>
-              </div>
-            ))}
-          </div>
-          {errorsForm("disponivel")}
-        </div>
+            <div className="editperfil-field">
+              <label>Período de ingresso</label>
+              <InputText
+                value={formData.periodoIngresso ?? ""}
+                onChange={(e) => setField("periodoIngresso", e.target.value)}
+                placeholder="MM/AAAA"
+              />
+            </div>
+            {conditionalFields}
+          </>
+        )}
       </div>
+      {formData.cargo === "TECNICO" &&
+        conditionalFields.map((fields) => (
+          <div className="editcand-half-grid">{fields}</div>
+        ))}
       <div className="editcand-half-grid">
         <div className="editperfil-field">
           <label>Áreas de interesse *</label>
