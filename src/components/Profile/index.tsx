@@ -55,17 +55,45 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
           <span>{perfil.email}</span>
         </div>
 
-        <div className="perfil-areas-interesse">
-          <b>Áreas de interesse: </b>
-          <span>{areas?.length ? areas : "Não informado"} </span>
-        </div>
+        {perfil.tipo === "RECRUTADOR" && (
 
-        <div className="perfil-disponibilidade-conclusao">
-          <span>
-            <b>Disponibilidade: </b>
-            <span>{formatDisponibilidade(tempo)}</span>
-          </span>
-        </div>
+          <div>
+            <div className="perfil-email">
+              <b>Instituição: </b>
+              <span>{perfil.recrutador?.instituicao || "Não informado"}</span>
+            </div>
+
+            <div className="perfil-email">
+              <b>Laboratórios: </b>
+              <span>{perfil.recrutador?.laboratorios || "Não informado"}</span>
+            </div>
+
+            <div className="perfil-email">
+              <b>Área de atuação: </b>
+              <span>{areas || "Não informado"}</span>
+            </div>
+          </div>
+        )}
+
+        {perfil.tipo === "CANDIDATO" && (
+          <div>
+            <div className="perfil-email">
+              <b>Áreas de interesse: </b>
+              <span>{areas || "Não informado"}</span>
+            </div>
+            
+            <div className="perfil-email">
+              <b>Disponibilidade: </b>
+              <span>{formatDisponibilidade(tempo)}</span>
+            </div>
+
+            <div className="perfil-email">
+              <b>Período de Conclusão: </b>
+              <span>{perfil.candidato?.periodoConclusao || "Não informado"}</span>
+            </div>
+          </div>
+        )}
+
       </div>
 
       <div className="position-card-footer">

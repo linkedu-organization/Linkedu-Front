@@ -122,6 +122,8 @@ const ProfileRecrutadorPage: React.FC = () => {
               getRecById(String(formData?.id));
             }}
             showActions
+            showRecommendedButton
+            detailsVariant="icon"
           />
         )}
         emptyText="Nenhuma vaga cadastrada"

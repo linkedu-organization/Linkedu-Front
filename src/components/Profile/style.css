@@ -1,10 +1,7 @@
 .perfil-card {
   --card-inner-pad: 42px;
   width: 1312px;
-  height: 199px;
-
-  display: flex;
-  flex-direction: column;
+  min-height: 199px;
 
   background: var(--Linkedu-White);
   border-radius: 10px;
@@ -13,20 +10,19 @@
 
   padding: 0 !important;
 
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 240px 1fr;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-card .p-card-body,
+.perfil-card .p-card-content {
+  padding: 0 !important;
 }
 
 .perfil-header {
   height: 56px;
+  width: 100%;
   background: var(--LinkeduBlue, #364fab);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-
-  margin-top: calc(-1 * var(--card-inner-pad));
-  margin-left: calc(-1 * var(--card-inner-pad));
-  margin-right: calc(-1 * var(--card-inner-pad));
 
   display: flex;
   align-items: center;
@@ -36,42 +32,23 @@
   width: 100%;
   box-sizing: border-box;
 
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: calc(10px + var(--card-inner-pad));
-}
-
-.perfil-name {
-  margin: 0;
-  color: var(--Linkedu-White);
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-}
-
-.perfil-content {
-  padding-top: 16px;
-}
-
-.perfil-email,
-.perfil-areas-interesse,
-.perfil-disponibilidade-conclusao {
-  padding: 0 20px;
-  margin-top: 8px;
-}
-
-.position-card-footer {
-  margin-top: auto;
+  padding: 0 var(--card-inner-pad);
   display: flex;
-  justify-content: flex-end;
-  padding: 0px 20px 16px;
+  align-items: center;
 }
 
 .perfil-name-row {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.perfil-name {
+  color: var(--Linkedu-White);
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
 .perfil-badge {
@@ -106,4 +83,26 @@
   font-weight: 700;
   background: rgba(255, 255, 255, 0.25);
   color: var(--Linkedu-White);
+}
+
+.perfil-content {
+  padding: 16px var(--card-inner-pad) 0;
+}
+
+.perfil-email,
+.perfil-areas-interesse,
+.perfil-disponibilidade-conclusao {
+  padding: 0;
+  margin-top: 8px;
+}
+
+.position-card-footer {
+  margin-top: auto; 
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 20px !important;
+}
+
+.position-card-footer .details-button {
+  margin-right: 20px !important;
 }
