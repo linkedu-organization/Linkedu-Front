@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
@@ -9,17 +9,26 @@ import { MultiSelect } from "primereact/multiselect";
 import type { Recrutador } from "@domains/Recrutador";
 import { useRegisterVaga } from "@stores/register/vaga/formStore";
 import "./style.css";
+import type { Vaga } from "@domains/Vaga";
 
 type VagaFormProps = {
   recrutador: Recrutador;
   switchVisibility: () => void;
+  vaga: Vaga | undefined;
 };
 
 const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
   switchVisibility,
+  vaga,
 }) => {
-  const { formData, setField, errors, submit, resetForm } = useRegisterVaga();
+  const { formData, setField, errors, submit, resetForm, load } =
+    useRegisterVaga();
+
+  useEffect(() => {
+    if (vaga) load(vaga);
+    else resetForm();
+  }, [vaga]);
 
   return (
     <div className="exp-form">
@@ -299,7 +308,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           label="Salvar"
           className="p-button-save-exp"
           onClick={async () => {
-            await submit(recrutador, () => switchVisibility());
+            await submit(recrutador, () => switchVisibility(), vaga?.id);
           }}
         />
       </div>

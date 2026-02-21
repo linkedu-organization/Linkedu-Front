@@ -49,7 +49,7 @@
 
 .position-type {
   font-weight: 300;
-  color: gray;
+  color: var(--Linkedu-Gray);
 }
 
 .position-work-hours {
@@ -78,7 +78,7 @@
   height: 25px;
   border-radius: 9999px;
   background: var(--Linkedu-Blue);
-  color: #fff;
+  color: var(--Linkedu-White);
 
   display: inline-flex;
   align-items: center;
@@ -161,13 +161,13 @@
 }
 
 .vaga-row.link-row .pi {
-  color: #fff;
+  color: var(--Linkedu-White);
   font-size: 12px;
 }
 
 .vaga-row.link-row,
 .vaga-row.link-row .link-label {
-  color: #fff;
+  color: var(--Linkedu-White);
   font-size: 14px;
   font: "Inter";
   font-weight: 100;
@@ -176,7 +176,7 @@
 }
 
 .vaga-row.link-row a {
-  color: #fff;
+  color: var(--Linkedu-White);
   font-weight: 300;
   display: block;
   flex: 1 1 auto;
@@ -206,12 +206,12 @@
 
 .vaga-dialog .p-dialog-title,
 .vaga-dialog .p-dialog-header-icon {
-  color: #fff;
+  color: var(--Linkedu-White);
 }
 
 .vaga-dialog .p-dialog-header {
   background: var(--Linkedu-Blue) !important;
-  color: #fff;
+  color: var(--Linkedu-White);
   border-bottom: 0;
   font: "Inter";
 }

@@ -63,7 +63,7 @@
 
 .register-button {
   background-color: var(--Linkedu-Blue);
-  color: white;
+  color: var(--Linkedu-White);
   border: none;
   border-radius: 3px;
   padding: 10px 15px;

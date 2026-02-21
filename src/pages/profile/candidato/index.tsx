@@ -1,16 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 
-import { Avatar } from "primereact/avatar";
-import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import { Divider } from "primereact/divider";
-import { Tag } from "primereact/tag";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { Dialog } from "primereact/dialog";
-
-import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
-import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
@@ -26,15 +15,14 @@ import {
   getValueDate,
   parseBoolean,
 } from "@utils/utils";
-import {
-  DATE_FORMAT_PERIOD,
-  DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-  DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS,
-} from "@utils/date";
-import { Layout } from "@components/Layout";
-import CardExperiencia from "@components/CardExperiencia";
+import { DATE_FORMAT_PERIOD } from "@utils/date";
+import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
+import { CardExperiencia } from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
+import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
+import { Dialog } from "primereact/dialog";
 import CandidatoEditFormPage from "./form";
+import ProfilePage from "../index";
 import "../style.css";
 
 const aboutRows = (formData: Candidato): unknown => [
@@ -56,7 +44,7 @@ const aboutRows = (formData: Candidato): unknown => [
                     {getValueDate(
                       formData?.periodoIngresso,
                       DATE_FORMAT_PERIOD
-                    )}{" "}
+                    )}
                     -
                   </span>
                 </>
@@ -151,17 +139,11 @@ const tags = (formData: Candidato): unknown => [
 ];
 
 const ProfileCandidatoPage: React.FC = () => {
-  const { id } = useParams();
   const { formData, experiencias, deleteCand, getCandById, deleteExp } =
     useProfileCandidato();
-  const [dialogEditCandidato, setDialogEditCandidato] = useState(false);
+
   const [dialogExperiencia, setDialogExperiencia] = useState(false);
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
-
-  const openCreate = () => {
-    setSelectedExp(null);
-    setDialogExperiencia(true);
-  };
 
   const openEdit = (exp: Experiencia) => {
     setSelectedExp(exp);
@@ -177,201 +159,73 @@ const ProfileCandidatoPage: React.FC = () => {
       acceptLabel: "Excluir",
       accept: async () => {
         await deleteExp(exp.id);
-        if (id) getCandById(id);
+        getCandById(formData?.id);
       },
     });
   };
 
-  const confirmExcluir = (event) => {
-    confirmDialog({
-      trigger: event.currentTarget,
-      message:
-        "Você tem certeza que deseja excluir o seu perfil? Esta ação não poderá ser desfeita",
-      header: "Excluir Perfil",
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: "Confirmar exclusão",
-      accept: () => deleteCand(),
-    });
-  };
-
-  useEffect(() => {
-    if (id) {
-      getCandById(id);
-    } else {
-      // recuperar usuario logado
-    }
-  }, [id]);
-
   return (
-    <Layout showFooter headerType="full">
-      <div className="profile-container">
-        <Card className="profile-card">
-          <div className="profile-card-content">
-            <div className="profile-avatar">
-              <Avatar
-                image={formData?.perfil.foto}
-                size="xlarge"
-                shape="circle"
-              />
-            </div>
-            <div className="profile-info">
-              <div className="profile-text">
-                <h1>{formData?.perfil.nome}</h1>
-                <h2>{formData?.perfil.email}</h2>
-
-                <div className="tags-row">
-                  {tags(formData).map((t) => {
-                    const content = (
-                      <Tag
-                        icon={t.icon}
-                        value={t.label}
-                        rounded
-                        style={{ backgroundColor: t.color }}
-                      />
-                    );
-
-                    return t.href ? (
-                      <a href={t.href} target="_blank" rel="noreferrer">
-                        {content}
-                      </a>
-                    ) : (
-                      content
-                    );
-                  })}
-                </div>
-                <p className="bio-text">{formData?.perfil.biografia}</p>
-              </div>
-            </div>
-
-            <div className="profile-buttons">
-              <div className="profile-actions">
-                <Button
-                  label="Editar perfil"
-                  icon="pi pi-pencil"
-                  style={{
-                    background: "var(--Linkedu-Green)",
-                    border: "1px solid var(--Linkedu-Green)",
-                  }}
-                  size="small"
-                  onClick={() => setDialogEditCandidato(true)}
-                />
-                {dialogEditCandidato && (
-                  <RegisterEditCandidatoProvider>
-                    <Dialog
-                      header="Editar perfil"
-                      visible={dialogEditCandidato}
-                      style={{ width: "1200px", maxWidth: "95vw" }}
-                      onHide={() => setDialogEditCandidato(false)}
-                      draggable={false}
-                    >
-                      <CandidatoEditFormPage
-                        candidato={formData}
-                        switchVisibility={() => setDialogEditCandidato(false)}
-                        onSaved={() => {
-                          if (id) getCandById(id);
-                        }}
-                      />
-                    </Dialog>
-                  </RegisterEditCandidatoProvider>
-                )}
-
-                <Button
-                  label="Excluir perfil"
-                  icon="pi pi-trash"
-                  style={{
-                    background: "var(--Linkedu-Red)",
-                    border: "1px solid var(--Linkedu-Red)",
-                  }}
-                  size="small"
-                  onClick={confirmExcluir}
-                />
-                <ConfirmDialog />
-              </div>
-            </div>
-          </div>
-          <div className="bio-update">
-            <span className="last-update">
-              Última atualização:{" "}
-              {getValueDate(
-                formData?.perfil.ultimoAcesso,
-                DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-                DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS
-              )}
-            </span>
-          </div>
-        </Card>
-        <Card className="profile-card">
-          <h3>Sobre</h3>
-          <div className="about-grid">
-            {aboutRows(formData).map((row) => (
-              <div className="about-item">
-                <Avatar
-                  icon={row.icon}
-                  shape="circle"
-                  className="avatar-about"
-                />
-                <div className="about-line">
-                  {row.body ? (
-                    row.body
-                  ) : (
-                    <>
-                      <strong>{row.label}</strong>
-                      <span>{row.value}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-        <Divider />
-        <div className="exp-header">
-          <h3>Experiências</h3>
-          <Button
-            label="Adicionar Experiência"
-            icon="pi pi-plus"
-            className="exp-button"
-            size="small"
-            onClick={openCreate}
+    <>
+      <ProfilePage
+        formData={formData}
+        items={experiencias}
+        getById={getCandById}
+        deleteProfile={deleteCand}
+        buildTags={tags}
+        buildAboutRows={aboutRows}
+        EditProvider={RegisterEditCandidatoProvider}
+        renderEditForm={({ close, formData }) => (
+          <CandidatoEditFormPage
+            candidato={formData}
+            switchVisibility={close}
+            onSaved={() => {
+              if (formData?.id) getCandById(formData?.id);
+            }}
           />
+        )}
+        listTitle="Experiências"
+        addLabel="Adicionar Experiência"
+        addDialogHeader="Experiência"
+        AddProvider={RegisterExperienciaProvider}
+        renderAddForm={({ close, data }) => (
+          <ExperienciaFormPage candidato={data} switchVisibility={close} />
+        )}
+        renderItem={(exp: Experiencia) => (
+          <CardExperiencia
+            key={exp.id}
+            data={exp}
+            onEdit={openEdit}
+            onDelete={(e) => {
+              confirmDeleteExp(window.event, e);
+              getCandById(String(formData?.id));
+            }}
+            showActions
+          />
+        )}
+        emptyText="Nenhuma experiência cadastrada"
+      />
 
-          {dialogExperiencia && (
-            <RegisterExperienciaProvider>
-              <Dialog
-                header={selectedExp ? "Editar Experiência" : "Experiência"}
-                visible={dialogExperiencia}
-                style={{ width: "1200px", maxWidth: "95vw" }}
-                onHide={() => setDialogExperiencia(false)}
-                draggable={false}
-              >
-                <ExperienciaFormPage
-                  candidato={formData}
-                  experiencia={selectedExp}
-                  switchVisibility={() => {
-                    setDialogExperiencia(false);
-                    getCandById(String(formData?.id));
-                  }}
-                />
-              </Dialog>
-            </RegisterExperienciaProvider>
-          )}
-        </div>
-
-        <div className="exp-list">
-          {(experiencias || []).map((exp) => (
-            <CardExperiencia
-              key={exp.id}
-              data={exp}
-              onEdit={openEdit}
-              onDelete={(e) => {
-                confirmDeleteExp(window.event, e);
+      {dialogExperiencia && (
+        <RegisterExperienciaProvider>
+          <Dialog
+            header="Editar Experiência"
+            visible={dialogExperiencia}
+            style={{ width: "1200px", maxWidth: "95vw" }}
+            onHide={() => setDialogExperiencia(false)}
+            draggable={false}
+          >
+            <ExperienciaFormPage
+              candidato={formData}
+              experiencia={selectedExp}
+              switchVisibility={() => {
+                setDialogExperiencia(false);
                 getCandById(String(formData?.id));
               }}
             />
-          ))}
-        </div>
-      </div>
-    </Layout>
+          </Dialog>
+        </RegisterExperienciaProvider>
+      )}
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
-import "./style.css";
 import type { Vaga } from "@domains/Vaga";
 import { publicoAlvo, categorias } from "@utils/constants";
 import { getValueByKey, normalizeUrl } from "@utils/utils";
+import "./style.css";
 
 const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
   if (!vaga) return null;
@@ -57,12 +57,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
               <b>Categoria</b>
             </span>
             <div className="value">
-              {getValueByKey(
-                vaga.categoria,
-                categorias as any,
-                "value",
-                "label"
-              )}
+              {getValueByKey(vaga.categoria, categorias as any)}
             </div>
           </div>
         </div>

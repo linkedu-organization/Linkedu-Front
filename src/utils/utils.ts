@@ -109,40 +109,14 @@ export function getIniciais(nome: string): string {
     .join("");
 }
 
-export function isCandidato(perfil: Perfil): boolean {
-  return perfil.tipo === "CANDIDATO";
-}
-
 export function getCargo(perfil: Perfil): string {
-  const cargoValue =
-    perfil.tipo === "CANDIDATO"
-      ? perfil.candidato?.cargo
-      : perfil.recrutador?.cargo;
+  const tipoPerfil = perfil.tipo.toLowerCase();
+  const cargoValue = perfil[tipoPerfil]?.cargo;
 
-  if (!cargoValue) return "Não informado";
-
-  return (
-    getValueByKey(
-      cargoValue,
-      [...cargosCandidato, ...cargosRecrutador] as any,
-      "value",
-      "label"
-    ) ?? cargoValue
-  );
-}
-
-export function getAreas(perfil: Perfil): string[] | string | undefined {
-  const raw =
-    perfil.tipo === "CANDIDATO"
-      ? getMultipleValuesByKey(
-          perfil.candidato?.areasInteresse || [],
-          interesses,
-          " | "
-        )
-      : perfil.recrutador?.areaAtuacao;
-
-  if (raw == null) return undefined;
-  return Array.isArray(raw) ? raw : raw;
+  return getValueByKey(cargoValue, [
+    ...cargosCandidato,
+    ...cargosRecrutador,
+  ] as any);
 }
 
 export function getTempoDisponivel(perfil: Perfil): number | null | undefined {

@@ -1,15 +1,24 @@
-import "./style.css";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import type { Vaga } from "@domains/Vaga";
 import { Avatar } from "primereact/avatar";
+import "./style.css";
 
-type VagaCardProps = {
+export interface VagaCardProps {
   vaga: Vaga;
   openDetails: (vaga: Vaga) => void;
-};
+  showActions?: boolean;
+  onEdit?: (exp: Vaga) => void;
+  onDelete?: (exp: Vaga) => void;
+}
 
-const VagaCard = ({ vaga, openDetails }: VagaCardProps) => (
+export const VagaCard = ({
+  vaga,
+  openDetails,
+  onEdit,
+  onDelete,
+  showActions,
+}: VagaCardProps) => (
   <Card key={vaga.id} className="position-card">
     <div className="position-card-header">
       <h2 className="card-title">
@@ -58,8 +67,33 @@ const VagaCard = ({ vaga, openDetails }: VagaCardProps) => (
         className="details-button"
         onClick={() => openDetails(vaga)}
       />
+
+      {showActions && (
+        <div
+          style={{
+            display: "flex",
+            gap: "5px",
+            paddingLeft: "5px",
+          }}
+        >
+          <Button
+            icon="pi pi-pencil"
+            className="exp-action edit"
+            text
+            type="button"
+            size="large"
+            onClick={() => onEdit?.(vaga)}
+          />
+          <Button
+            icon="pi pi-trash"
+            className="exp-action del"
+            text
+            type="button"
+            size="large"
+            onClick={() => onDelete?.(vaga)}
+          />
+        </div>
+      )}
     </div>
   </Card>
 );
-
-export default VagaCard;

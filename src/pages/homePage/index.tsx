@@ -4,24 +4,35 @@ import { TabMenu } from "primereact/tabmenu";
 import { Button } from "primereact/button";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
+import VagaDetails from "@components/Vaga/indexDetail";
+import { VagaCard } from "@components/Vaga";
+import PerfilCard from "@components/Profile";
+import { useHomePage } from "@stores/homePage/indexStore";
+import { useCallback, useMemo, useState } from "react";
+import type { Vaga } from "@domains/Vaga";
 import "./style.css";
-import VagaDetails from "@components/Vaga/vagaDetails";
-import VagaCard from "@components/Vaga/VagaCard";
-import PerfilCard from "@components/Profile/PerfilCard";
-import { useHomePage } from "@stores/home/homePageStore";
 
 const HomePage = () => {
-  const {
-    vagas,
-    perfis,
-    items,
-    activeIndex,
-    setActiveIndex,
-    selectedVaga,
-    isDetailsOpen,
-    openDetails,
-    closeDetails,
-  } = useHomePage();
+  const { vagas, perfis } = useHomePage();
+  const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const items = useMemo(
+    () => [
+      { label: `Vagas (${vagas.length})` },
+      { label: `Perfis (${perfis.length})` },
+    ],
+    [vagas.length, perfis.length]
+  );
+  const isDetailsOpen = selectedVaga !== null;
+
+  const openDetails = useCallback((vaga: Vaga) => {
+    setSelectedVaga(vaga);
+  }, []);
+
+  const closeDetails = useCallback(() => {
+    setSelectedVaga(null);
+  }, []);
 
   return (
     <Layout showFooter headerType="full">
@@ -62,7 +73,12 @@ const HomePage = () => {
 
             <div className="position-list-cards">
               {vagas.map((vaga) => (
-                <VagaCard key={vaga.id} vaga={vaga} openDetails={openDetails} />
+                <VagaCard
+                  key={vaga.id}
+                  vaga={vaga}
+                  openDetails={openDetails}
+                  showActions={false}
+                />
               ))}
 
               <Dialog

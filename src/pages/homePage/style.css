@@ -1,4 +1,4 @@
-@import url('/public/assets/colorVariables');
+@import url("/public/assets/colorVariables");
 
 .main-context {
   width: 100%;
@@ -63,8 +63,8 @@
 }
 
 .recomendation-button.p-button {
-  background: #3F905A;
-  border-color: #3F905A;
+  background: var(--Linkedu-LightGreen);
+  border-color: var(--Linkedu-LightGreen);
 }
 
 .filter-button.p-button,
@@ -95,5 +95,5 @@
 .perfis-list-card {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
 }

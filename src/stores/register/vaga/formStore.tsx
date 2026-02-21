@@ -4,7 +4,7 @@ import { defaultVaga, type Vaga } from "@domains/Vaga";
 import type { Recrutador } from "@domains/Recrutador";
 import { useNotification } from "@contexts/notificationContext";
 import { isValueValid } from "@utils/utils";
-import { registerVaga } from "@routes/routesVaga";
+import { registerVaga, updateVaga } from "@routes/routesVaga";
 
 type FieldErrors = Record<string, string>;
 
@@ -13,15 +13,12 @@ interface RegisterVagaContextType {
   setField: (field: string, value: unknown) => void;
   errors: FieldErrors;
   resetForm: () => void;
+  load: () => void;
   validate: () => boolean;
-  submit: (
-    recrutador: Recrutador,
-    callback: Function
-  ) => Promise<Vaga | null>;
+  submit: (recrutador: Recrutador, callback: Function) => Promise<Vaga | null>;
 }
 
-const RegisterVagaContext =
-  createContext<RegisterVagaContextType | null>(null);
+const RegisterVagaContext = createContext<RegisterVagaContextType | null>(null);
 
 export const useRegisterVaga = (): RegisterVagaContextType => {
   const ctx = useContext(RegisterVagaContext);
@@ -35,11 +32,7 @@ export const useRegisterVaga = (): RegisterVagaContextType => {
 
 const initialFormData = defaultVaga;
 
-export const RegisterVagaProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState<FieldErrors>({});
   const { showNotification } = useNotification();
@@ -113,7 +106,7 @@ export const RegisterVagaProvider = ({
       !Number.isInteger(formData.cargaHoraria) ||
       formData.cargaHoraria <= 0
     ) {
-    stepErrors.cargaHoraria = "Informe uma carga horária válida";
+      stepErrors.cargaHoraria = "Informe uma carga horária válida";
     }
 
     if (Object.keys(stepErrors).length > 0) {
@@ -124,22 +117,40 @@ export const RegisterVagaProvider = ({
     return true;
   };
 
-  const submit = async (recrutador: Recrutador, callback: Function) => {
+  const load = (exp: Vaga) => {
+    setFormData({
+      ...initialFormData,
+      ...exp,
+    });
+    setErrors({});
+  };
+
+  const submit = async (
+    recrutador: Recrutador,
+    callback: Function,
+    vagaId?: string | number
+  ) => {
     try {
       if (validate()) {
-
         if (recrutador.id == null) {
           showNotification("error", "Recrutador inválido (sem id)");
           return null;
         }
-        
+
         const payload: Vaga = {
           ...formData,
           recrutadorId: recrutador.id,
           recrutador,
         };
-        await registerVaga(payload);
-        showNotification("success", "Vaga criada com sucesso!");
+
+        if (vagaId) {
+          await updateVaga(Number(vagaId), payload);
+          showNotification("success", "Vaga atualizada com sucesso!");
+        } else {
+          await registerVaga(payload);
+          showNotification("success", "Vaga criada com sucesso!");
+        }
+
         callback();
         resetForm();
       }
@@ -157,6 +168,7 @@ export const RegisterVagaProvider = ({
         resetForm,
         validate,
         submit,
+        load,
       }}
     >
       {children}
