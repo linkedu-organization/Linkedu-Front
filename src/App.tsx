@@ -11,6 +11,7 @@ import RegisterRecrutador from "@pages/register/recrutador/form";
 import { RegisterRecrutadorProvider } from "@stores/register/recrutador/formStore";
 import ProfileRecrutadorPage from "@pages/profile/recrutador";
 import { ProfileRecrutadorProvider } from "@stores/profile/recrutador/indexStore";
+import LoginPage from "@pages/login";
 
 const App = () => (
   <BrowserRouter>
@@ -24,6 +25,7 @@ const App = () => (
             </HomePageProvider>
           }
         />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route
           path="/register/candidato"
