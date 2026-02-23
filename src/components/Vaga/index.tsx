@@ -28,7 +28,9 @@ export const VagaCard = ({
   showRecommendedButton,
   onRecommendedCandidates,
   detailsVariant = "button",
+
 }: VagaCardProps) => (
+  
   <Card key={vaga.id} className="position-card">
     <div className="position-card-header">
       <h2 className="card-title">
