@@ -22,6 +22,7 @@ import ProfilePage from "../index";
 import { createRecommendedCandidates, getRecommendedCandidates } from "@routes/routesRecomendacao";
 import PerfilCard from "@components/Profile";
 import type { Perfil } from "@domains/Perfil";
+import { Button } from "primereact/button";
 import "./style.css";
 
 const aboutRows = (formData: Recrutador): unknown => [
@@ -82,10 +83,21 @@ const ProfileRecrutadorPage: React.FC = () => {
   const [loadingProfiles, setLoadingProfiles] = useState(false);
   
   const [recommendedError, setRecommendedError] = useState<string | null>(null);
+  const [recommendedCache, setRecommendedCache] = useState<Record<number, RecommendedItem[]>>({});
+  const [forceUpdate, setForceUpdate] = useState(false);
   
   const openRecommended = async (vaga: Vaga) => {
     setRecommendedVaga(vaga);
     setIsRecommendedOpen(true);
+
+    if (forceUpdate) {
+      setForceUpdate(false); 
+    } else {
+      if (recommendedCache[vaga.id]) {
+        setRecommendedCandidates(recommendedCache[vaga.id]); 
+        return;
+    }
+  }
     
     setLoadingCandidates(true);
     setRecommendedError(null);
@@ -97,6 +109,11 @@ const ProfileRecrutadorPage: React.FC = () => {
       const data = await getRecommendedCandidates(Number(vaga.id));
       const list: RecommendedItem[] = Array.isArray(data) ? data : (data?.candidatos ?? []);
       setRecommendedCandidates(list);
+
+      setRecommendedCache((prevCache) => ({
+        ...prevCache,
+        [vaga.id]: list, 
+      }));
 
       setLoadingProfiles(true);
       const uniqueIds = Array.from(new Set(list.map((x) => x.candidatoId)));
@@ -231,7 +248,16 @@ const ProfileRecrutadorPage: React.FC = () => {
               })}
             </div>
          )}
-
+         
+        <Button
+          label="Atualizar Recomendações"
+          icon="pi pi-sparkles"
+          className="recommended-update-button"
+          onClick={() => {
+            setForceUpdate(true);
+            openRecommended(recommendedVaga!)
+          }}
+        />
       </Dialog>
 
       <Dialog

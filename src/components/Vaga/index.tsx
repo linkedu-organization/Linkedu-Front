@@ -110,7 +110,7 @@ export const VagaCard = ({
         )}
 
         {showActions && (
-          <>
+          <div className="action-buttons">
             <Button
               icon="pi pi-pencil"
               className="exp-action edit"
@@ -125,7 +125,7 @@ export const VagaCard = ({
               type="button"
               onClick={() => onDelete?.(vaga)}
             />
-          </>
+          </div>
         )}
     </div>
     </div>

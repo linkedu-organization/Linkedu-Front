@@ -34,6 +34,8 @@ const HomePage = () => {
     setSelectedVaga(null);
   }, []);
 
+
+
   return (
     <Layout showFooter headerType="full">
       <div className="main-context">
@@ -53,6 +55,7 @@ const HomePage = () => {
                   label="Vagas Recomendadas"
                   icon="pi pi-sparkles"
                   className="recomendation-button"
+                  onClick={() => alert("Funcionalidade de recomendação em desenvolvimento!")}
                 />
                 <Button
                   label="Filtros"

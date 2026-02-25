@@ -258,9 +258,9 @@
   height: 33px;
   padding: 0 !important;
   display: inline-flex;
-  align-items: center;
+  
   font-size: 16px;
-  justify-content: center;
+ 
 
   border-radius: 8px !important;
   box-sizing: border-box;
@@ -277,3 +277,7 @@
   display: none;
 }
 
+.footer-right .action-buttons {
+  display: flex;
+  gap: 8px; 
+}
