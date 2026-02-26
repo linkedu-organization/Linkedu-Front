@@ -5,6 +5,7 @@ export interface Perfil {
   id?: number;
   nome: string;
   email: string;
+  senha?: string;
   tipo: string;
   biografia?: string;
   foto?: string;
@@ -13,4 +14,9 @@ export interface Perfil {
   ultimoAcesso?: string;
   candidato?: Candidato;
   recrutador?: Recrutador;
+}
+
+export interface PerfilLogin {
+  email: string;
+  senha: string;
 }
