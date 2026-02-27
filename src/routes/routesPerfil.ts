@@ -26,4 +26,3 @@ export const logout = async () => {
   const response = await api.post("/perfil/logout");
   return response;
 };
-

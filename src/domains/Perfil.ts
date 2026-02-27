@@ -20,3 +20,8 @@ export interface PerfilLogin {
   email: string;
   senha: string;
 }
+
+export const defaultPerfilLogin: PerfilLogin = {
+  email: "",
+  senha: "",
+};
