@@ -17,6 +17,7 @@ type AuthContextType = {
   authLogout: () => void;
   validateAuth: () => Promise<void>;
   handleLogout: () => Promise<void>;
+  authChecked: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -26,49 +27,52 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [perfil, setPerfil] = useState<Perfil | null>(null);
   const navigate = useNavigate();
   const { showNotification } = useNotification();
+  const [authChecked, setAuthChecked] = useState(false);
 
   const authLogin = useCallback((perfil: Perfil) => {
     setIsAuthenticated(true);
     setPerfil(perfil);
+    localStorage.setItem("auth", JSON.stringify(perfil));
   }, []);
 
   const authLogout = useCallback(() => {
     setIsAuthenticated(false);
     setPerfil(null);
+    localStorage.removeItem("auth");
   }, []);
 
   const handleLogout = useCallback(async () => {
     try {
-      const response = await logout();
-      if (response.status === 200) {
-        showNotification("success", null, "Logout realizado com sucesso!");
-      } else {
-        showNotification("error", null, "Logout falhou");
-      }
+      await logout();
+      showNotification("success", null, "Logout realizado com sucesso!");
 
       authLogout();
       navigate("/");
     } catch (err) {
-      showNotification("error", null, err);
+      showNotification("error", null, "Logout falhou");
     }
   }, []);
 
   const validateAuth = useCallback(async () => {
     try {
       const response = await checkAutenticacao();
-      if (response.data === true) {
-        setIsAuthenticated(true);
+      if (response.data.autenticado) {
         authLogin(response.data.perfil);
       } else {
         authLogout();
       }
     } catch (err) {
-      console.error("Validation error:", err);
       authLogout();
+    } finally {
+      setAuthChecked(true);
     }
   }, [authLogin, authLogout]);
 
   useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      authLogin(JSON.parse(storedAuth));
+    }
     validateAuth();
   }, [validateAuth]);
 
@@ -81,6 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         authLogout,
         validateAuth,
         handleLogout,
+        authChecked,
       }}
     >
       {children}
