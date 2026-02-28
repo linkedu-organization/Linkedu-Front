@@ -24,6 +24,7 @@ import { Dialog } from "primereact/dialog";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
+import { useAuth } from "@contexts/authContext";
 
 const aboutRows = (formData: Candidato): unknown => [
   {
@@ -141,9 +142,12 @@ const tags = (formData: Candidato): unknown => [
 const ProfileCandidatoPage: React.FC = () => {
   const { formData, experiencias, deleteCand, getCandById, deleteExp } =
     useProfileCandidato();
+  const { perfil } = useAuth();
 
   const [dialogExperiencia, setDialogExperiencia] = useState(false);
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
+  const isOwnProfile =
+    perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id === formData.id;
 
   const openEdit = (exp: Experiencia) => {
     setSelectedExp(exp);
@@ -199,13 +203,13 @@ const ProfileCandidatoPage: React.FC = () => {
               confirmDeleteExp(window.event, e);
               getCandById(String(formData?.id));
             }}
-            showActions
+            showActions={isOwnProfile}
           />
         )}
         emptyText="Nenhuma experiência cadastrada"
       />
 
-      {dialogExperiencia && (
+      {dialogExperiencia && isOwnProfile && (
         <RegisterExperienciaProvider>
           <Dialog
             header="Editar Experiência"

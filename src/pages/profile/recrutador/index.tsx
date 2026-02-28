@@ -16,6 +16,7 @@ import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
 import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
+import { useAuth } from "@contexts/authContext";
 import RecrutadorEditFormPage from "./form";
 import ProfilePage from "../index";
 
@@ -50,12 +51,15 @@ const tags = (formData: Candidato): unknown => [
 
 const ProfileRecrutadorPage: React.FC = () => {
   const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
+  const { perfil } = useAuth();
 
   const [vagaDetail, setVagaDetail] = useState<Vaga | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
+  const isOwnProfile =
+    perfil?.tipo === "RECRUTADOR" && perfil?.recrutador?.id === formData.id;
 
   const openEdit = (exp: Vaga) => {
     setSelectedVaga(exp);
@@ -121,7 +125,7 @@ const ProfileRecrutadorPage: React.FC = () => {
               confirmDeleteVaga(window.event, e);
               getRecById(String(formData?.id));
             }}
-            showActions
+            showActions={isOwnProfile}
           />
         )}
         emptyText="Nenhuma vaga cadastrada"
@@ -136,7 +140,7 @@ const ProfileRecrutadorPage: React.FC = () => {
       >
         {vagaDetail && <VagaDetails vaga={vagaDetail} />}
       </Dialog>
-      {dialogVaga && (
+      {dialogVaga && isOwnProfile && (
         <RegisterVagaProvider>
           <Dialog
             header="Editar Vaga"

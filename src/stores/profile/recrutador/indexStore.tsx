@@ -51,11 +51,11 @@ export const ProfileRecrutadorProvider = ({
       const allVagas = await getAllVagas();
 
       const recrutadorVagas = (allVagas ?? []).filter((v) => {
-      const recId = v.recrutadorId ?? v.recrutador?.id;
-      return recId === response.id;
-    });
+        const recId = v.recrutadorId ?? v.recrutador?.id;
+        return recId === response.id;
+      });
 
-    setVagas(recrutadorVagas);
+      setVagas(recrutadorVagas);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
     }
