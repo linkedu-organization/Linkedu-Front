@@ -97,3 +97,35 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.recommended-update-button {
+  width: auto !important;
+
+  margin-top: 30px;
+  margin-left: 15px;
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+  height: 33px;    
+  align-self: flex-start !important;
+}
+
+.recommended-vagas-modal .position-list-cards {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important; 
+}
+
+.recommended-vagas-modal .modal-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: auto;
+}
+
+.recommended-vagas-modal .p-dialog-title {
+  margin-top: 20px;
+  margin-left: 15px;  
+}
+
+.loading {
+  text-align: center;
+}

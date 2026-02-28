@@ -10,8 +10,6 @@ import { VagaCard } from "@components/Vaga";
 import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
-import { getCandidato } from "@routes/routesCandidato";
-
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
@@ -19,10 +17,10 @@ import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
 import RecrutadorEditFormPage from "./form";
 import ProfilePage from "../index";
-import { createRecommendedCandidates, getRecommendedCandidates } from "@routes/routesRecomendacao";
 import PerfilCard from "@components/Profile";
 import type { Perfil } from "@domains/Perfil";
 import { Button } from "primereact/button";
+import { useRecommendedCandidatos } from "@hooks/useRecommendedCandidatos";
 import "./style.css";
 
 const aboutRows = (formData: Recrutador): unknown => [
@@ -65,83 +63,24 @@ const candidatoToPerfil = (c: Candidato): Perfil => ({
 
 const ProfileRecrutadorPage: React.FC = () => {
   const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
+   const {
+    isRecommendedOpen,
+    recommendedVaga,
+    loadingCandidates,
+    recommendedCandidates,
+    recommendedProfiles,
+    loadingProfiles,
+    recommendedError,
+    openRecommended,
+    closeRecommended,
+    setForceUpdate,
+  } = useRecommendedCandidatos();
 
   const [vagaDetail, setVagaDetail] = useState<Vaga | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
-
-  const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
-  const [recommendedVaga, setRecommendedVaga] = useState<Vaga | null>(null);
-
-  const [loadingCandidates, setLoadingCandidates] = useState(false);
-  
-  type RecommendedItem = { vagaId: number; candidatoId: number; score: number };
-  const [recommendedCandidates, setRecommendedCandidates] = useState<RecommendedItem[]>([]);
-  const [recommendedProfiles, setRecommendedProfiles] = useState<Record<number, Candidato>>({});
-  const [loadingProfiles, setLoadingProfiles] = useState(false);
-  
-  const [recommendedError, setRecommendedError] = useState<string | null>(null);
-  const [recommendedCache, setRecommendedCache] = useState<Record<number, RecommendedItem[]>>({});
-  const [forceUpdate, setForceUpdate] = useState(false);
-  
-  const openRecommended = async (vaga: Vaga) => {
-    setRecommendedVaga(vaga);
-    setIsRecommendedOpen(true);
-
-    if (forceUpdate) {
-      setForceUpdate(false); 
-    } else {
-      if (recommendedCache[vaga.id]) {
-        setRecommendedCandidates(recommendedCache[vaga.id]); 
-        return;
-    }
-  }
-    
-    setLoadingCandidates(true);
-    setRecommendedError(null);
-    setRecommendedCandidates([]);
-    setRecommendedProfiles({});
-    
-    try {
-      await createRecommendedCandidates(Number(vaga.id));
-      const data = await getRecommendedCandidates(Number(vaga.id));
-      const list: RecommendedItem[] = Array.isArray(data) ? data : (data?.candidatos ?? []);
-      setRecommendedCandidates(list);
-
-      setRecommendedCache((prevCache) => ({
-        ...prevCache,
-        [vaga.id]: list, 
-      }));
-
-      setLoadingProfiles(true);
-      const uniqueIds = Array.from(new Set(list.map((x) => x.candidatoId)));
-
-      const results = await Promise.all(
-        uniqueIds.map(async (id) => {
-        const candidato = await getCandidato(id);
-        console.log("candidato completo:", candidato);
-        return [id, candidato] as const;
-        })
-      );
-
-      setRecommendedProfiles(Object.fromEntries(results));
-    } catch (err) {
-      setRecommendedError("Erro ao buscar candidatos recomendados.");
-    } finally {
-      setLoadingCandidates(false);
-      setLoadingProfiles(false);
-    }
-  };
-  
-  const closeRecommended = () => {
-    setIsRecommendedOpen(false);
-    setRecommendedVaga(null);
-    setRecommendedCandidates([]);
-    setRecommendedError(null);
-    setLoadingCandidates(false);
-  };
 
   const openEdit = (exp: Vaga) => {
     setSelectedVaga(exp);
@@ -209,7 +148,7 @@ const ProfileRecrutadorPage: React.FC = () => {
             }}
             showActions
             showRecommendedButton
-            onRecommendedCandidates={openRecommended} 
+            onRecommendedCandidates={() => openRecommended(vaga)} 
             detailsVariant="icon"
           />
         )}
@@ -240,6 +179,7 @@ const ProfileRecrutadorPage: React.FC = () => {
             <div style={{ display: "grid", gap: 12, width: "100%" }}>
               {recommendedCandidates.map((rec) => {
                 const candidato = recommendedProfiles[rec.candidatoId];
+                if (!candidato) return null;
                 return (
                   <div key={rec.candidatoId}>
                    <PerfilCard perfil={candidatoToPerfil(candidato)} />
