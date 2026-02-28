@@ -8,16 +8,22 @@ import VagaDetails from "@components/Vaga/indexDetail";
 import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/homePage/indexStore";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const { vagas, perfis } = useHomePage();
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
   const { perfil } = useAuth();
+
+  useEffect(() => {
+    if (!perfil) navigate("/login", { replace: true });
+  }, [perfil]);
 
   const items = useMemo(
     () => [
