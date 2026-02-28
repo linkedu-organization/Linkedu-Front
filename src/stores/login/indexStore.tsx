@@ -111,11 +111,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
           navigate("/");
         }
       } catch (error) {
-        showNotification(
-          "error",
-          "Algo deu errado. Tente novamente mais tarde.",
-          ""
-        );
+        showNotification("error", error.response.data.message, "");
       }
     }
   };
@@ -127,7 +123,6 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         setField,
         errors,
         validate,
-        submit,
         errorsForm,
         finalizeLogin,
       }}

@@ -17,8 +17,8 @@ import { LoginProvider } from "@stores/login/indexStore";
 
 const App = () => (
   <BrowserRouter>
-    <AuthProvider>
-      <NotificationProvider>
+    <NotificationProvider>
+      <AuthProvider>
         <Routes>
           <Route
             path="/"
@@ -70,8 +70,8 @@ const App = () => (
             }
           />
         </Routes>
-      </NotificationProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </NotificationProvider>
   </BrowserRouter>
 );
 

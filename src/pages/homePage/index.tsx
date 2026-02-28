@@ -19,11 +19,13 @@ const HomePage = () => {
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
-  const { perfil } = useAuth();
+  const { perfil, authChecked } = useAuth();
 
   useEffect(() => {
-    if (!perfil) navigate("/login", { replace: true });
-  }, [perfil]);
+    if (authChecked && !perfil) {
+      navigate("/login", { replace: true });
+    }
+  }, [authChecked, perfil]);
 
   const items = useMemo(
     () => [
@@ -42,7 +44,9 @@ const HomePage = () => {
     setSelectedVaga(null);
   }, []);
 
-  return (
+  return !perfil ? (
+    <></>
+  ) : (
     <Layout showFooter headerType="full">
       <div className="main-context">
         <TabMenu
