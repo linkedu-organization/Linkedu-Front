@@ -1,5 +1,5 @@
 import { type Perfil } from "@domains/Perfil";
-import { checkAutenticacao } from "@routes/routesPerfil";
+import { checkAutenticacao, logout } from "@routes/routesPerfil";
 import {
   createContext,
   useContext,
@@ -7,13 +7,16 @@ import {
   useState,
   useCallback,
 } from "react";
+import { useNavigate } from "react-router-dom";
+import { useNotification } from "./notificationContext";
 
 type AuthContextType = {
   isAuthenticated: boolean;
   perfil: Perfil | null;
-  auth_login: (perfil: Perfil) => void;
-  auth_logout: () => void;
+  authLogin: (perfil: Perfil) => void;
+  authLogout: () => void;
   validateAuth: () => Promise<void>;
+  handleLogout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -21,6 +24,8 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [perfil, setPerfil] = useState<Perfil | null>(null);
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
 
   const authLogin = useCallback((perfil: Perfil) => {
     setIsAuthenticated(true);
@@ -30,6 +35,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const authLogout = useCallback(() => {
     setIsAuthenticated(false);
     setPerfil(null);
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    try {
+      const response = await logout();
+      if (response.status === 200) {
+        showNotification("success", null, "Logout realizado com sucesso!");
+      } else {
+        showNotification("error", null, "Logout falhou");
+      }
+
+      authLogout();
+      navigate("/");
+    } catch (err) {
+      showNotification("error", null, err);
+    }
   }, []);
 
   const validateAuth = useCallback(async () => {
@@ -53,7 +74,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, perfil, authLogin, authLogout, validateAuth }}
+      value={{
+        isAuthenticated,
+        perfil,
+        authLogin,
+        authLogout,
+        validateAuth,
+        handleLogout,
+      }}
     >
       {children}
     </AuthContext.Provider>
