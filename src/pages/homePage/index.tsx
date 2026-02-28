@@ -11,11 +11,13 @@ import { useHomePage } from "@stores/homePage/indexStore";
 import { useCallback, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
 import "./style.css";
+import { useAuth } from "@contexts/authContext";
 
 const HomePage = () => {
   const { vagas, perfis } = useHomePage();
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { perfil } = useAuth();
 
   const items = useMemo(
     () => [
@@ -49,11 +51,14 @@ const HomePage = () => {
             <div className="position-header">
               <h1 className="page-title">Painel de Vagas</h1>
               <div className="position-buttons">
-                <Button
-                  label="Vagas Recomendadas"
-                  icon="pi pi-sparkles"
-                  className="recomendation-button"
-                />
+                {perfil?.tipo === "CANDIDATO" && (
+                  <Button
+                    label="Vagas Recomendadas"
+                    icon="pi pi-sparkles"
+                    className="recomendation-button"
+                  />
+                )}
+
                 <Button
                   label="Filtros"
                   icon="pi pi-filter"

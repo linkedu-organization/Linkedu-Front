@@ -1,10 +1,10 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getCandidato, deleteCandidato } from "@routes/routesCandidato";
 import { type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import type { Experiencia } from "@domains/Experiencia";
 import { deleteExperiencia } from "@routes/routesExperiencia";
+import { useAuth } from "@contexts/authContext";
 
 interface ProfileCandidatoContextType {
   formData: Candidato;
@@ -36,8 +36,8 @@ export const ProfileCandidatoProvider = ({
 }: ProfileCandidatoProviderProps) => {
   const [formData, setFormData] = useState<Candidato>();
   const [experiencias, setExperiencias] = useState<Experiencia[]>();
+  const { handleLogout } = useAuth();
   const { showNotification } = useNotification();
-  const navigate = useNavigate();
 
   const getCandById = async (id: string) => {
     try {
@@ -53,8 +53,7 @@ export const ProfileCandidatoProvider = ({
     try {
       await deleteCandidato(formData?.id);
       showNotification("success", "Conta excluída com sucesso!");
-      // handleLogout();
-      navigate("/");
+      handleLogout();
     } catch (error) {
       showNotification("error", "Houve um erro ao excluir a conta");
     }

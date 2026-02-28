@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       showNotification("success", null, "Logout realizado com sucesso!");
 
       authLogout();
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       showNotification("error", null, "Logout falhou");
     }
