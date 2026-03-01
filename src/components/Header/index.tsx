@@ -16,10 +16,8 @@ interface HeaderProps {
 const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
+  const [query, setQuery] = useState("");
+  const toggleMenu = () => setMenuVisible((v) => !v);
 
   const logo = (
     <Link to="/">
@@ -39,27 +37,20 @@ const Header = ({ headerType }: HeaderProps) => {
     content = <div className="simple-header">{logo}</div>;
   } else {
     const panelMenuItems = [
-      {
-        label: "Início",
-        icon: "pi pi-home",
-        command: () => navigate("/"),
-      },
-      {
-        label: "Meu Perfil",
-        icon: "pi pi-user",
-        command: () => navigate("/"),
-      },
-      {
-        label: "Minhas Vagas",
-        icon: "pi pi-briefcase",
-        command: () => navigate("/"),
-      },
-      {
-        label: "Sair",
-        icon: "pi pi-sign-out",
-        command: () => navigate("/"),
-      },
+      { label: "Início", icon: "pi pi-home", command: () => navigate("/") },
+      { label: "Meu Perfil", icon: "pi pi-user", command: () => navigate("/") },
+      { label: "Minhas Vagas", icon: "pi pi-briefcase", command: () => navigate("/") },
+      { label: "Sair", icon: "pi pi-sign-out", command: () => navigate("/") },
     ];
+
+    const submitSearch = () => {
+      const q = query.trim();
+      if (!q) {
+        navigate({ pathname: "/", search: "" });
+        return;
+      }
+      navigate({ pathname: "/", search: `?q=${encodeURIComponent(q)}` });
+    };
 
     const end = (
       <div className="flex align-items-center">
@@ -67,24 +58,19 @@ const Header = ({ headerType }: HeaderProps) => {
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
             <InputText
+              value={query}
               type="text"
               style={{ height: "2rem" }}
-              onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  console.log("enter");
-                }
+                if (e.key === "Enter") submitSearch();
               }}
             />
           </IconField>
         </div>
 
         <div className="flex align-items-center gap-4 justify-center">
-          <Button
-            icon="pi pi-align-justify"
-            onClick={() => toggleMenu()}
-            text
-          />
+          <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
           {menuVisible && (
             <div className="menu-container">
               <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
@@ -108,6 +94,7 @@ const Header = ({ headerType }: HeaderProps) => {
       />
     );
   }
+
   return content;
 };
 

@@ -11,6 +11,7 @@ import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/homePage/indexStore";
 import { useCallback, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
+import { useSearchParams } from "react-router-dom";
 import "./style.css";
 
 type FilterField = { campo: string; operador: "eq" | "in"; valor: any };
@@ -54,6 +55,8 @@ function buildPerfisFilters(selected: PerfisFilterKey[]): FilterField[] {
 
 const HomePage = () => {
   const { vagas, perfis, fetchVagas, fetchPerfis } = useHomePage();
+  const [searchParams] = useSearchParams();
+  const q = (searchParams.get("q") ?? "").trim().toLowerCase();
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -77,12 +80,40 @@ const HomePage = () => {
     [perfisSelectedFilters]
   );
 
+  const vagasFiltradas = useMemo(() => {
+    if (!q) return vagas;
+
+    return vagas.filter((v) =>
+      [
+        v.titulo,
+        v.categoria,
+        v.ehRemunerada,
+        v.cargaHoraria
+      ]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(q))
+    );
+  }, [vagas, q]);
+
+  const perfisFiltrados = useMemo(() => {
+    if (!q) return perfis;
+
+    return perfis.filter((p) =>
+      [
+        (p as any).nome,
+        (p as any).email
+      ]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(q))
+    );
+  }, [perfis, q]);
+
   const items = useMemo(
     () => [
-      { label: `Vagas (${vagas.length})` },
-      { label: `Perfis (${perfis.length})` },
+      { label: `Vagas (${vagasFiltradas.length})` },
+      { label: `Perfis (${perfisFiltrados.length})` },
     ],
-    [vagas.length, perfis.length]
+    [vagasFiltradas.length, perfisFiltrados.length]
   );
 
   const isDetailsOpen = selectedVaga !== null;
@@ -196,7 +227,7 @@ const HomePage = () => {
                       checked={vagasSelectedFilters.includes("remunerada")}
                       onChange={() => toggleVagasFilter("remunerada")}
                     />
-                    <label htmlFor="f-remunerada">Remunerada</label>
+                    <label htmlFor="f-remunerada">Vaga Remunerada</label>
                   </div>
 
                   <div className="filter-row">
@@ -296,10 +327,14 @@ const HomePage = () => {
               </div>
             </div>
 
-            {vagas.length === 0 && <div className="message">Nenhuma vaga pública disponível.</div>}
+            {vagasFiltradas.length === 0 && (
+              <div className="message">
+                {q ? "Nenhuma vaga encontrada para a busca." : "Nenhuma vaga pública disponível."}
+              </div>
+            )}
 
             <div className="position-list-cards">
-              {vagas.map((vaga) => (
+              {vagasFiltradas.map((vaga) => (
                 <VagaCard
                   key={vaga.id}
                   vaga={vaga}
@@ -343,10 +378,14 @@ const HomePage = () => {
               </div>
             </div>
 
-            {perfis.length === 0 && <div className="message">Nenhum perfil disponível.</div>}
+            {perfisFiltrados.length === 0 && (
+              <div className="message">
+                {q ? "Nenhum perfil encontrado para a busca." : "Nenhum perfil disponível."}
+              </div>
+            )}
 
             <div className="perfis-list-card">
-              {perfis.map((perfil) => (
+              {perfisFiltrados.map((perfil) => (
                 <PerfilCard key={`${perfil.id}`} perfil={perfil} />
               ))}
             </div>
