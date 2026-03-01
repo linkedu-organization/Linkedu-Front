@@ -97,3 +97,37 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.filters-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filters-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aplicar-button.p-button {
+  height: 33px;
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
+.limpar-button.p-button {
+  height: 33px;
+}
