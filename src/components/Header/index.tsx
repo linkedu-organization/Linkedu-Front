@@ -38,23 +38,23 @@ const Header = ({ headerType }: HeaderProps) => {
   } else {
     const panelMenuItems = [
       {
-        label: "Início", 
-        icon: "pi pi-home", 
+        label: "Início",
+        icon: "pi pi-home",
         command: () => navigate("/"),
       },
       {
-        label: "Meu Perfil", 
-        icon: "pi pi-user", 
+        label: "Meu Perfil",
+        icon: "pi pi-user",
         command: () => navigate("/"), 
       },
       {
-        label: "Minhas Vagas", 
-        icon: "pi pi-briefcase", 
+        label: "Minhas Vagas",
+        icon: "pi pi-briefcase",
         command: () => navigate("/"), 
       },
       {
-        label: "Sair", 
-        icon: "pi pi-sign-out", 
+        label: "Sair",
+        icon: "pi pi-sign-out",
         command: () => navigate("/"), 
       },
     ];
