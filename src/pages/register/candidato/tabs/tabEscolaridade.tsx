@@ -91,24 +91,27 @@ const TabEscolaridade = ({
           <small>{errors.nivelEscolaridade}</small>
         )}
       </div>
+      {formData.cargo === "ALUNO" && (
+        <>
+          <div className="field">
+            <label>Período de ingresso</label>
+            <InputText
+              value={formData.periodoIngresso}
+              onChange={(e) => setField("periodoIngresso", e.target.value)}
+              placeholder="Ex.: 2023.1"
+            />
+          </div>
 
-      <div className="field">
-        <label>Período de ingresso</label>
-        <InputText
-          value={formData.periodoIngresso}
-          onChange={(e) => setField("periodoIngresso", e.target.value)}
-          placeholder="Ex.: 2023.1"
-        />
-      </div>
-
-      <div className="field">
-        <label>Período de conclusão</label>
-        <InputText
-          value={formData.periodoConclusao}
-          onChange={(e) => setField("periodoConclusao", e.target.value)}
-          placeholder="Ex.: 2027.2"
-        />
-      </div>
+          <div className="field">
+            <label>Período de conclusão</label>
+            <InputText
+              value={formData.periodoConclusao}
+              onChange={(e) => setField("periodoConclusao", e.target.value)}
+              placeholder="Ex.: 2027.2"
+            />
+          </div>
+        </>
+      )}
     </div>
   </div>
 );

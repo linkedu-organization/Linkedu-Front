@@ -1,0 +1,15 @@
+.recommended-modal .perfil-card {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.recommended-update-button {
+  width: auto !important;
+
+  margin-top: 30px;
+  margin-left: 0px;
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+  height: 33px;    
+  align-self: flex-start !important;
+}

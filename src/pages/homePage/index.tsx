@@ -9,10 +9,11 @@ import VagaDetails from "@components/Vaga/indexDetail";
 import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/homePage/indexStore";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
 import { useSearchParams } from "react-router-dom";
 import "./style.css";
+import { useRecommendedVagas } from "@hooks/useRecommendedVaga";
 
 type FilterField = { campo: string; operador: "eq" | "in"; valor: any };
 type Sorter = { campo: string; ordem: "ASC" | "DESC" };
@@ -60,6 +61,7 @@ const HomePage = () => {
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
 
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterTab, setFilterTab] = useState<TabKey>("vagas");
@@ -309,6 +311,7 @@ const HomePage = () => {
                   label="Vagas Recomendadas"
                   icon="pi pi-sparkles"
                   className="recomendation-button"
+                  onClick={openRecommended}
                 />
 
                 <Button
@@ -391,6 +394,35 @@ const HomePage = () => {
             </div>
           </>
         )}
+
+        <Dialog
+          className="recommended-vagas-modal"
+          visible={isRecommendedOpen}
+          onHide={closeRecommended}
+          header="Vagas Recomendadas"
+          style={{ width: "80vw" }}
+        >
+          {loading && <p className="loading">Carregando vagas recomendadas...</p>}
+          {error && <p>{error}</p>}
+          {recommendedVagas.length === 0 && !loading && !error && <p>Não há vagas recomendadas no momento.</p>}
+
+          {!loading && !error && recommendedVagas.length > 0 && (
+            <div className="position-list-cards">
+              {recommendedVagas.map((recomendacao) => {
+                return <VagaCard key={recomendacao.vaga.id} vaga={recomendacao.vaga} openDetails={openDetails} showActions={false} />;
+              })}
+            </div>
+          )}
+          <div className="modal-footer">
+            <Button
+            label="Atualizar Recomendações"
+            icon="pi pi-sparkles"
+            className="recommended-update-button"
+            onClick={refetch} 
+            />
+          </div>
+
+        </Dialog>
       </div>
     </Layout>
   );
