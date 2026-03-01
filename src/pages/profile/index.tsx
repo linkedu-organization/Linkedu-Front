@@ -21,7 +21,6 @@ import { useAuth } from "@contexts/authContext";
 type ProfilePageProps = {
   formData: any;
   items: any[] | null | undefined;
-  getById?: (id: string) => void;
   deleteProfile: () => void;
   buildTags: (formData: any) => any[];
   buildAboutRows: (formData: any) => any[];
@@ -44,7 +43,6 @@ type ProfilePageProps = {
 export const ProfilePage = ({
   formData,
   items,
-  getById,
   deleteProfile,
   buildTags,
   buildAboutRows,
@@ -57,17 +55,15 @@ export const ProfilePage = ({
   renderAddForm,
   renderItem,
 }: ProfilePageProps) => {
-  const { id } = useParams();
   const { perfil } = useAuth();
 
   const [dialogAdd, setDialogAdd] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
 
-  useEffect(() => {
+  const isOwnProfile = useMemo(() => {
     const tipoPerfil = perfil?.tipo?.toLowerCase();
-    const idPerfil = id || perfil[tipoPerfil].id;
-    getById(idPerfil);
-  }, [id, perfil]);
+    return perfil[tipoPerfil].id === formData?.id;
+  }, [perfil, formData?.id]);
 
   const confirmExcluir = (event: any) => {
     confirmDialog({
@@ -140,7 +136,7 @@ export const ProfilePage = ({
 
             <div className="profile-buttons">
               <div className="profile-actions">
-                {id && (
+                {isOwnProfile && (
                   <>
                     <Button
                       label="Editar perfil"
@@ -229,7 +225,7 @@ export const ProfilePage = ({
 
         <div className="exp-header">
           <h3>{listTitle}</h3>
-          {id && (
+          {isOwnProfile && (
             <Button
               label={addLabel}
               icon="pi pi-plus"

@@ -12,6 +12,7 @@ interface ProfileCandidatoContextType {
   deleteCand: () => void;
   deleteExp: (id: number) => void;
   getCandById: (id: string) => void;
+  loading: boolean;
 }
 
 const ProfileCandidatoContext =
@@ -36,16 +37,20 @@ export const ProfileCandidatoProvider = ({
 }: ProfileCandidatoProviderProps) => {
   const [formData, setFormData] = useState<Candidato>();
   const [experiencias, setExperiencias] = useState<Experiencia[]>();
+  const [loading, setLoading] = useState<boolean>(false);
   const { handleLogout } = useAuth();
   const { showNotification } = useNotification();
 
   const getCandById = async (id: string) => {
+    setLoading(true);
     try {
       const response = await getCandidato(id);
       setFormData(response);
       setExperiencias(response.experiencias ?? []);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,6 +81,7 @@ export const ProfileCandidatoProvider = ({
         deleteCand,
         getCandById,
         deleteExp,
+        loading,
       }}
     >
       {children}

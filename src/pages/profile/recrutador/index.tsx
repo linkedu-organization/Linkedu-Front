@@ -11,12 +11,13 @@ import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
 import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
 import { useAuth } from "@contexts/authContext";
+import { useParams } from "react-router-dom";
 import RecrutadorEditFormPage from "./form";
 import ProfilePage from "../index";
 
@@ -52,14 +53,24 @@ const tags = (formData: Candidato): unknown => [
 const ProfileRecrutadorPage: React.FC = () => {
   const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
   const { perfil } = useAuth();
+  const { id } = useParams();
 
   const [vagaDetail, setVagaDetail] = useState<Vaga | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
-  const isOwnProfile =
-    perfil?.tipo === "RECRUTADOR" && perfil?.recrutador?.id === formData.id;
+
+  useEffect(() => {
+    const idPerfil =
+      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
+    getRecById(idPerfil);
+  }, [id, perfil]);
+
+  const isOwnProfile = useMemo(
+    () => perfil?.candidato?.id === formData?.id,
+    [perfil?.candidato?.id, formData?.id]
+  );
 
   const openEdit = (exp: Vaga) => {
     setSelectedVaga(exp);
@@ -95,7 +106,6 @@ const ProfileRecrutadorPage: React.FC = () => {
       <ProfilePage
         formData={formData}
         items={vagas}
-        getById={getRecById}
         deleteProfile={deleteRec}
         buildTags={tags}
         buildAboutRows={aboutRows}
