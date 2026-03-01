@@ -1,5 +1,4 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useNotification } from "@contexts/notificationContext";
 import type { Recrutador } from "@domains/Recrutador";
 import type { Vaga } from "@domains/Vaga";
@@ -12,6 +11,7 @@ interface ProfileRecrutadorContextType {
   vagas: Vaga[];
   deleteRec: () => void;
   getRecById: (id: string) => void;
+  loading: boolean;
 }
 
 const ProfileRecrutadorContext =
@@ -35,12 +35,13 @@ export const ProfileRecrutadorProvider = ({
   children,
 }: ProfileRecrutadorProviderProps) => {
   const [formData, setFormData] = useState<Recrutador>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [vagas, setVagas] = useState<Vaga[]>();
   const { showNotification } = useNotification();
   const { handleLogout } = useAuth();
-  const navigate = useNavigate();
 
   const getRecById = async (id: string) => {
+    setLoading(true);
     try {
       const response = await getRecrutador(Number(id));
       setFormData(response);
@@ -55,6 +56,8 @@ export const ProfileRecrutadorProvider = ({
       setVagas(recrutadorVagas);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,6 +78,7 @@ export const ProfileRecrutadorProvider = ({
         vagas,
         deleteRec,
         getRecById,
+        loading,
       }}
     >
       {children}

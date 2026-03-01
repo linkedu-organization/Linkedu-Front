@@ -51,7 +51,8 @@ const tags = (formData: Candidato): unknown => [
 ];
 
 const ProfileRecrutadorPage: React.FC = () => {
-  const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
+  const { formData, vagas, deleteRec, getRecById, loading } =
+    useProfileRecrutador();
   const { perfil } = useAuth();
   const { id } = useParams();
 
@@ -101,6 +102,7 @@ const ProfileRecrutadorPage: React.FC = () => {
     setVagaDetail(null);
   };
 
+  if (loading) return null;
   return (
     <>
       <ProfilePage
