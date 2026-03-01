@@ -3,7 +3,7 @@ import moment from "moment";
 import { classNames } from "primereact/utils";
 import type { Perfil } from "@domains/Perfil";
 import { DATE_FORMAT, DATE_PARSE_FORMAT } from "./date";
-import { cargosCandidato, cargosRecrutador, interesses } from "./constants";
+import { cargosCandidato, cargosRecrutador, categorias } from "./constants";
 
 export const isValueValid = (value: unknown) => {
   if (value === undefined || value === null) return false;
@@ -128,3 +128,4 @@ export function formatDisponibilidade(
 ): string {
   return tempo != null ? `${tempo}h/semanais` : "Não informado";
 }
+

@@ -10,7 +10,6 @@ import { VagaCard } from "@components/Vaga";
 import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
-
 import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
@@ -20,6 +19,11 @@ import { useAuth } from "@contexts/authContext";
 import { useParams } from "react-router-dom";
 import RecrutadorEditFormPage from "./form";
 import ProfilePage from "../index";
+import PerfilCard from "@components/Profile";
+import type { Perfil } from "@domains/Perfil";
+import { Button } from "primereact/button";
+import { useRecommendedCandidatos } from "@hooks/useRecommendedCandidatos";
+import "./style.css";
 
 const aboutRows = (formData: Recrutador): unknown => [
   {
@@ -50,11 +54,32 @@ const tags = (formData: Candidato): unknown => [
   },
 ];
 
+const candidatoToPerfil = (c: Candidato): Perfil => ({
+  id: c.perfil?.id ?? c.id,         
+  nome: c.perfil?.nome ?? "Sem nome",
+  email: c.perfil?.email ?? "",
+  foto: c.perfil?.foto,
+  tipo: "CANDIDATO",
+  candidato: c,                     
+});
+
 const ProfileRecrutadorPage: React.FC = () => {
   const { formData, vagas, deleteRec, getRecById, loading } =
     useProfileRecrutador();
   const { perfil } = useAuth();
   const { id } = useParams();
+  const {
+    isRecommendedOpen,
+    recommendedVaga,
+    loadingCandidates,
+    recommendedCandidates,
+    recommendedProfiles,
+    loadingProfiles,
+    recommendedError,
+    openRecommended,
+    closeRecommended,
+    setForceUpdate,
+  } = useRecommendedCandidatos();
 
   const [vagaDetail, setVagaDetail] = useState<Vaga | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -138,10 +163,58 @@ const ProfileRecrutadorPage: React.FC = () => {
               getRecById(String(formData?.id));
             }}
             showActions={isOwnProfile}
+            showRecommendedButton
+            onRecommendedCandidates={() => openRecommended(vaga)} 
+            detailsVariant="icon"
           />
         )}
         emptyText="Nenhuma vaga cadastrada"
       />
+
+      <Dialog
+        visible={isRecommendedOpen}
+        onHide={closeRecommended}
+        header={
+          recommendedVaga
+            ? `Candidatos recomendados para a vaga: ${recommendedVaga.titulo}`
+            : "Candidatos recomendados"
+        }
+        className="recommended-modal"
+        style={{ width: "70vw" }}
+        
+      >
+        {loadingCandidates && <div>Carregando candidatos...</div>}
+
+        {!loadingCandidates && recommendedError && <div>{recommendedError}</div>}
+
+        {!loadingCandidates && !recommendedError && recommendedCandidates.length === 0 && (
+          <div>Não há recomendações disponíveis para essa vaga</div>
+        )}
+
+        {!loadingCandidates && !recommendedError && recommendedCandidates.length > 0 && (
+            <div style={{ display: "grid", gap: 12, width: "100%" }}>
+              {recommendedCandidates.map((rec) => {
+                const candidato = recommendedProfiles[rec.candidatoId];
+                if (!candidato) return null;
+                return (
+                  <div key={rec.candidatoId}>
+                   <PerfilCard perfil={candidatoToPerfil(candidato)} />
+                  </div>
+                );
+              })}
+            </div>
+         )}
+         
+        <Button
+          label="Atualizar Recomendações"
+          icon="pi pi-sparkles"
+          className="recommended-update-button"
+          onClick={() => {
+            setForceUpdate(true);
+            openRecommended(recommendedVaga!)
+          }}
+        />
+      </Dialog>
 
       <Dialog
         visible={isDetailsOpen}
