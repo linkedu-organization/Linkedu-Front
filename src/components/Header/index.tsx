@@ -37,25 +37,25 @@ const Header = ({ headerType }: HeaderProps) => {
     content = <div className="simple-header">{logo}</div>;
   } else {
     const panelMenuItems = [
-      { 
+      {
         label: "Início", 
         icon: "pi pi-home", 
-        command: () => navigate("/") 
+        command: () => navigate("/"),
       },
-      { 
+      {
         label: "Meu Perfil", 
         icon: "pi pi-user", 
-        command: () => navigate("/") 
+        command: () => navigate("/"), 
       },
-      { 
+      {
         label: "Minhas Vagas", 
         icon: "pi pi-briefcase", 
-        command: () => navigate("/") 
+        command: () => navigate("/"), 
       },
-      { 
+      {
         label: "Sair", 
         icon: "pi pi-sign-out", 
-        command: () => navigate("/") 
+        command: () => navigate("/"), 
       },
     ];
 
@@ -99,7 +99,7 @@ const Header = ({ headerType }: HeaderProps) => {
             </div>
 
           )}
-          
+
         </div>
       </div>
     );
