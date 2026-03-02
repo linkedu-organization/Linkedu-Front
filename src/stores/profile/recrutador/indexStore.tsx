@@ -1,21 +1,17 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useNotification } from "@contexts/notificationContext";
 import type { Recrutador } from "@domains/Recrutador";
 import type { Vaga } from "@domains/Vaga";
 import { getAllVagas } from "@routes/routesVaga";
-import {
-  deleteRecrutador,
-  getRecrutador,
-  updateRecrutador,
-} from "@routes/routesRecrutador";
+import { deleteRecrutador, getRecrutador } from "@routes/routesRecrutador";
+import { useAuth } from "@contexts/authContext";
 
 interface ProfileRecrutadorContextType {
   formData: Recrutador;
   vagas: Vaga[];
-  updateRec: () => void;
   deleteRec: () => void;
   getRecById: (id: string) => void;
+  loading: boolean;
 }
 
 const ProfileRecrutadorContext =
@@ -39,11 +35,13 @@ export const ProfileRecrutadorProvider = ({
   children,
 }: ProfileRecrutadorProviderProps) => {
   const [formData, setFormData] = useState<Recrutador>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [vagas, setVagas] = useState<Vaga[]>();
   const { showNotification } = useNotification();
-  const navigate = useNavigate();
+  const { handleLogout } = useAuth();
 
   const getRecById = async (id: string) => {
+    setLoading(true);
     try {
       const response = await getRecrutador(Number(id));
       setFormData(response);
@@ -51,25 +49,15 @@ export const ProfileRecrutadorProvider = ({
       const allVagas = await getAllVagas();
 
       const recrutadorVagas = (allVagas ?? []).filter((v) => {
-      const recId = v.recrutadorId ?? v.recrutador?.id;
-      return recId === response.id;
-    });
+        const recId = v.recrutadorId ?? v.recrutador?.id;
+        return recId === response.id;
+      });
 
-    setVagas(recrutadorVagas);
+      setVagas(recrutadorVagas);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
-    }
-  };
-
-  const updateRec = async () => {
-    try {
-      // validar campos
-      const response = await updateRecrutador(formData, formData?.id);
-      setFormData(response);
-      navigate("/profile/recrutador");
-      showNotification("success", "Dados atualizados com sucesso!");
-    } catch (error) {
-      showNotification("error", "Houve um erro ao atualizar a conta");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,8 +65,7 @@ export const ProfileRecrutadorProvider = ({
     try {
       await deleteRecrutador(formData?.id);
       showNotification("success", "Conta excluída com sucesso!");
-      // handleLogout();
-      navigate("/");
+      handleLogout();
     } catch (error) {
       showNotification("error", "Houve um erro ao excluir a conta");
     }
@@ -89,9 +76,9 @@ export const ProfileRecrutadorProvider = ({
       value={{
         formData,
         vagas,
-        updateRec,
         deleteRec,
         getRecById,
+        loading,
       }}
     >
       {children}

@@ -16,11 +16,11 @@ import {
   DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS,
 } from "@utils/date";
 import "./style.css";
+import { useAuth } from "@contexts/authContext";
 
 type ProfilePageProps = {
   formData: any;
   items: any[] | null | undefined;
-  getById?: (id: string) => void;
   deleteProfile: () => void;
   buildTags: (formData: any) => any[];
   buildAboutRows: (formData: any) => any[];
@@ -43,7 +43,6 @@ type ProfilePageProps = {
 export const ProfilePage = ({
   formData,
   items,
-  getById,
   deleteProfile,
   buildTags,
   buildAboutRows,
@@ -56,17 +55,15 @@ export const ProfilePage = ({
   renderAddForm,
   renderItem,
 }: ProfilePageProps) => {
-  const { id } = useParams();
+  const { perfil } = useAuth();
 
   const [dialogAdd, setDialogAdd] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
 
-  useEffect(() => {
-    if (id && getById) getById(id);
-    else {
-      // recuperar usuario logado
-    }
-  }, [id]);
+  const isOwnProfile = useMemo(() => {
+    const tipoPerfil = perfil?.tipo?.toLowerCase();
+    return perfil[tipoPerfil].id === formData?.id;
+  }, [perfil, formData?.id]);
 
   const confirmExcluir = (event: any) => {
     confirmDialog({
@@ -139,46 +136,50 @@ export const ProfilePage = ({
 
             <div className="profile-buttons">
               <div className="profile-actions">
-                <Button
-                  label="Editar perfil"
-                  icon="pi pi-pencil"
-                  style={{
-                    background: "var(--Linkedu-Green)",
-                    border: "1px solid var(--Linkedu-Green)",
-                  }}
-                  size="small"
-                  onClick={() => setDialogEdit(true)}
-                />
+                {isOwnProfile && (
+                  <>
+                    <Button
+                      label="Editar perfil"
+                      icon="pi pi-pencil"
+                      style={{
+                        background: "var(--Linkedu-Green)",
+                        border: "1px solid var(--Linkedu-Green)",
+                      }}
+                      size="small"
+                      onClick={() => setDialogEdit(true)}
+                    />
 
-                {dialogEdit && (
-                  <EditWrap>
-                    <Dialog
-                      header="Editar perfil"
-                      visible={dialogEdit}
-                      style={{ width: "1200px", maxWidth: "95vw" }}
-                      onHide={() => setDialogEdit(false)}
-                      draggable={false}
-                    >
-                      {renderEditForm({
-                        close: () => setDialogEdit(false),
-                        formData,
-                      })}
-                    </Dialog>
-                  </EditWrap>
+                    {dialogEdit && (
+                      <EditWrap>
+                        <Dialog
+                          header="Editar perfil"
+                          visible={dialogEdit}
+                          style={{ width: "1200px", maxWidth: "95vw" }}
+                          onHide={() => setDialogEdit(false)}
+                          draggable={false}
+                        >
+                          {renderEditForm({
+                            close: () => setDialogEdit(false),
+                            formData,
+                          })}
+                        </Dialog>
+                      </EditWrap>
+                    )}
+
+                    <Button
+                      label="Excluir perfil"
+                      icon="pi pi-trash"
+                      style={{
+                        background: "var(--Linkedu-Red)",
+                        border: "1px solid var(--Linkedu-Red)",
+                      }}
+                      size="small"
+                      onClick={confirmExcluir}
+                    />
+
+                    <ConfirmDialog />
+                  </>
                 )}
-
-                <Button
-                  label="Excluir perfil"
-                  icon="pi pi-trash"
-                  style={{
-                    background: "var(--Linkedu-Red)",
-                    border: "1px solid var(--Linkedu-Red)",
-                  }}
-                  size="small"
-                  onClick={confirmExcluir}
-                />
-
-                <ConfirmDialog />
               </div>
             </div>
           </div>
@@ -224,14 +225,15 @@ export const ProfilePage = ({
 
         <div className="exp-header">
           <h3>{listTitle}</h3>
-          <Button
-            label={addLabel}
-            icon="pi pi-plus"
-            className="exp-button"
-            size="small"
-            onClick={() => setDialogAdd(true)}
-          />
-
+          {isOwnProfile && (
+            <Button
+              label={addLabel}
+              icon="pi pi-plus"
+              className="exp-button"
+              size="small"
+              onClick={() => setDialogAdd(true)}
+            />
+          )}
           {dialogAdd && (
             <AddWrap>
               <Dialog

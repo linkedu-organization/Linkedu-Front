@@ -1,10 +1,10 @@
 import { createContext, useContext, type ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getCandidato, deleteCandidato } from "@routes/routesCandidato";
 import { type Candidato } from "@domains/Candidato";
 import { useNotification } from "@contexts/notificationContext";
 import type { Experiencia } from "@domains/Experiencia";
 import { deleteExperiencia } from "@routes/routesExperiencia";
+import { useAuth } from "@contexts/authContext";
 
 interface ProfileCandidatoContextType {
   formData: Candidato;
@@ -12,6 +12,7 @@ interface ProfileCandidatoContextType {
   deleteCand: () => void;
   deleteExp: (id: number) => void;
   getCandById: (id: string) => void;
+  loading: boolean;
 }
 
 const ProfileCandidatoContext =
@@ -36,16 +37,20 @@ export const ProfileCandidatoProvider = ({
 }: ProfileCandidatoProviderProps) => {
   const [formData, setFormData] = useState<Candidato>();
   const [experiencias, setExperiencias] = useState<Experiencia[]>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { handleLogout } = useAuth();
   const { showNotification } = useNotification();
-  const navigate = useNavigate();
 
   const getCandById = async (id: string) => {
+    setLoading(true);
     try {
       const response = await getCandidato(id);
       setFormData(response);
       setExperiencias(response.experiencias ?? []);
     } catch (error) {
       showNotification("error", "Erro ao carregar usuário");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,8 +58,7 @@ export const ProfileCandidatoProvider = ({
     try {
       await deleteCandidato(formData?.id);
       showNotification("success", "Conta excluída com sucesso!");
-      // handleLogout();
-      navigate("/");
+      handleLogout();
     } catch (error) {
       showNotification("error", "Houve um erro ao excluir a conta");
     }
@@ -77,6 +81,7 @@ export const ProfileCandidatoProvider = ({
         deleteCand,
         getCandById,
         deleteExp,
+        loading,
       }}
     >
       {children}

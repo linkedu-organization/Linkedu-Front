@@ -10,11 +10,13 @@ import { VagaCard } from "@components/Vaga";
 import type { Vaga } from "@domains/Vaga";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
 import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
+import { useAuth } from "@contexts/authContext";
+import { useParams } from "react-router-dom";
 import RecrutadorEditFormPage from "./form";
 import ProfilePage from "../index";
 import PerfilCard from "@components/Profile";
@@ -62,8 +64,11 @@ const candidatoToPerfil = (c: Candidato): Perfil => ({
 });
 
 const ProfileRecrutadorPage: React.FC = () => {
-  const { formData, vagas, deleteRec, getRecById } = useProfileRecrutador();
-   const {
+  const { formData, vagas, deleteRec, getRecById, loading } =
+    useProfileRecrutador();
+  const { perfil } = useAuth();
+  const { id } = useParams();
+  const {
     isRecommendedOpen,
     recommendedVaga,
     loadingCandidates,
@@ -81,6 +86,17 @@ const ProfileRecrutadorPage: React.FC = () => {
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
+
+  useEffect(() => {
+    const idPerfil =
+      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
+    getRecById(idPerfil);
+  }, [id, perfil]);
+
+  const isOwnProfile = useMemo(
+    () => perfil?.candidato?.id === formData?.id,
+    [perfil?.candidato?.id, formData?.id]
+  );
 
   const openEdit = (exp: Vaga) => {
     setSelectedVaga(exp);
@@ -111,12 +127,12 @@ const ProfileRecrutadorPage: React.FC = () => {
     setVagaDetail(null);
   };
 
+  if (loading) return null;
   return (
     <>
       <ProfilePage
         formData={formData}
         items={vagas}
-        getById={getRecById}
         deleteProfile={deleteRec}
         buildTags={tags}
         buildAboutRows={aboutRows}
@@ -146,7 +162,7 @@ const ProfileRecrutadorPage: React.FC = () => {
               confirmDeleteVaga(window.event, e);
               getRecById(String(formData?.id));
             }}
-            showActions
+            showActions={isOwnProfile}
             showRecommendedButton
             onRecommendedCandidates={() => openRecommended(vaga)} 
             detailsVariant="icon"
@@ -209,7 +225,7 @@ const ProfileRecrutadorPage: React.FC = () => {
       >
         {vagaDetail && <VagaDetails vaga={vagaDetail} />}
       </Dialog>
-      {dialogVaga && (
+      {dialogVaga && isOwnProfile && (
         <RegisterVagaProvider>
           <Dialog
             header="Editar Vaga"

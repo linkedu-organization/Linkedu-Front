@@ -11,21 +11,29 @@ export const registerRecrutador = async (data: Recrutador) => {
 };
 
 export const getRecrutador = async (id: number) => {
-  const response = await api.get(`/${id}`);
+  const response = await api.get(`/${id}`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const getAllRecrutador = async () => {
-  const response = await api.get("/");
+  const response = await api.get("/", {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const updateRecrutador = async (id: number, data: Recrutador) => {
-  const response = await api.put(`/${id}`, data);
+  const response = await api.put(`/${id}`, data, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const deleteRecrutador = async (id: number) => {
-  const response = await api.delete(`/${id}`);
+  const response = await api.delete(`/${id}`, {
+    withCredentials: true,
+  });
   return response.data;
 };

@@ -8,6 +8,7 @@ import { InputText } from "primereact/inputtext";
 import "primeicons/primeicons.css";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
+import { useAuth } from "@contexts/authContext";
 
 interface HeaderProps {
   headerType: "simple" | "full";
@@ -15,6 +16,7 @@ interface HeaderProps {
 
 const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
+  const { perfil, handleLogout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [query, setQuery] = useState("");
   const toggleMenu = () => setMenuVisible((v) => !v);
@@ -31,6 +33,14 @@ const Header = ({ headerType }: HeaderProps) => {
     </Link>
   );
 
+  const redirectPerfil = () => {
+    if (perfil?.tipo === "CANDIDATO") {
+      navigate("/profile/candidato");
+    } else {
+      navigate("/profile/recrutador");
+    }
+  };
+
   let content = <div />;
 
   if (headerType === "simple") {
@@ -45,17 +55,12 @@ const Header = ({ headerType }: HeaderProps) => {
       {
         label: "Meu Perfil",
         icon: "pi pi-user",
-        command: () => navigate("/"), 
-      },
-      {
-        label: "Minhas Vagas",
-        icon: "pi pi-briefcase",
-        command: () => navigate("/"), 
+        command: () => redirectPerfil(),
       },
       {
         label: "Sair",
         icon: "pi pi-sign-out",
-        command: () => navigate("/"), 
+        command: () => handleLogout(),
       },
     ];
 
