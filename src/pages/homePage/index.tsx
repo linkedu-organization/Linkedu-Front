@@ -11,6 +11,8 @@ import { useHomePage } from "@stores/homePage/indexStore";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
 import "./style.css";
+import { useAuth } from "@contexts/authContext";
+import { useNavigate } from "react-router-dom";
 import { useRecommendedVagas } from "@hooks/useRecommendedVaga";
 
 const HomePage = () => {
@@ -19,6 +21,14 @@ const HomePage = () => {
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
+  const navigate = useNavigate();
+  const { perfil, authChecked } = useAuth();
+
+  useEffect(() => {
+    if (authChecked && !perfil) {
+      navigate("/login", { replace: true });
+    }
+  }, [authChecked, perfil]);
 
   const items = useMemo(
     () => [
@@ -27,6 +37,7 @@ const HomePage = () => {
     ],
     [vagas.length, perfis.length]
   );
+
   const isDetailsOpen = selectedVaga !== null;
 
   const openDetails = useCallback((vaga: Vaga) => {
@@ -51,7 +62,10 @@ const HomePage = () => {
     }
   }, [isRecommendedOpen]);
 
-  return (
+
+  return !perfil ? (
+    <></>
+  ) : (
     <Layout showFooter headerType="full">
       <div className="main-context">
         <TabMenu
@@ -66,12 +80,15 @@ const HomePage = () => {
             <div className="position-header">
               <h1 className="page-title">Painel de Vagas</h1>
               <div className="position-buttons">
-                <Button
-                  label="Vagas Recomendadas"
-                  icon="pi pi-sparkles"
-                  className="recomendation-button"
-                  onClick={openRecommended}
-                />
+                {perfil?.tipo === "CANDIDATO" && (
+                  <Button
+                    label="Vagas Recomendadas"
+                    icon="pi pi-sparkles"
+                    className="recomendation-button"
+                    onClick={openRecommended}
+                  />
+                )}
+
                 <Button
                   label="Filtros"
                   icon="pi pi-filter"

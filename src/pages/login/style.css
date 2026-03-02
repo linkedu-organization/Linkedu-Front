@@ -1,0 +1,127 @@
+.login-page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+
+.login-left,
+.login-right {
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.login-left-content {
+  width: 70%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-logo {
+  width: 290px;
+  align-self: center;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.login-title {
+  margin: 0;
+  font-weight: 400;
+  color: var(--Linkedu-DarkLetter);
+}
+
+.login-input {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.login-row,
+.login-action {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.login-row {
+  justify-content: space-between;
+}
+
+.register-link {
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  color: var(--Linkedu-Gray);
+}
+
+.enter-link {
+  color: var(--Linkedu-Gray);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.login-action {
+  justify-content: flex-end;
+}
+
+.login-button {
+  padding: 0.35rem 1.25rem;
+  font-size: 12px;
+  border-radius: 4px;
+  background: var(--Linkedu-Blue);
+}
+
+.login-right {
+  background: var(--Linkedu-Blue);
+}
+
+.login-right-content {
+  width: 80%;
+  max-width: 520px;
+  color: var(--Linkedu-White);
+  text-align: center;
+}
+
+.cap-icon {
+  margin-bottom: 18px;
+}
+
+.hero-line-1 {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.hero-line-2 {
+  font-size: 38px;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.hero-underline {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 900px) {
+  .login-page {
+    padding: 0;
+  }
+  .login-left-content {
+    width: 85%;
+  }
+}
+
+@media (max-width: 720px) {
+  .login-page {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .login-left,
+  .login-right {
+    min-height: 50vh;
+  }
+}

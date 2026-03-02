@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { useProfileCandidato } from "@stores/profile/candidato/indexStore";
 import type { Candidato } from "@domains/Candidato";
@@ -21,6 +21,8 @@ import { CardExperiencia } from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
 import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
 import { Dialog } from "primereact/dialog";
+import { useAuth } from "@contexts/authContext";
+import { useParams } from "react-router-dom";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
@@ -139,11 +141,30 @@ const tags = (formData: Candidato): unknown => [
 ];
 
 const ProfileCandidatoPage: React.FC = () => {
-  const { formData, experiencias, deleteCand, getCandById, deleteExp } =
-    useProfileCandidato();
+  const {
+    formData,
+    experiencias,
+    deleteCand,
+    getCandById,
+    deleteExp,
+    loading,
+  } = useProfileCandidato();
+  const { perfil } = useAuth();
+  const { id } = useParams();
 
   const [dialogExperiencia, setDialogExperiencia] = useState(false);
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
+
+  useEffect(() => {
+    const idPerfil =
+      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
+    getCandById(idPerfil);
+  }, [id, perfil]);
+
+  const isOwnProfile = useMemo(
+    () => perfil?.candidato?.id === formData?.id,
+    [perfil?.candidato?.id, formData?.id]
+  );
 
   const openEdit = (exp: Experiencia) => {
     setSelectedExp(exp);
@@ -164,12 +185,12 @@ const ProfileCandidatoPage: React.FC = () => {
     });
   };
 
+  if (loading) return null;
   return (
     <>
       <ProfilePage
         formData={formData}
         items={experiencias}
-        getById={getCandById}
         deleteProfile={deleteCand}
         buildTags={tags}
         buildAboutRows={aboutRows}
@@ -199,13 +220,13 @@ const ProfileCandidatoPage: React.FC = () => {
               confirmDeleteExp(window.event, e);
               getCandById(String(formData?.id));
             }}
-            showActions
+            showActions={isOwnProfile}
           />
         )}
         emptyText="Nenhuma experiência cadastrada"
       />
 
-      {dialogExperiencia && (
+      {dialogExperiencia && isOwnProfile && (
         <RegisterExperienciaProvider>
           <Dialog
             header="Editar Experiência"
