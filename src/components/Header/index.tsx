@@ -18,10 +18,8 @@ const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
   const { perfil, handleLogout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
+  const [query, setQuery] = useState("");
+  const toggleMenu = () => setMenuVisible((v) => !v);
 
   const logo = (
     <Link to="/">
@@ -66,35 +64,47 @@ const Header = ({ headerType }: HeaderProps) => {
       },
     ];
 
+    const submitSearch = () => {
+      const q = query.trim();
+      if (!q) {
+        navigate({ pathname: "/", search: "" });
+        return;
+      }
+      navigate({ pathname: "/", search: `?q=${encodeURIComponent(q)}` });
+    };
+
     const end = (
       <div className="flex align-items-center">
         <div className="search-container">
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
             <InputText
+              value={query}
               type="text"
               style={{ height: "2rem" }}
-              onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  console.log("enter");
-                }
+                if (e.key === "Enter") 
+                  submitSearch();
               }}
             />
           </IconField>
         </div>
 
         <div className="flex align-items-center gap-4 justify-center">
-          <Button
-            icon="pi pi-align-justify"
-            onClick={() => toggleMenu()}
-            text
+          <Button 
+            icon="pi pi-align-justify" 
+            onClick={toggleMenu} 
+            text 
           />
+
           {menuVisible && (
             <div className="menu-container">
               <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
             </div>
+
           )}
+
         </div>
       </div>
     );
@@ -113,6 +123,7 @@ const Header = ({ headerType }: HeaderProps) => {
       />
     );
   }
+
   return content;
 };
 
