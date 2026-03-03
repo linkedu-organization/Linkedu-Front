@@ -1,5 +1,14 @@
 :root {
-  --Linkedu-OffWhite: #FBF8F3;
-  --Linkedu-Blue: #364FAB;
-  --Linkedu-LighterBlue: #F9FAFB;
+  --Linkedu-OffWhite: #fbf8f3;
+  --Linkedu-Blue: #364fab;
+  --Linkedu-LightBlue: #c5dffc;
+  --Linkedu-LighterBlue: #f9fafb;
+  --Linkedu-DarkLetter: #2d313b;
+  --Linkedu-DarkLetterSecond: #2f292a;
+  --Linkedu-White: #fff;
+  --Linkedu-Error: #d32f2f;
+  --Linkedu-Red: #c73b3c;
+  --Linkedu-Green: #096a34;
+  --Linkedu-LightGreen: #3f905a;
+  --Linkedu-Gray: #696e79;
 }

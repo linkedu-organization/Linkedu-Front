@@ -1,0 +1,178 @@
+import { createContext, useContext, type ReactNode, useState } from "react";
+import type { Recrutador } from "@domains/Recrutador";
+import { useNotification } from "@contexts/notificationContext";
+import { isEmail, isValueValid, isMaxValue } from "@utils/utils";
+import { validarEmail } from "@routes/routesPerfil";
+import { updateRecrutador } from "@routes/routesRecrutador";
+
+type FieldErrors = Record<string, string>;
+
+interface RegisterEditRecrutadorContextType {
+  formData: Recrutador;
+  setInitialData: (recrutador: Recrutador) => void;
+  setField: (field: string, value: unknown) => void;
+  errors: FieldErrors;
+  validate: () => Promise<boolean>;
+  submit: (callback: Function) => Promise<Recrutador | null>;
+  errorsForm: (path: string) => ReactNode;
+}
+
+const RegisterEditRecrutadorContext =
+  createContext<RegisterEditRecrutadorContextType | null>(null);
+
+export const useRegisterEditRecrutador =
+  (): RegisterEditRecrutadorContextType => {
+    const ctx = useContext(RegisterEditRecrutadorContext);
+    if (!ctx) {
+      throw new Error(
+        "useRegisterEditRecrutador must be used within a RegisterEditRecrutadorProvider"
+      );
+    }
+    return ctx;
+  };
+
+export const RegisterEditRecrutadorProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const [initialData, setInitialDataState] = useState<Recrutador>();
+  const [formData, setFormData] = useState<Recrutador>();
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const { showNotification } = useNotification();
+
+  const getByPath = (obj: any, path: string) =>
+    path.split(".").reduce((acc, key) => acc?.[key], obj);
+
+  const clearErrors = (paths: string[]) => {
+    if (!paths.length) return;
+    setErrors((prev) => {
+      const next = { ...prev };
+      paths.forEach((p) => delete next[p]);
+      return next;
+    });
+  };
+
+  const setInitialData = (recrutador: Recrutador) => {
+    setInitialDataState(recrutador);
+
+    const cloned =
+      typeof structuredClone === "function"
+        ? structuredClone(recrutador)
+        : JSON.parse(JSON.stringify(recrutador));
+
+    setFormData(cloned);
+    setErrors({});
+  };
+
+  const setField = (field: string, value: unknown) => {
+    setFormData((prev) => {
+      if (!prev) return prev;
+
+      const updated: any = { ...prev };
+      const keys = field.split(".");
+      let cur = updated;
+
+      keys.forEach((key, idx) => {
+        if (idx === keys.length - 1) cur[key] = value;
+        else {
+          cur[key] = cur[key] ?? {};
+          cur = cur[key];
+        }
+      });
+
+      return updated;
+    });
+
+    clearErrors([field]);
+  };
+
+  const validateChangedEmail = async (email: string): Promise<boolean> => {
+    try {
+      const oldEmail = (initialData?.perfil?.email ?? "").trim();
+      const newEmail = (email ?? "").trim();
+
+      if (oldEmail && newEmail && oldEmail === newEmail) return true;
+
+      const response = await validarEmail(email);
+      return response.status === 200;
+    } catch {
+      return false;
+    }
+  };
+
+  const validate = async (): Promise<boolean> => {
+    if (!formData) return false;
+
+    const stepErrors: FieldErrors = {};
+
+    const required: string[] = [
+      "perfil.nome",
+      "perfil.email",
+      "cargo",
+      "instituicao",
+      "areaAtuacao",
+    ];
+
+    required.forEach((path) => {
+      const v = getByPath(formData, path);
+      const invalidArray = Array.isArray(v) && v.length === 0;
+
+      if (!isValueValid(v) || invalidArray) {
+        stepErrors[path] = "Campo obrigatório";
+      }
+    });
+
+    const email = (formData.perfil?.email ?? "").trim();
+    if (!isEmail(email)) {
+      stepErrors["perfil.email"] = "E-mail inválido";
+    } else if (!(await validateChangedEmail(email))) {
+      stepErrors["perfil.email"] = "E-mail já cadastrado";
+    }
+
+    if (!isMaxValue(formData?.perfil?.biografia, 255)) {
+      stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
+    }
+
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors((prev) => ({ ...prev, ...stepErrors }));
+      return false;
+    }
+
+    return true;
+  };
+
+  const errorsForm = (path: string) =>
+    errors[path] && <small className="p-error">{errors[path]}</small>;
+
+  const submit = async (callback: Function): Promise<Recrutador | null> => {
+    try {
+      if (formData && (await validate())) {
+        const response = await updateRecrutador(formData.id, formData);
+
+        showNotification("success", null, "Dados atualizados com sucesso!");
+        setInitialData(response);
+        callback?.();
+        return response;
+      }
+    } catch (error) {
+      showNotification("error", "Houve um erro ao atualizar a conta");
+    }
+  };
+
+  return (
+    <RegisterEditRecrutadorContext.Provider
+      value={{
+        formData,
+        setInitialData,
+        setField,
+        errors,
+        validate,
+        submit,
+        errorsForm,
+      }}
+    >
+      {children}
+    </RegisterEditRecrutadorContext.Provider>
+  );
+};

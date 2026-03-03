@@ -8,34 +8,42 @@ import { InputText } from "primereact/inputtext";
 import "primeicons/primeicons.css";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
+import { useAuth } from "@contexts/authContext";
 
 interface HeaderProps {
-  simpleHeader: boolean;
+  headerType: "simple" | "full";
 }
 
-export default function Header({ simpleHeader }: HeaderProps) {
+const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
+  const { perfil, handleLogout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
+  const [query, setQuery] = useState("");
+  const toggleMenu = () => setMenuVisible((v) => !v);
 
   const logo = (
     <Link to="/">
       <img
         alt="logo"
         src="/images/logo-clara.png"
-        height="30"
+        height="50"
         width="100px"
         className="ml-2 mr-4"
       />
     </Link>
   );
 
+  const redirectPerfil = () => {
+    if (perfil?.tipo === "CANDIDATO") {
+      navigate("/profile/candidato");
+    } else {
+      navigate("/profile/recrutador");
+    }
+  };
+
   let content = <div />;
 
-  if (simpleHeader) {
+  if (headerType === "simple") {
     content = <div className="simple-header">{logo}</div>;
   } else {
     const panelMenuItems = [
@@ -47,19 +55,23 @@ export default function Header({ simpleHeader }: HeaderProps) {
       {
         label: "Meu Perfil",
         icon: "pi pi-user",
-        command: () => navigate("/"),
-      },
-      {
-        label: "Minhas Vagas",
-        icon: "pi pi-briefcase",
-        command: () => navigate("/"),
+        command: () => redirectPerfil(),
       },
       {
         label: "Sair",
         icon: "pi pi-sign-out",
-        command: () => navigate("/"),
+        command: () => handleLogout(),
       },
     ];
+
+    const submitSearch = () => {
+      const q = query.trim();
+      if (!q) {
+        navigate({ pathname: "/", search: "" });
+        return;
+      }
+      navigate({ pathname: "/", search: `?q=${encodeURIComponent(q)}` });
+    };
 
     const end = (
       <div className="flex align-items-center">
@@ -67,29 +79,32 @@ export default function Header({ simpleHeader }: HeaderProps) {
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
             <InputText
+              value={query}
               type="text"
               style={{ height: "2rem" }}
-              onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  console.log("enter");
-                }
+                if (e.key === "Enter") 
+                  submitSearch();
               }}
             />
           </IconField>
         </div>
 
         <div className="flex align-items-center gap-4 justify-center">
-          <Button
-            icon="pi pi-align-justify"
-            onClick={() => toggleMenu()}
-            text
+          <Button 
+            icon="pi pi-align-justify" 
+            onClick={toggleMenu} 
+            text 
           />
+
           {menuVisible && (
             <div className="menu-container">
               <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
             </div>
+
           )}
+
         </div>
       </div>
     );
@@ -108,5 +123,8 @@ export default function Header({ simpleHeader }: HeaderProps) {
       />
     );
   }
+
   return content;
-}
+};
+
+export default Header;

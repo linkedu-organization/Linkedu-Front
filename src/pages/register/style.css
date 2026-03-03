@@ -1,0 +1,99 @@
+.registration-page {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-logo {
+  height: 120px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+}
+
+.register-question {
+  margin: 0 0 2.5rem;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--Linkedu-DarkLetter);
+}
+
+.card-register {
+  background-color: var(--Achados-Lighter-OffWhite);
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 800px;
+  padding: 1rem 1rem 3.5rem;
+}
+
+.options-container {
+  display: flex;
+  min-height: 340px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.option-column {
+  flex: 1;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.option-title {
+  color: var(--Linkedu-DarkLetter);
+  font-family: Poppins, sans-serif;
+  font-size: 38px;
+  font-weight: 920;
+}
+
+.option-description {
+  display: flex;
+  width: 240px;
+  color: var(--Linkedu-DarkLetterSecond);
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+}
+
+.register-button {
+  background-color: var(--Linkedu-Blue);
+  color: var(--Linkedu-White);
+  border: none;
+  border-radius: 3px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px 0 10px;
+  justify-content: center !important;
+}
+
+.login-link {
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  color: var(--Linkedu-DarkLetterSecond);
+  margin-top: 5px;
+}
+
+.enter-link {
+  color: var(--Linkedu-DarkLetterSecond);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.divider {
+  width: 1.5px;
+  margin: 10px;
+  background-color: var(--Linkedu-Blue);
+}
+
+@media (max-width: 727px) {
+  .divider {
+    display: none;
+  }
+}
