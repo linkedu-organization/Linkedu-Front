@@ -129,6 +129,7 @@
   height: 20px;
   background: var(--Linkedu-Blue);
   color: var(--Linkedu-White);
+  align-self: flex-start;
 }
 
 .p-avatar .p-avatar-icon {
@@ -138,6 +139,7 @@
 .about-line {
   font-size: 13px;
   color: var(--Linkedu-DarkLetterSecond);
+  align-self: flex-start;
 }
 
 .about-line strong {
