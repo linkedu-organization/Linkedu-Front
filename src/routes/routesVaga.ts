@@ -16,8 +16,18 @@ export const getVaga = async (id: unknown) => {
   return response.data;
 };
 
-export const getAllVagas = async () => {
-  const response = await api.get(`/`);
+export const getAllVagas = async (
+  args: { filters?: any[]; sorters?: any[] } = {}
+) => {
+  const { filters = [], sorters = [] } = args;
+
+  const response = await api.get(`/`, {
+    params: {
+      filters: JSON.stringify(filters),
+      sorters: JSON.stringify(sorters),
+    },
+  });
+
   return response.data as Vaga[];
 };
 

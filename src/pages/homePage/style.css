@@ -98,34 +98,36 @@
   gap: 16px;
 }
 
-.recommended-update-button {
-  width: auto !important;
-
-  margin-top: 30px;
-  margin-left: 15px;
-  background: var(--Linkedu-Blue);
-  border-color: var(--Linkedu-Blue);
-  height: 33px;    
-  align-self: flex-start !important;
+.filters-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.recommended-vagas-modal .position-list-cards {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important; 
+.filters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.recommended-vagas-modal .modal-footer {
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filters-actions {
   display: flex;
   justify-content: space-between;
-  padding: auto;
+  gap: 10px;
 }
 
-.recommended-vagas-modal .p-dialog-title {
-  margin-top: 20px;
-  margin-left: 15px;  
+.aplicar-button.p-button {
+  height: 33px;
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
 }
 
-.loading {
-  text-align: center;
+.limpar-button.p-button {
+  height: 33px;
 }
