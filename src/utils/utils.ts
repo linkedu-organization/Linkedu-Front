@@ -55,6 +55,15 @@ export const getFormatMonthYear = (dataDesejavel: string) => {
   return "-";
 };
 
+export const getUTCDate = (value: string) =>
+  new Date(value).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
 export const getValueDate = (
   value: string,
   formatter = DATE_FORMAT,
@@ -128,4 +137,3 @@ export function formatDisponibilidade(
 ): string {
   return tempo != null ? `${tempo}h/semanais` : "Não informado";
 }
-
