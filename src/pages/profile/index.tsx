@@ -9,11 +9,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Dialog } from "primereact/dialog";
 
 import { Layout } from "@components/Layout";
-import { getValueDate } from "@utils/utils";
-import {
-  DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-  DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS,
-} from "@utils/date";
+import { getUTCDate } from "@utils/utils";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 
@@ -189,11 +185,7 @@ export const ProfilePage = ({
           <div className="bio-update">
             <span className="last-update">
               Última atualização:
-              {getValueDate(
-                formData?.perfil?.ultimoAcesso,
-                DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-                DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS
-              )}
+              {getUTCDate(formData?.perfil?.updatedAt)}
             </span>
           </div>
         </Card>

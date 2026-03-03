@@ -22,6 +22,7 @@ import ExperienciaFormPage from "@pages/register/experiencia/form";
 import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
 import { Dialog } from "primereact/dialog";
 import { useAuth } from "@contexts/authContext";
+import { confirmDialog } from "primereact/confirmdialog";
 import { useParams } from "react-router-dom";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
@@ -156,9 +157,11 @@ const ProfileCandidatoPage: React.FC = () => {
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
 
   useEffect(() => {
-    const idPerfil =
-      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
-    getCandById(idPerfil);
+    if (id) {
+      getCandById(id);
+    } else if (perfil?.tipo === "CANDIDATO") {
+      getCandById(perfil?.candidato?.id);
+    }
   }, [id, perfil]);
 
   const isOwnProfile = useMemo(
@@ -179,8 +182,7 @@ const ProfileCandidatoPage: React.FC = () => {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Excluir",
       accept: async () => {
-        await deleteExp(exp.id);
-        getCandById(formData?.id);
+        deleteExp(exp.id, () => getCandById(formData?.id));
       },
     });
   };
@@ -209,7 +211,11 @@ const ProfileCandidatoPage: React.FC = () => {
         addDialogHeader="Experiência"
         AddProvider={RegisterExperienciaProvider}
         renderAddForm={({ close, data }) => (
-          <ExperienciaFormPage candidato={data} switchVisibility={close} />
+          <ExperienciaFormPage
+            candidato={data}
+            switchVisibility={close}
+            callbackAdd={() => getCandById(formData?.id)}
+          />
         )}
         renderItem={(exp: Experiencia) => (
           <CardExperiencia
@@ -218,7 +224,6 @@ const ProfileCandidatoPage: React.FC = () => {
             onEdit={openEdit}
             onDelete={(e) => {
               confirmDeleteExp(window.event, e);
-              getCandById(String(formData?.id));
             }}
             showActions={isOwnProfile}
           />

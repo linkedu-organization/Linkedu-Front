@@ -14,13 +14,15 @@ import type { Vaga } from "@domains/Vaga";
 type VagaFormProps = {
   recrutador: Recrutador;
   switchVisibility: () => void;
-  vaga: Vaga | undefined;
+  vaga?: Vaga | undefined;
+  callbackAdd: () => void;
 };
 
 const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
   switchVisibility,
   vaga,
+  callbackAdd,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterVaga();
@@ -308,7 +310,14 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           label="Salvar"
           className="p-button-save-exp"
           onClick={async () => {
-            await submit(recrutador, () => switchVisibility(), vaga?.id);
+            await submit(
+              recrutador,
+              () => {
+                switchVisibility();
+                callbackAdd();
+              },
+              vaga?.id
+            );
           }}
         />
       </div>
