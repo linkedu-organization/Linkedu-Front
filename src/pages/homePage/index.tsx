@@ -63,9 +63,27 @@ const HomePage = () => {
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
   const navigate = useNavigate();
   const { perfil, authChecked } = useAuth();
+
+  const {
+    recommendedVagas,
+    loading,
+    error,
+    refetch,
+    fetchRecommendedVagas,
+  } = useRecommendedVagas();
+
+  const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
+
+  const openRecommended = useCallback(() => {
+    setIsRecommendedOpen(true);
+    fetchRecommendedVagas();
+  }, [fetchRecommendedVagas]);
+
+  const closeRecommended = useCallback(() => {
+    setIsRecommendedOpen(false);
+  }, []);
 
   useEffect(() => {
     if (authChecked && !perfil) {
@@ -430,13 +448,12 @@ const HomePage = () => {
           )}
           <div className="modal-footer">
             <Button
-            label="Atualizar Recomendações"
-            icon="pi pi-sparkles"
-            className="recommended-update-button"
-            onClick={refetch} 
+              label="Atualizar Recomendações"
+              icon="pi pi-sparkles"
+              className="recommended-update-button"
+              onClick={refetch}
             />
           </div>
-
         </Dialog>
       </div>
     </Layout>
