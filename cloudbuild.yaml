@@ -1,0 +1,25 @@
+steps:
+  - name: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "VITE_BACKEND_URL=$_VITE_BACKEND_URL" > .env.production
+        echo "VITE_CLOUDINARY_CLOUD_NAME=$_VITE_CLOUDINARY_CLOUD_NAME" >> .env.production
+        echo "VITE_CLOUDINARY_UPLOAD_PRESET=$_VITE_CLOUDINARY_UPLOAD_PRESET" >> .env.production
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/linkedu-front:$COMMIT_SHA', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/linkedu-front:$COMMIT_SHA']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'linkedu-front'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/linkedu-front:$COMMIT_SHA'
+      - '--region'
+      - 'southamerica-east1'
