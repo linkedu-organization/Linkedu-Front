@@ -79,6 +79,7 @@ const TabProfissional = ({
           options={interesses}
           placeholder="Selecione as suas áreas de interesse"
           display="chip"
+          maxSelectedLabels={2}
         />
         {hasError(submitted, errors.areasInteresse) && (
           <small>{errors.areasInteresse}</small>
@@ -93,6 +94,7 @@ const TabProfissional = ({
           options={habilidades}
           placeholder="Selecione as suas habilidades"
           display="chip"
+          maxSelectedLabels={2}
         />
         {hasError(submitted, errors.habilidades) && (
           <small>{errors.habilidades}</small>
