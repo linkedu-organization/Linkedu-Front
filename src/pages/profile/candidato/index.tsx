@@ -156,9 +156,11 @@ const ProfileCandidatoPage: React.FC = () => {
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
 
   useEffect(() => {
-    const idPerfil =
-      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
-    getCandById(idPerfil);
+    if (id) {
+      getCandById(id);
+    } else if (perfil?.tipo === "CANDIDATO") {
+      getCandById(perfil?.candidato?.id);
+    }
   }, [id, perfil]);
 
   const isOwnProfile = useMemo(
