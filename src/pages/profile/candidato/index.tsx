@@ -22,11 +22,11 @@ import ExperienciaFormPage from "@pages/register/experiencia/form";
 import { RegisterExperienciaProvider } from "@stores/register/experiencia/formStore";
 import { Dialog } from "primereact/dialog";
 import { useAuth } from "@contexts/authContext";
+import { confirmDialog } from "primereact/confirmdialog";
 import { useParams } from "react-router-dom";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
-import { confirmDialog } from "primereact/confirmdialog";
 
 const aboutRows = (formData: Candidato): unknown => [
   {

@@ -70,7 +70,7 @@ export const ProfileCandidatoProvider = ({
       callback?.();
       showNotification("success", "Experiência excluída com sucesso!");
     } catch (error) {
-      showNotification("error", "Houve um erro ao excluir a conta");
+      showNotification("error", "Houve um erro ao excluir a experiência");
     }
   };
 

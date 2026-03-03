@@ -13,7 +13,6 @@ import "@fontsource/inter/300.css";
 import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import VagaDetails from "@components/Vaga/indexDetail";
-import { deleteVaga } from "@routes/routesVaga";
 import { confirmDialog } from "primereact/confirmdialog";
 import { useAuth } from "@contexts/authContext";
 import { useParams } from "react-router-dom";
@@ -64,7 +63,7 @@ const candidatoToPerfil = (c: Candidato): Perfil => ({
 });
 
 const ProfileRecrutadorPage: React.FC = () => {
-  const { formData, vagas, deleteRec, getRecById, loading } =
+  const { formData, vagas, deleteRec, getRecById, loading, deleteVag } =
     useProfileRecrutador();
   const { perfil } = useAuth();
   const { id } = useParams();
@@ -105,7 +104,7 @@ const ProfileRecrutadorPage: React.FC = () => {
     setDialogVaga(true);
   };
 
-  const confirmDeleteVaga = (event: any, exp: Vaga) => {
+  const confirmDeleteVaga = (event: any, vag: Vaga) => {
     confirmDialog({
       trigger: event.currentTarget,
       message: "Deseja excluir esta vaga?",
@@ -113,8 +112,7 @@ const ProfileRecrutadorPage: React.FC = () => {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Excluir",
       accept: async () => {
-        await deleteVaga(exp.id);
-        getRecById(formData?.id);
+        deleteVag(vag.id, () => getRecById(formData?.id));
       },
     });
   };
@@ -153,7 +151,11 @@ const ProfileRecrutadorPage: React.FC = () => {
         addDialogHeader="Vaga"
         AddProvider={RegisterVagaProvider}
         renderAddForm={({ close, formData }) => (
-          <VagaFormPage recrutador={formData} switchVisibility={close} />
+          <VagaFormPage
+            recrutador={formData}
+            switchVisibility={close}
+            callbackAdd={() => getRecById(formData?.id)}
+          />
         )}
         renderItem={(vaga: Vaga) => (
           <VagaCard
