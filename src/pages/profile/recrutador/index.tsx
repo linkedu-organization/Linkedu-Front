@@ -163,7 +163,7 @@ const ProfileRecrutadorPage: React.FC = () => {
               getRecById(String(formData?.id));
             }}
             showActions={isOwnProfile}
-            showRecommendedButton
+            showRecommendedButton={isOwnProfile}
             onRecommendedCandidates={() => openRecommended(vaga)}
             detailsVariant="icon"
           />
