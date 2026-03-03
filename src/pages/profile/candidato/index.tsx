@@ -162,8 +162,8 @@ const ProfileCandidatoPage: React.FC = () => {
   }, [id, perfil]);
 
   const isOwnProfile = useMemo(
-    () => perfil?.candidato?.id === formData?.id,
-    [perfil?.candidato?.id, formData?.id]
+    () => (perfil !== null ? perfil?.candidato?.id === formData?.id : false),
+    [perfil, formData?.id]
   );
 
   const openEdit = (exp: Experiencia) => {

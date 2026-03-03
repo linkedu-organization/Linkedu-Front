@@ -119,12 +119,13 @@
 
 .about-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
 }
 
 .avatar-about {
   width: 20px;
+  min-width: 20px;
   height: 20px;
   background: var(--Linkedu-Blue);
   color: var(--Linkedu-White);

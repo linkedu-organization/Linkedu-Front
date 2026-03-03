@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
@@ -61,8 +60,11 @@ export const ProfilePage = ({
   const [dialogEdit, setDialogEdit] = useState(false);
 
   const isOwnProfile = useMemo(() => {
-    const tipoPerfil = perfil?.tipo?.toLowerCase();
-    return perfil[tipoPerfil].id === formData?.id;
+    if (perfil !== null) {
+      const tipoPerfil = perfil?.tipo?.toLowerCase();
+      return perfil[tipoPerfil].id === formData?.id;
+    }
+    return false;
   }, [perfil, formData?.id]);
 
   const confirmExcluir = (event: any) => {

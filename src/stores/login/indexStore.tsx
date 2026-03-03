@@ -107,7 +107,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
         if (response.status === 200) {
           showNotification("success", "Login realizado com sucesso!", "");
-          validateAuth();
+          await validateAuth();
           navigate("/");
         }
       } catch (error) {
