@@ -138,7 +138,11 @@ export const RegisterEditCandidatoProvider = ({
       stepErrors["perfil.biografia"] = "Diminua o tamanho da biografia";
     }
 
-    if (formData.disponivel && !isValueValid(formData.tempoDisponivel)) {
+    if (
+      formData.disponivel &&
+      (formData.tempoDisponivel === 0 ||
+        !isValueValid(formData.tempoDisponivel))
+    ) {
       stepErrors.tempoDisponivel = "Informe um tempo disponível válido";
     }
 
