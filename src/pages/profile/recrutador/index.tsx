@@ -88,9 +88,11 @@ const ProfileRecrutadorPage: React.FC = () => {
   const [dialogVaga, setDialogVaga] = useState(false);
 
   useEffect(() => {
-    const idPerfil =
-      id || (perfil?.tipo === "CANDIDATO" && perfil?.candidato?.id);
-    getRecById(idPerfil);
+    if (id) {
+      getRecById(id);
+    } else if (perfil?.tipo === "RECRUTADOR") {
+      getRecById(perfil?.recrutador?.id);
+    }
   }, [id, perfil]);
 
   const isOwnProfile = useMemo(
