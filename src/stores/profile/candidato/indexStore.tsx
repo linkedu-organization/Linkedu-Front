@@ -10,7 +10,7 @@ interface ProfileCandidatoContextType {
   formData: Candidato;
   experiencias: Experiencia[];
   deleteCand: () => void;
-  deleteExp: (id: number) => void;
+  deleteExp: (id: number, callback: Function) => void;
   getCandById: (id: string) => void;
   loading: boolean;
 }
@@ -64,9 +64,10 @@ export const ProfileCandidatoProvider = ({
     }
   };
 
-  const deleteExp = async (idExp: number) => {
+  const deleteExp = async (idExp: number, callback: Function) => {
     try {
       await deleteExperiencia(idExp);
+      callback?.();
       showNotification("success", "Experiência excluída com sucesso!");
     } catch (error) {
       showNotification("error", "Houve um erro ao excluir a conta");

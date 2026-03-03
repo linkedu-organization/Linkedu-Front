@@ -26,6 +26,7 @@ import { useParams } from "react-router-dom";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
+import { confirmDialog } from "primereact/confirmdialog";
 
 const aboutRows = (formData: Candidato): unknown => [
   {
@@ -181,8 +182,7 @@ const ProfileCandidatoPage: React.FC = () => {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Excluir",
       accept: async () => {
-        await deleteExp(exp.id);
-        getCandById(formData?.id);
+        deleteExp(exp.id, () => getCandById(formData?.id));
       },
     });
   };
@@ -211,7 +211,11 @@ const ProfileCandidatoPage: React.FC = () => {
         addDialogHeader="Experiência"
         AddProvider={RegisterExperienciaProvider}
         renderAddForm={({ close, data }) => (
-          <ExperienciaFormPage candidato={data} switchVisibility={close} />
+          <ExperienciaFormPage
+            candidato={data}
+            switchVisibility={close}
+            callbackAdd={() => getCandById(formData?.id)}
+          />
         )}
         renderItem={(exp: Experiencia) => (
           <CardExperiencia
@@ -220,7 +224,6 @@ const ProfileCandidatoPage: React.FC = () => {
             onEdit={openEdit}
             onDelete={(e) => {
               confirmDeleteExp(window.event, e);
-              getCandById(String(formData?.id));
             }}
             showActions={isOwnProfile}
           />

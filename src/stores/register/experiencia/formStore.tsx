@@ -151,7 +151,7 @@ export const RegisterExperienciaProvider = ({
         showNotification("success", "Experiência criada com sucesso!");
       }
 
-      callback();
+      callback?.();
       resetForm();
       return formData;
     } catch (error) {
