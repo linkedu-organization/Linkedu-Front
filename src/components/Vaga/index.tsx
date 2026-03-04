@@ -29,8 +29,8 @@ export const VagaCard = ({
   onRecommendedCandidates,
   detailsVariant = "button",
 }: VagaCardProps) => (
-  <Card key={vaga.id} className="position-card">
-    <div className="position-card-header">
+  <Card key={vaga.id} className="vaga-card">
+    <div className="vaga-card-header">
       <h2 className="card-title">
         {vaga.titulo} - {getValueByKey(vaga.categoria, categorias as any)}
       </h2>
@@ -75,7 +75,7 @@ export const VagaCard = ({
       </span>
     </div>
 
-    <div className="position-card-footer">
+    <div className="vaga-card-footer">
       <div className="footer-left">
         {showRecommendedButton && (
           <Button
