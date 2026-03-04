@@ -214,7 +214,7 @@ const ProfileCandidatoPage: React.FC = () => {
           <ExperienciaFormPage
             candidato={data}
             switchVisibility={close}
-            callbackAdd={() => getCandById(formData?.id)}
+            callback={() => getCandById(formData?.id)}
           />
         )}
         renderItem={(exp: Experiencia) => (

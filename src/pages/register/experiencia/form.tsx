@@ -12,14 +12,14 @@ type ExperienciaFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
   experiencia?: Experiencia | null;
-  callbackAdd: () => void;
+  callback: () => void;
 };
 
 const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
   candidato,
   switchVisibility,
   experiencia,
-  callbackAdd,
+  callback,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterExperiencia();
@@ -139,7 +139,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
               candidato,
               () => {
                 switchVisibility();
-                callbackAdd();
+                callback?.();
               },
               experiencia?.id
             );

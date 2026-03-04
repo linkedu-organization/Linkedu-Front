@@ -15,14 +15,14 @@ type VagaFormProps = {
   recrutador: Recrutador;
   switchVisibility: () => void;
   vaga?: Vaga | undefined;
-  callbackAdd: () => void;
+  callback?: () => void;
 };
 
 const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
   switchVisibility,
   vaga,
-  callbackAdd,
+  callback,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterVaga();
@@ -37,6 +37,11 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
     if (vaga) load(vaga);
     else resetForm();
   }, [vaga]);
+
+  useEffect(() => {
+    setConhecimentosText((formData.conhecimentosObrigatorios ?? []).join(", "));
+    setConhecimentosOpText((formData.conhecimentosOpcionais ?? []).join(", "));
+  }, [formData.conhecimentosObrigatorios, formData.conhecimentosOpcionais]);
 
   return (
     <div className="exp-form">
@@ -323,7 +328,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               recrutador,
               () => {
                 switchVisibility();
-                callbackAdd();
+                callback?.();
               },
               vaga?.id
             );

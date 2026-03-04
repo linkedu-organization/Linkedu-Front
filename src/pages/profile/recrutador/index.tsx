@@ -154,7 +154,7 @@ const ProfileRecrutadorPage: React.FC = () => {
           <VagaFormPage
             recrutador={formData}
             switchVisibility={close}
-            callbackAdd={() => getRecById(formData?.id)}
+            callback={() => getRecById(formData?.id)}
           />
         )}
         renderItem={(vaga: Vaga) => (

@@ -10,7 +10,7 @@ interface ProfileCandidatoContextType {
   formData: Candidato;
   experiencias: Experiencia[];
   deleteCand: () => void;
-  deleteExp: (id: number, callback: Function) => void;
+  deleteExp: (id: number, callback: () => void) => void;
   getCandById: (id: string) => void;
   loading: boolean;
 }
@@ -64,7 +64,7 @@ export const ProfileCandidatoProvider = ({
     }
   };
 
-  const deleteExp = async (idExp: number, callback: Function) => {
+  const deleteExp = async (idExp: number, callback: () => void) => {
     try {
       await deleteExperiencia(idExp);
       callback?.();

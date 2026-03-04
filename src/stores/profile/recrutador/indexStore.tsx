@@ -10,7 +10,7 @@ interface ProfileRecrutadorContextType {
   formData: Recrutador;
   vagas: Vaga[];
   deleteRec: () => void;
-  deleteVag: (id: number, callback: Function) => void;
+  deleteVag: (id: number, callback: () => void) => void;
   getRecById: (id: string) => void;
   loading: boolean;
 }
@@ -72,7 +72,7 @@ export const ProfileRecrutadorProvider = ({
     }
   };
 
-  const deleteVag = async (idVaga: number, callback: Function) => {
+  const deleteVag = async (idVaga: number, callback: () => void) => {
     try {
       await deleteVaga(idVaga);
       callback?.();
