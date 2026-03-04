@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
@@ -26,6 +26,12 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterVaga();
+  const [conhecimentosText, setConhecimentosText] = useState(
+    (formData.conhecimentosObrigatorios ?? []).join(", ")
+  );
+  const [conhecimentosOpText, setConhecimentosOpText] = useState(
+    (formData.conhecimentosOpcionais ?? []).join(", ")
+  );
 
   useEffect(() => {
     if (vaga) load(vaga);
@@ -217,8 +223,9 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         <div className="exp-field">
           <label>Conhecimentos Obrigatórios *</label>
           <InputText
-            value={formData.conhecimentosObrigatorios.join(", ")}
-            onChange={(e) =>
+            value={conhecimentosText}
+            onChange={(e) => setConhecimentosText(e.target.value)}
+            onBlur={(e) =>
               setField(
                 "conhecimentosObrigatorios",
                 e.target.value
@@ -240,8 +247,9 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         <div className="exp-field">
           <label>Conhecimentos Opcionais *</label>
           <InputText
-            value={formData.conhecimentosOpcionais.join(", ")}
-            onChange={(e) =>
+            value={conhecimentosOpText}
+            onChange={(e) => setConhecimentosOpText(e.target.value)}
+            onBlur={(e) =>
               setField(
                 "conhecimentosOpcionais",
                 e.target.value
