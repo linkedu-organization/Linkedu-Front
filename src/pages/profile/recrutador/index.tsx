@@ -164,7 +164,6 @@ const ProfileRecrutadorPage: React.FC = () => {
             onEdit={openEdit}
             onDelete={(e) => {
               confirmDeleteVaga(window.event, e);
-              getRecById(String(formData?.id));
             }}
             showActions={isOwnProfile}
             showRecommendedButton={isOwnProfile}
