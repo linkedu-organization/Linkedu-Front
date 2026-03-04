@@ -2,7 +2,7 @@ import { createContext, useContext, type ReactNode, useState } from "react";
 import { useNotification } from "@contexts/notificationContext";
 import type { Recrutador } from "@domains/Recrutador";
 import type { Vaga } from "@domains/Vaga";
-import { getAllVagas } from "@routes/routesVaga";
+import { deleteVaga, getAllVagas } from "@routes/routesVaga";
 import { deleteRecrutador, getRecrutador } from "@routes/routesRecrutador";
 import { useAuth } from "@contexts/authContext";
 
@@ -10,6 +10,7 @@ interface ProfileRecrutadorContextType {
   formData: Recrutador;
   vagas: Vaga[];
   deleteRec: () => void;
+  deleteVag: (id: number, callback: Function) => void;
   getRecById: (id: string) => void;
   loading: boolean;
 }
@@ -71,6 +72,16 @@ export const ProfileRecrutadorProvider = ({
     }
   };
 
+  const deleteVag = async (idVaga: number, callback: Function) => {
+    try {
+      await deleteVaga(idVaga);
+      callback?.();
+      showNotification("success", "Vaga excluída com sucesso!");
+    } catch (error) {
+      showNotification("error", "Houve um erro ao excluir a vaga");
+    }
+  };
+
   return (
     <ProfileRecrutadorContext.Provider
       value={{
@@ -78,6 +89,7 @@ export const ProfileRecrutadorProvider = ({
         vagas,
         deleteRec,
         getRecById,
+        deleteVag,
         loading,
       }}
     >

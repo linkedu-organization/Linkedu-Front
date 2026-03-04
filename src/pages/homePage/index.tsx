@@ -11,10 +11,9 @@ import PerfilCard from "@components/Profile";
 import { useHomePage } from "@stores/homePage/indexStore";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Vaga } from "@domains/Vaga";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
-import { useNavigate } from "react-router-dom";
 import { useRecommendedVagas } from "@hooks/useRecommendedVaga";
 
 type FilterField = { campo: string; operador: "eq" | "in"; valor: any };
@@ -40,8 +39,10 @@ function buildVagasFilters(selected: VagasFilterKey[]): FilterField[] {
   if (selected.includes("30h")) horas.push(30);
   if (selected.includes("40h")) horas.push(40);
 
-  if (horas.length === 1) out.push({ campo: "cargaHoraria", operador: "eq", valor: horas[0] });
-  if (horas.length > 1) out.push({ campo: "cargaHoraria", operador: "in", valor: horas });
+  if (horas.length === 1)
+    out.push({ campo: "cargaHoraria", operador: "eq", valor: horas[0] });
+  if (horas.length > 1)
+    out.push({ campo: "cargaHoraria", operador: "in", valor: horas });
 
   return out;
 }
@@ -49,7 +50,9 @@ function buildVagasFilters(selected: VagasFilterKey[]): FilterField[] {
 function buildPerfisFilters(selected: PerfisFilterKey[]): FilterField[] {
   if (selected.length === 0) return [];
 
-  const tipos = selected.map((k) => (k === "candidato" ? "CANDIDATO" : "RECRUTADOR"));
+  const tipos = selected.map((k) =>
+    k === "candidato" ? "CANDIDATO" : "RECRUTADOR"
+  );
 
   return tipos.length === 1
     ? [{ campo: "tipo", operador: "eq", valor: tipos[0] }]
@@ -63,18 +66,27 @@ const HomePage = () => {
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const navigate = useNavigate();
-  const { perfil, authChecked } = useAuth();
-
-  const {
-    recommendedVagas,
-    loading,
-    error,
-    refetch,
-    fetchRecommendedVagas,
-  } = useRecommendedVagas();
-
+  const { recommendedVagas, loading, error, refetch, fetchRecommendedVagas } =
+    useRecommendedVagas();
   const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filterTab, setFilterTab] = useState<TabKey>("vagas");
+  const [vagasSelectedFilters, setVagasSelectedFilters] = useState<
+    VagasFilterKey[]
+  >([]);
+  const [perfisSelectedFilters, setPerfisSelectedFilters] = useState<
+    PerfisFilterKey[]
+  >([]);
+  const [vagasSort, setVagasSort] = useState<Sorter>(VAGAS_DEFAULT_SORT);
+  const [perfisSort, setPerfisSort] = useState<Sorter>(PERFIS_DEFAULT_SORT);
+  const navigate = useNavigate();
+  const { isAuthenticated, authChecked, perfil } = useAuth();
+
+  useEffect(() => {
+    if (authChecked && !isAuthenticated) {
+      navigate("/login", { replace: true });
+    }
+  }, [authChecked, isAuthenticated, navigate]);
 
   const openRecommended = useCallback(() => {
     setIsRecommendedOpen(true);
@@ -84,21 +96,6 @@ const HomePage = () => {
   const closeRecommended = useCallback(() => {
     setIsRecommendedOpen(false);
   }, []);
-
-  useEffect(() => {
-    if (authChecked && !perfil) {
-      navigate("/login", { replace: true });
-    }
-  }, [authChecked, perfil]);
-
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [filterTab, setFilterTab] = useState<TabKey>("vagas");
-
-  const [vagasSelectedFilters, setVagasSelectedFilters] = useState<VagasFilterKey[]>([]);
-  const [perfisSelectedFilters, setPerfisSelectedFilters] = useState<PerfisFilterKey[]>([]);
-
-  const [vagasSort, setVagasSort] = useState<Sorter>(VAGAS_DEFAULT_SORT);
-  const [perfisSort, setPerfisSort] = useState<Sorter>(PERFIS_DEFAULT_SORT);
 
   const vagasFilters = useMemo(
     () => buildVagasFilters(vagasSelectedFilters),
@@ -114,12 +111,7 @@ const HomePage = () => {
     if (!q) return vagas;
 
     return vagas.filter((v) =>
-      [
-        v.titulo,
-        v.categoria,
-        v.ehRemunerada,
-        v.cargaHoraria
-      ]
+      [v.titulo, v.categoria, v.ehRemunerada, v.cargaHoraria]
         .filter(Boolean)
         .some((field) => String(field).toLowerCase().includes(q))
     );
@@ -129,10 +121,7 @@ const HomePage = () => {
     if (!q) return perfis;
 
     return perfis.filter((p) =>
-      [
-        (p as any).nome,
-        (p as any).email
-      ]
+      [(p as any).nome, (p as any).email]
         .filter(Boolean)
         .some((field) => String(field).toLowerCase().includes(q))
     );
@@ -189,7 +178,15 @@ const HomePage = () => {
       applyPerfisQuery(perfisFilters, perfisSort);
     }
     setFiltersOpen(false);
-  }, [filterTab, applyVagasQuery, applyPerfisQuery, vagasFilters, perfisFilters, vagasSort, perfisSort]);
+  }, [
+    filterTab,
+    applyVagasQuery,
+    applyPerfisQuery,
+    vagasFilters,
+    perfisFilters,
+    vagasSort,
+    perfisSort,
+  ]);
 
   const clearFilters = useCallback(() => {
     if (filterTab === "vagas") {
@@ -206,13 +203,19 @@ const HomePage = () => {
     (tab: TabKey) => {
       if (tab === "vagas") {
         setVagasSort((prev) => {
-          const next: Sorter = { ...prev, ordem: prev.ordem === "ASC" ? "DESC" : "ASC" };
+          const next: Sorter = {
+            ...prev,
+            ordem: prev.ordem === "ASC" ? "DESC" : "ASC",
+          };
           applyVagasQuery(vagasFilters, next);
           return next;
         });
       } else {
         setPerfisSort((prev) => {
-          const next: Sorter = { ...prev, ordem: prev.ordem === "ASC" ? "DESC" : "ASC" };
+          const next: Sorter = {
+            ...prev,
+            ordem: prev.ordem === "ASC" ? "DESC" : "ASC",
+          };
           applyPerfisQuery(perfisFilters, next);
           return next;
         });
@@ -231,8 +234,7 @@ const HomePage = () => {
     return `${perfisSelectedFilters.length} selecionado(s)`;
   }, [perfisSelectedFilters.length]);
 
-
-  return !perfil ? (
+  return !isAuthenticated ? (
     <></>
   ) : (
     <Layout showFooter headerType="full">
@@ -365,7 +367,9 @@ const HomePage = () => {
 
             {vagasFiltradas.length === 0 && (
               <div className="message">
-                {q ? "Nenhuma vaga encontrada para a busca." : "Nenhuma vaga pública disponível."}
+                {q
+                  ? "Nenhuma vaga encontrada para a busca."
+                  : "Nenhuma vaga pública disponível."}
               </div>
             )}
 
@@ -416,7 +420,9 @@ const HomePage = () => {
 
             {perfisFiltrados.length === 0 && (
               <div className="message">
-                {q ? "Nenhum perfil encontrado para a busca." : "Nenhum perfil disponível."}
+                {q
+                  ? "Nenhum perfil encontrado para a busca."
+                  : "Nenhum perfil disponível."}
               </div>
             )}
 
@@ -435,15 +441,24 @@ const HomePage = () => {
           header="Vagas Recomendadas"
           style={{ width: "80vw" }}
         >
-          {loading && <p className="loading">Carregando vagas recomendadas...</p>}
+          {loading && (
+            <p className="loading">Carregando vagas recomendadas...</p>
+          )}
           {error && <p>{error}</p>}
-          {recommendedVagas.length === 0 && !loading && !error && <p>Não há vagas recomendadas no momento.</p>}
+          {recommendedVagas.length === 0 && !loading && !error && (
+            <p>Não há vagas recomendadas no momento.</p>
+          )}
 
           {!loading && !error && recommendedVagas.length > 0 && (
             <div className="position-list-cards">
-              {recommendedVagas.map((recomendacao) => {
-                return <VagaCard key={recomendacao.vaga.id} vaga={recomendacao.vaga} openDetails={openDetails} showActions={false} />;
-              })}
+              {recommendedVagas.map((recomendacao) => (
+                <VagaCard
+                  key={recomendacao.vaga.id}
+                  vaga={recomendacao.vaga}
+                  openDetails={openDetails}
+                  showActions={false}
+                />
+              ))}
             </div>
           )}
           <div className="modal-footer">

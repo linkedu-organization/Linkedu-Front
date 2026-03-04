@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
@@ -10,11 +9,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Dialog } from "primereact/dialog";
 
 import { Layout } from "@components/Layout";
-import { getValueDate } from "@utils/utils";
-import {
-  DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-  DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS,
-} from "@utils/date";
+import { getUTCDate } from "@utils/utils";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 
@@ -61,8 +56,11 @@ export const ProfilePage = ({
   const [dialogEdit, setDialogEdit] = useState(false);
 
   const isOwnProfile = useMemo(() => {
-    const tipoPerfil = perfil?.tipo?.toLowerCase();
-    return perfil[tipoPerfil].id === formData?.id;
+    if (perfil !== null) {
+      const tipoPerfil = perfil?.tipo?.toLowerCase();
+      return perfil[tipoPerfil].id === formData?.id;
+    }
+    return false;
   }, [perfil, formData?.id]);
 
   const confirmExcluir = (event: any) => {
@@ -187,11 +185,7 @@ export const ProfilePage = ({
           <div className="bio-update">
             <span className="last-update">
               Última atualização:
-              {getValueDate(
-                formData?.perfil?.ultimoAcesso,
-                DATE_FORMAT_WITH_HOURS_AND_SECONDS,
-                DATE_PARSE_FORMAT_WITH_HOURS_AND_SECONDS
-              )}
+              {getUTCDate(formData?.perfil?.updatedAt)}
             </span>
           </div>
         </Card>

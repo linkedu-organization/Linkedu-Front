@@ -12,12 +12,14 @@ type ExperienciaFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
   experiencia?: Experiencia | null;
+  callbackAdd: () => void;
 };
 
 const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
   candidato,
   switchVisibility,
   experiencia,
+  callbackAdd,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterExperiencia();
@@ -133,7 +135,14 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
           className="p-button-save-exp"
           type="button"
           onClick={async () => {
-            await submit(candidato, () => switchVisibility(), experiencia?.id);
+            await submit(
+              candidato,
+              () => {
+                switchVisibility();
+                callbackAdd();
+              },
+              experiencia?.id
+            );
           }}
         />
       </div>

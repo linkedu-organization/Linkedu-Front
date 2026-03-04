@@ -240,6 +240,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             placeholder="Selecione as suas áreas de interesse"
             className={errors.areasInteresse ? "p-invalid" : ""}
             display="chip"
+            maxSelectedLabels={2}
           />
           {errorsForm("areasInteresse")}
         </div>
@@ -253,6 +254,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             placeholder="Selecione as suas habilidades"
             className={errors.habilidades ? "p-invalid" : ""}
             display="chip"
+            maxSelectedLabels={2}
           />
           {errorsForm("habilidades")}
         </div>

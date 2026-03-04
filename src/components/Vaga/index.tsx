@@ -9,7 +9,7 @@ import "./style.css";
 export interface VagaCardProps {
   vaga: Vaga;
   openDetails: (vaga: Vaga) => void;
-  
+
   showActions?: boolean;
   onEdit?: (exp: Vaga) => void;
   onDelete?: (exp: Vaga) => void;
@@ -28,9 +28,7 @@ export const VagaCard = ({
   showRecommendedButton,
   onRecommendedCandidates,
   detailsVariant = "button",
-
 }: VagaCardProps) => (
-  
   <Card key={vaga.id} className="position-card">
     <div className="position-card-header">
       <h2 className="card-title">
@@ -78,7 +76,6 @@ export const VagaCard = ({
     </div>
 
     <div className="position-card-footer">
-
       <div className="footer-left">
         {showRecommendedButton && (
           <Button
@@ -101,7 +98,7 @@ export const VagaCard = ({
 
         {detailsVariant === "icon" && (
           <Button
-            icon="pi pi-eye"  
+            icon="pi pi-eye"
             className="details-button icon-only"
             text
             type="button"
@@ -127,7 +124,7 @@ export const VagaCard = ({
             />
           </div>
         )}
-    </div>
+      </div>
     </div>
   </Card>
 );
