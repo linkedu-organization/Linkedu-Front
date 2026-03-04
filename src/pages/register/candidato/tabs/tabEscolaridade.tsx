@@ -69,7 +69,11 @@ const TabEscolaridade = ({
         <label>Curso / Área de atuação *</label>
         <Dropdown
           value={formData.areaAtuacao}
-          onChange={(e) => setField("areaAtuacao", e.value)}
+          onChange={(e) => {
+            setField("areaAtuacao", e.value);
+            setField("areasInteresse", []);
+            setField("habilidades", []);
+          }}
           options={cursos}
           placeholder="Selecione o seu curso ou área de atuação"
           className={invalid(submitted, errors.areaAtuacao)}
@@ -92,6 +96,7 @@ const TabEscolaridade = ({
           <small>{errors.nivelEscolaridade}</small>
         )}
       </div>
+
       {formData.cargo === "ALUNO" && (
         <>
           <div className="field">

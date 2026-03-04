@@ -14,8 +14,8 @@ import PhotoUpload from "@components/PhotoUpload";
 import {
   cargoCandidato,
   cursos,
-  habilidades,
-  interesses,
+  getHabilidadesPorCurso,
+  getInteressesPorCurso,
   niveis,
   simNao,
 } from "@utils/constants";
@@ -41,6 +41,17 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   if (!formData) return null;
 
+  const curso = formData.areaAtuacao ?? null;
+  const interessesDisponiveis = getInteressesPorCurso(curso);
+  const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
+
+  const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
+    interessesDisponiveis.some((o) => o.value === v)
+  );
+  const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
+    habilidadesDisponiveis.some((o) => o.value === v)
+  );
+
   const conditionalFields = [
     <>
       <div className="editperfil-field">
@@ -53,7 +64,6 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           className={errors.tempoDisponivel ? "p-invalid" : ""}
           inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
         />
-
         {errorsForm("tempoDisponivel")}
       </div>
 
@@ -115,9 +125,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             rows={4}
             autoResize
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-            style={{
-              width: "-webkit-fill-available",
-            }}
+            style={{ width: "-webkit-fill-available" }}
           />
         </div>
       </div>
@@ -182,7 +190,11 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             options={cursos}
             optionLabel="label"
             optionValue="value"
-            onChange={(e) => setField("areaAtuacao", e.value)}
+            onChange={(e) => {
+              setField("areaAtuacao", e.value);
+              setField("areasInteresse", []);
+              setField("habilidades", []);
+            }}
             className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
           />
@@ -226,35 +238,57 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           </>
         )}
       </div>
+
       {formData.cargo === "TECNICO" &&
-        conditionalFields.map((fields) => (
-          <div className="editcand-half-grid">{fields}</div>
+        conditionalFields.map((fields, i) => (
+          <div key={i} className="editcand-half-grid">
+            {fields}
+          </div>
         ))}
+
       <div className="editcand-half-grid">
         <div className="editperfil-field">
           <label>Áreas de interesse *</label>
+          {!curso && (
+            <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
+              Selecione um curso para ver as opções disponíveis.
+            </small>
+          )}
           <MultiSelect
-            value={formData.areasInteresse}
+            value={interessesFiltrados}
             onChange={(e) => setField("areasInteresse", e.value)}
-            options={interesses}
-            placeholder="Selecione as suas áreas de interesse"
+            options={interessesDisponiveis}
+            placeholder={
+              curso
+                ? "Selecione as suas áreas de interesse"
+                : "Disponível após selecionar o curso"
+            }
             className={errors.areasInteresse ? "p-invalid" : ""}
             display="chip"
-            maxSelectedLabels={2}
+            disabled={!curso}
           />
           {errorsForm("areasInteresse")}
         </div>
 
         <div className="editperfil-field">
           <label>Habilidades *</label>
+          {!curso && (
+            <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
+              Selecione um curso para ver as opções disponíveis.
+            </small>
+          )}
           <MultiSelect
-            value={formData.habilidades}
+            value={habilidadesFiltradas}
             onChange={(e) => setField("habilidades", e.value)}
-            options={habilidades}
-            placeholder="Selecione as suas habilidades"
+            options={habilidadesDisponiveis}
+            placeholder={
+              curso
+                ? "Selecione as suas habilidades"
+                : "Disponível após selecionar o curso"
+            }
             className={errors.habilidades ? "p-invalid" : ""}
             display="chip"
-            maxSelectedLabels={2}
+            disabled={!curso}
           />
           {errorsForm("habilidades")}
         </div>
