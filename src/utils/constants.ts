@@ -7,6 +7,11 @@ export const instituicoes = [
   { label: "Outra", value: "OUTRA" },
 ];
 
+export const cursos = [
+  { label: "Ciência da Computação", value: "CIENCIA_DA_COMPUTACAO" },
+  { label: "Arquitetura e Urbanismo", value: "ARQUITETURA_E_URBANISMO" },
+];
+
 export const niveis = [
   { label: "Ensino Fundamental Incompleto", value: "FUNDAMENTAL_INCOMPLETO" },
   { label: "Ensino Fundamental Completo", value: "FUNDAMENTAL_COMPLETO" },

@@ -13,6 +13,7 @@ import { useRegisterEditCandidato } from "@stores/profile/candidato/formStore";
 import PhotoUpload from "@components/PhotoUpload";
 import {
   cargoCandidato,
+  cursos,
   habilidades,
   interesses,
   niveis,
@@ -176,9 +177,12 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editperfil-field">
           <label>Curso/Área de atuação *</label>
-          <InputText
+          <Dropdown
             value={formData.areaAtuacao}
-            onChange={(e) => setField("areaAtuacao", e.target.value)}
+            options={cursos}
+            optionLabel="label"
+            optionValue="value"
+            onChange={(e) => setField("areaAtuacao", e.value)}
             className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
           />

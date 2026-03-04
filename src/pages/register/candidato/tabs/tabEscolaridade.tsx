@@ -2,7 +2,7 @@ import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
 import type { Candidato } from "@domains/Candidato";
-import { instituicoes, niveis } from "@utils/constants";
+import { instituicoes, niveis, cursos } from "@utils/constants";
 import { hasError, invalid } from "@utils/utils";
 import "./tabs.css";
 
@@ -67,9 +67,10 @@ const TabEscolaridade = ({
 
       <div className="field">
         <label>Curso / Área de atuação *</label>
-        <InputText
+        <Dropdown
           value={formData.areaAtuacao}
-          onChange={(e) => setField("areaAtuacao", e.target.value)}
+          onChange={(e) => setField("areaAtuacao", e.value)}
+          options={cursos}
           placeholder="Selecione o seu curso ou área de atuação"
           className={invalid(submitted, errors.areaAtuacao)}
         />
