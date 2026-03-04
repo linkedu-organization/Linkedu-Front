@@ -12,7 +12,7 @@ type ExperienciaFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
   experiencia?: Experiencia | null;
-  callback: () => void;
+  callback?: () => void;
 };
 
 const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
