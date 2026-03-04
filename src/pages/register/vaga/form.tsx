@@ -179,6 +179,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             placeholder="Selecione um ou mais públicos..."
             className={errors.publicoAlvo ? "p-invalid" : ""}
             style={{ width: "100%" }}
+            maxSelectedLabels={2}
           />
           {errors.publicoAlvo && (
             <small className="p-error">{errors.publicoAlvo}</small>
