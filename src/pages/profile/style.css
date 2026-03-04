@@ -193,7 +193,7 @@
 }
 
 .recrutador-vaga-dialog .p-dialog-header {
-  background: #364fab !important;
+  background: var(--Linkedu-Blue) !important;
   color: var(--Linkedu-White) !important;
   border-bottom: none !important;
 }

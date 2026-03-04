@@ -84,27 +84,20 @@ const Header = ({ headerType }: HeaderProps) => {
               style={{ height: "2rem" }}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") 
-                  submitSearch();
+                if (e.key === "Enter") submitSearch();
               }}
             />
           </IconField>
         </div>
 
         <div className="flex align-items-center gap-4 justify-center">
-          <Button 
-            icon="pi pi-align-justify" 
-            onClick={toggleMenu} 
-            text 
-          />
+          <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
 
           {menuVisible && (
             <div className="menu-container">
               <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
             </div>
-
           )}
-
         </div>
       </div>
     );
