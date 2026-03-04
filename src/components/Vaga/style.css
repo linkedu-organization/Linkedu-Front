@@ -188,31 +188,39 @@
   overflow: hidden;
 }
 
+.vaga-row.link-row b {
+  color: var(--Linkedu-White);
+  font-size: 14px;
+  font: "Inter";
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
 .vaga-row.link-row .pi {
   color: var(--Linkedu-White);
   font-size: 12px;
 }
 
-.vaga-row.link-row,
-.vaga-row.link-row .link-label {
+.vaga-row.link-row .link-value {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.vaga-row.link-row .link-value a {
   color: var(--Linkedu-White);
   font-size: 14px;
   font: "Inter";
-  font-weight: 100;
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-.vaga-row.link-row a {
-  color: var(--Linkedu-White);
   font-weight: 300;
   display: block;
-  flex: 1 1 auto;
-  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-bottom-left-radius: 24px;
+
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
 }
 
 .vaga-row .item .icon-badge {

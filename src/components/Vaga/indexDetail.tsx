@@ -130,17 +130,19 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             </div>
           </div>
         </div>
-
         <div className="vaga-row link-row">
           <i className="pi pi-external-link" />
           <b>Link para inscrição:</b>
-          <a
-            href={normalizeUrl(vaga.linkInscricao)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {vaga.linkInscricao}
-          </a>
+
+          <span className="link-value">
+            <a
+              href={normalizeUrl(vaga.linkInscricao)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {vaga.linkInscricao}
+            </a>
+          </span>
         </div>
       </div>
     </div>
