@@ -48,6 +48,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           value={formData.tempoDisponivel}
           onValueChange={(e) => setField("tempoDisponivel", e.value)}
           min={0}
+          max={168}
           placeholder="Selecione sua carga horária disponível na semana"
           className={errors.tempoDisponivel ? "p-invalid" : ""}
           inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
