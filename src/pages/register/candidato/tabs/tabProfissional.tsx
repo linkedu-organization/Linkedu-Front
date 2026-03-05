@@ -1,10 +1,10 @@
-import { MultiSelect } from "primereact/multiselect";
 import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import type { Candidato } from "@domains/Candidato";
 import { getHabilidadesPorCurso, getInteressesPorCurso } from "@utils/constants";
 import { hasError, invalid } from "@utils/utils";
+import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import "./tabs.css";
 
 type TabProfissionalProps = {
@@ -25,10 +25,10 @@ const TabProfissional = ({
   const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
 
   const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
-    interessesDisponiveis.some((o) => o.value === v)
+    interessesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
   );
   const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
-    habilidadesDisponiveis.some((o) => o.value === v)
+    habilidadesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
   );
 
   return (
@@ -90,17 +90,18 @@ const TabProfissional = ({
               Selecione um curso/área de atuação na etapa anterior para ver as opções disponíveis.
             </small>
           )}
-          <MultiSelect
+          <MultiSelectWithCustom
             value={interessesFiltrados}
-            onChange={(e) => setField("areasInteresse", e.value)}
+            onChange={(vals) => setField("areasInteresse", vals)}
             options={interessesDisponiveis}
             placeholder={
               curso
                 ? "Selecione as suas áreas de interesse"
                 : "Disponível após selecionar o curso"
             }
-            display="chip"
+            className={hasError(submitted, errors.areasInteresse) ? "p-invalid" : ""}
             disabled={!curso}
+            customLabel="Adicionar área personalizada"
           />
           {hasError(submitted, errors.areasInteresse) && (
             <small>{errors.areasInteresse}</small>
@@ -114,17 +115,18 @@ const TabProfissional = ({
               Selecione um curso/área de atuação na etapa anterior para ver as opções disponíveis.
             </small>
           )}
-          <MultiSelect
+          <MultiSelectWithCustom
             value={habilidadesFiltradas}
-            onChange={(e) => setField("habilidades", e.value)}
+            onChange={(vals) => setField("habilidades", vals)}
             options={habilidadesDisponiveis}
             placeholder={
               curso
                 ? "Selecione as suas habilidades"
                 : "Disponível após selecionar o curso"
             }
-            display="chip"
+            className={hasError(submitted, errors.habilidades) ? "p-invalid" : ""}
             disabled={!curso}
+            customLabel="Adicionar habilidade personalizada"
           />
           {hasError(submitted, errors.habilidades) && (
             <small>{errors.habilidades}</small>

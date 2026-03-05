@@ -1,0 +1,71 @@
+.multiselect-custom-footer {
+  padding: 8px 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.multiselect-add-custom-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--Linkedu-Blue);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 4px;
+  width: 100%;
+  text-align: left;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.multiselect-add-custom-btn:hover {
+  background: var(--Linkedu-LighterBlue);
+}
+
+.multiselect-add-custom-btn .pi {
+  font-size: 11px;
+}
+
+.multiselect-custom-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.multiselect-custom-input {
+  flex: 1;
+  height: 32px !important;
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+}
+
+.multiselect-custom-confirm-btn.p-button {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 !important;
+  background: var(--Linkedu-Blue) !important;
+  border-color: var(--Linkedu-Blue) !important;
+  border-radius: 4px !important;
+  flex-shrink: 0;
+}
+
+.multiselect-custom-cancel-btn.p-button {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-color: var(--Linkedu-Gray) !important;
+  color: var(--Linkedu-Gray) !important;
+  border-radius: 4px !important;
+  flex-shrink: 0;
+}
+
+.multiselect-custom-confirm-btn.p-button .p-button-icon,
+.multiselect-custom-cancel-btn.p-button .p-button-icon {
+  font-size: 11px !important;
+  margin: 0 !important;
+}
