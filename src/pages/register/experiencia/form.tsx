@@ -85,6 +85,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
             onChange={(e) => setField("periodoInicio", e.target.value)}
             className={errors.periodoInicio ? "p-invalid" : ""}
             placeholder="Ex: 10/2024"
+            maxLength={7}
           />
           {errors.periodoInicio && (
             <small className="p-error">{errors.periodoInicio}</small>
@@ -98,6 +99,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
             onChange={(e) => setField("periodoFim", e.target.value)}
             className={errors.periodoFim ? "p-invalid" : ""}
             placeholder="Ex: 03/2025"
+            maxLength={7}
           />
           {errors.periodoFim && (
             <small className="p-error">{errors.periodoFim}</small>

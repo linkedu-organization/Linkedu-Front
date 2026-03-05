@@ -207,7 +207,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               <InputText
                 value={formData.periodoConclusao ?? ""}
                 onChange={(e) => setField("periodoConclusao", e.target.value)}
-                placeholder="MM/AAAA"
+                placeholder="Ex.: 2023.1"
+                maxLength={6}
               />
             </div>
 
@@ -216,7 +217,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               <InputText
                 value={formData.periodoIngresso ?? ""}
                 onChange={(e) => setField("periodoIngresso", e.target.value)}
-                placeholder="MM/AAAA"
+                placeholder="Ex.: 2027.2"
+                maxLength={6}
               />
             </div>
             {conditionalFields}

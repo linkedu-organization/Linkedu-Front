@@ -145,6 +145,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             onChange={(e) => setField("dataExpiracao", e.target.value)}
             className={errors.dataExpiracao ? "p-invalid" : ""}
             placeholder="DD/MM/AA"
+            maxLength={8}
           />
           {errors.dataExpiracao && (
             <small className="p-error">{errors.dataExpiracao}</small>
