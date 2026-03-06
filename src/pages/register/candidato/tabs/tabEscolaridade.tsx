@@ -99,6 +99,7 @@ const TabEscolaridade = ({
               value={formData.periodoIngresso}
               onChange={(e) => setField("periodoIngresso", e.target.value)}
               placeholder="Ex.: 2023.1"
+              maxLength={6}
             />
           </div>
 
@@ -108,6 +109,7 @@ const TabEscolaridade = ({
               value={formData.periodoConclusao}
               onChange={(e) => setField("periodoConclusao", e.target.value)}
               placeholder="Ex.: 2027.2"
+              maxLength={6}
             />
           </div>
         </>

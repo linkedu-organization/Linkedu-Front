@@ -61,6 +61,7 @@ const TabProfissional = ({
             value={formData.tempoDisponivel}
             onValueChange={(e) => setField("tempoDisponivel", e.value)}
             min={0}
+            max={168}
             placeholder="Digite sua carga horária semanal"
             className={invalid(submitted, errors.tempoDisponivel)}
             inputClassName={invalid(submitted, errors.tempoDisponivel)}

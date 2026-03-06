@@ -48,6 +48,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           value={formData.tempoDisponivel}
           onValueChange={(e) => setField("tempoDisponivel", e.value)}
           min={0}
+          max={168}
           placeholder="Selecione sua carga horária disponível na semana"
           className={errors.tempoDisponivel ? "p-invalid" : ""}
           inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
@@ -206,7 +207,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               <InputText
                 value={formData.periodoConclusao ?? ""}
                 onChange={(e) => setField("periodoConclusao", e.target.value)}
-                placeholder="MM/AAAA"
+                placeholder="Ex.: 2023.1"
+                maxLength={6}
               />
             </div>
 
@@ -215,7 +217,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               <InputText
                 value={formData.periodoIngresso ?? ""}
                 onChange={(e) => setField("periodoIngresso", e.target.value)}
-                placeholder="MM/AAAA"
+                placeholder="Ex.: 2027.2"
+                maxLength={6}
               />
             </div>
             {conditionalFields}
