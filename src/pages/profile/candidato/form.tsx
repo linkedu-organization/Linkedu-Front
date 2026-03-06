@@ -19,6 +19,7 @@ import {
   simNao,
 } from "@utils/constants";
 import "../styleForm.css";
+import { InputMask } from "primereact/inputmask";
 
 type CandidatoEditFormProps = {
   candidato: Candidato;
@@ -204,21 +205,21 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           <>
             <div className="editperfil-field">
               <label>Período de conclusão</label>
-              <InputText
+              <InputMask
                 value={formData.periodoConclusao ?? ""}
                 onChange={(e) => setField("periodoConclusao", e.target.value)}
                 placeholder="Ex.: 2023.1"
-                maxLength={6}
+                mask="9999.9"
               />
             </div>
 
             <div className="editperfil-field">
               <label>Período de ingresso</label>
-              <InputText
+              <InputMask
                 value={formData.periodoIngresso ?? ""}
                 onChange={(e) => setField("periodoIngresso", e.target.value)}
                 placeholder="Ex.: 2027.2"
-                maxLength={6}
+                mask="9999.9"
               />
             </div>
             {conditionalFields}

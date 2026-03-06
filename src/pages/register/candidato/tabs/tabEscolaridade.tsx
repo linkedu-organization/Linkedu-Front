@@ -5,6 +5,7 @@ import type { Candidato } from "@domains/Candidato";
 import { instituicoes, niveis } from "@utils/constants";
 import { hasError, invalid } from "@utils/utils";
 import "./tabs.css";
+import { InputMask } from "primereact/inputmask";
 
 type TabEscolaridadeProps = {
   formData: Candidato;
@@ -95,21 +96,21 @@ const TabEscolaridade = ({
         <>
           <div className="field">
             <label>Período de ingresso</label>
-            <InputText
+            <InputMask
               value={formData.periodoIngresso}
               onChange={(e) => setField("periodoIngresso", e.target.value)}
               placeholder="Ex.: 2023.1"
-              maxLength={6}
+              mask="9999.9"
             />
           </div>
 
           <div className="field">
             <label>Período de conclusão</label>
-            <InputText
+            <InputMask
               value={formData.periodoConclusao}
               onChange={(e) => setField("periodoConclusao", e.target.value)}
               placeholder="Ex.: 2027.2"
-              maxLength={6}
+              mask="9999.9"
             />
           </div>
         </>

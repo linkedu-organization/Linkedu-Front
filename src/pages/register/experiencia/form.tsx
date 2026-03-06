@@ -7,6 +7,7 @@ import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
 import { useRegisterExperiencia } from "@stores/register/experiencia/formStore";
 import "./style.css";
+import { InputMask } from "primereact/inputmask";
 
 type ExperienciaFormProps = {
   candidato: Candidato;
@@ -80,12 +81,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
 
         <div className="exp-field">
           <label>Período de início (MM/AAAA) *</label>
-          <InputText
+          <InputMask
             value={formData.periodoInicio}
             onChange={(e) => setField("periodoInicio", e.target.value)}
             className={errors.periodoInicio ? "p-invalid" : ""}
             placeholder="Ex: 10/2024"
-            maxLength={7}
+            mask="99/9999"
           />
           {errors.periodoInicio && (
             <small className="p-error">{errors.periodoInicio}</small>
@@ -94,12 +95,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
 
         <div className="exp-field">
           <label>Período de conclusão (MM/AAAA)</label>
-          <InputText
+          <InputMask
             value={formData.periodoFim}
             onChange={(e) => setField("periodoFim", e.target.value)}
             className={errors.periodoFim ? "p-invalid" : ""}
             placeholder="Ex: 03/2025"
-            maxLength={7}
+            mask="99/9999"
           />
           {errors.periodoFim && (
             <small className="p-error">{errors.periodoFim}</small>
