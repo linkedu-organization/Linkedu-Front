@@ -156,6 +156,7 @@
 .vaga-row .item {
   flex: 1 1 220px;
   min-width: 180px;
+  align-self: flex-start;
 }
 
 .vaga-row.wide {
