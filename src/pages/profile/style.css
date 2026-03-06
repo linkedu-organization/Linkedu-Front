@@ -139,7 +139,7 @@
 .about-line {
   font-size: 13px;
   color: var(--Linkedu-DarkLetterSecond);
-  align-self: flex-start;
+  align-self: center;
 }
 
 .about-line strong {
