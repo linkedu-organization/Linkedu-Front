@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
@@ -140,11 +141,12 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>Data de expiração da vaga *</label>
-          <InputText
+          <InputMask
             value={formData.dataExpiracao}
             onChange={(e) => setField("dataExpiracao", e.target.value)}
             className={errors.dataExpiracao ? "p-invalid" : ""}
-            placeholder="DD/MM/AA"
+            placeholder="DD/MM/AAAA"
+            mask="99/99/9999"
           />
           {errors.dataExpiracao && (
             <small className="p-error">{errors.dataExpiracao}</small>

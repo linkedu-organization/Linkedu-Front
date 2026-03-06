@@ -184,8 +184,7 @@ export const ProfilePage = ({
 
           <div className="bio-update">
             <span className="last-update">
-              Última atualização:
-              {getUTCDate(formData?.perfil?.updatedAt)}
+              Última atualização: {getUTCDate(formData?.perfil?.updatedAt)}
             </span>
           </div>
         </Card>

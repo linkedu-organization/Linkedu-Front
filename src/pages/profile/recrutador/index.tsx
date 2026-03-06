@@ -34,6 +34,7 @@ const aboutRows = (formData: Recrutador): unknown => [
     ? [
         {
           icon: "pi pi-bookmark",
+          label: "Laboratório(s):",
           value: formData?.laboratorios,
         },
       ]
