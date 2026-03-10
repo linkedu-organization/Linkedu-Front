@@ -147,7 +147,7 @@ export const RegisterRecrutadorProvider = ({
   const finalizeRegister = async () => {
     try {
       await registerRecrutador(formData);
-      showNotification("success", null, "Recrutador cadastrado com sucesso!");
+      showNotification("success", null, "Cadastro concluído com sucesso!");
       navigate("/login");
     } catch (error) {
       showNotification(
