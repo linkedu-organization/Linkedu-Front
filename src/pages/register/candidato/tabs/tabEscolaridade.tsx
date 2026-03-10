@@ -42,7 +42,11 @@ const TabEscolaridade = ({
               inputId="cargo-tec"
               name="cargo"
               value="TECNICO"
-              onChange={(e) => setField("cargo", e.value)}
+              onChange={(e) => {
+                setField("cargo", e.value);
+                setField("periodoIngresso", undefined);
+                setField("periodoConclusao", undefined);
+              }}
               checked={formData.cargo === "TECNICO"}
             />
             <label htmlFor="cargo-tec">Técnico Administrativo</label>

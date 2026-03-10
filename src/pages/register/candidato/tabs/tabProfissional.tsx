@@ -42,7 +42,10 @@ const TabProfissional = ({
               inputId="contratacao-nao"
               name="contratacao"
               value={false}
-              onChange={(e) => setField("disponivel", e.value)}
+              onChange={(e) => {
+                setField("disponivel", e.value);
+                setField("tempoDisponivel", 0);
+              }}
               checked={formData.disponivel === false}
             />
             <label htmlFor="contratacao-nao">Não</label>

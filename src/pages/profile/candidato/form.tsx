@@ -85,7 +85,10 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
                 inputId={`disp-${opt.label}`}
                 name="disponivel"
                 value={opt.value}
-                onChange={(e) => setField("disponivel", e.value)}
+                onChange={(e) => {
+                  setField("disponivel", e.value);
+                  if (!e.value) setField("tempoDisponivel", 0);
+                }}
                 checked={formData.disponivel === opt.value}
               />
               <label htmlFor={`disp-${opt.label}`}>{opt.label}</label>
@@ -155,7 +158,13 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
                   inputId={`cargo-${opt.value}`}
                   name="cargo"
                   value={opt.value}
-                  onChange={(e) => setField("cargo", e.value)}
+                  onChange={(e) => {
+                    setField("cargo", e.value);
+                    if (e.value === "TECNICO") {
+                      setField("periodoConclusao", undefined);
+                      setField("periodoIngresso", undefined);
+                    }
+                  }}
                   checked={formData.cargo === opt.value}
                 />
                 <label htmlFor={`cargo-${opt.value}`}>{opt.label}</label>
