@@ -94,7 +94,6 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
       "curso",
       "conhecimentosObrigatorios",
       "linkInscricao",
-      "local",
       "descricao",
     ];
 

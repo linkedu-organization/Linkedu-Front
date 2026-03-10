@@ -154,7 +154,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Carga horária *</label>
+          <label>Carga horária (semanal) *</label>
           <InputText
             value={formData.cargaHoraria ? String(formData.cargaHoraria) : ""}
             onChange={(e) => {
@@ -172,6 +172,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           <label>Tempo de duração (em meses) *</label>
           <InputText
             value={formData.duracao}
+            keyfilter="int"
             onChange={(e) => setField("duracao", e.target.value)}
             className={errors.duracao ? "p-invalid" : ""}
             placeholder="Informe o período de duração da vaga"
@@ -252,7 +253,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Conhecimentos Opcionais *</label>
+          <label>Conhecimentos Opcionais</label>
           <InputText
             value={conhecimentosOpText}
             onChange={(e) => setConhecimentosOpText(e.target.value)}
@@ -265,12 +266,8 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
                   .filter(Boolean)
               )
             }
-            className={errors.conhecimentosOpcionais ? "p-invalid" : ""}
             placeholder="Digite os conhecimentos opcionais"
           />
-          {errors.conhecimentosOpcionais && (
-            <small className="p-error">{errors.conhecimentosOpcionais}</small>
-          )}
         </div>
 
         <div className="exp-field">
@@ -291,10 +288,8 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           <InputText
             value={formData.local}
             onChange={(e) => setField("local", e.target.value)}
-            className={errors.local ? "p-invalid" : ""}
             placeholder="Digite o nome do laboratório ou o local associado"
           />
-          {errors.local && <small className="p-error">{errors.local}</small>}
         </div>
 
         <div className="exp-field exp-field-full">
