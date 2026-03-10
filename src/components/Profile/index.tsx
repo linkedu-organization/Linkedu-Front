@@ -56,7 +56,6 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
         </div>
 
         {perfil.tipo === "RECRUTADOR" && (
-
           <div>
             <div className="perfil-email">
               <b>Instituição: </b>
@@ -81,7 +80,7 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
               <b>Áreas de interesse: </b>
               <span>{areas || "Não informado"}</span>
             </div>
-            
+
             <div className="perfil-email">
               <b>Disponibilidade: </b>
               <span>{formatDisponibilidade(tempo)}</span>
@@ -89,11 +88,12 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
 
             <div className="perfil-email">
               <b>Período de Conclusão: </b>
-              <span>{perfil.candidato?.periodoConclusao || "Não informado"}</span>
+              <span>
+                {perfil.candidato?.periodoConclusao || "Não informado"}
+              </span>
             </div>
           </div>
         )}
-
       </div>
 
       <div className="position-card-footer">

@@ -44,7 +44,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   const conditionalFields = [
     <>
       <div className="editperfil-field">
-        <label>Horas disponíveis</label>
+        <label>Horas disponíveis (na semana)</label>
         <InputNumber
           value={formData.tempoDisponivel}
           onValueChange={(e) => setField("tempoDisponivel", e.value)}
@@ -204,7 +204,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         {formData.cargo === "ALUNO" && (
           <>
             <div className="editperfil-field">
-              <label>Período de conclusão</label>
+              <label>Período de conclusão (previsto)</label>
               <InputMask
                 value={formData.periodoConclusao ?? ""}
                 onChange={(e) => setField("periodoConclusao", e.target.value)}

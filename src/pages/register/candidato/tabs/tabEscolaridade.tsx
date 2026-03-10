@@ -105,7 +105,7 @@ const TabEscolaridade = ({
           </div>
 
           <div className="field">
-            <label>Período de conclusão</label>
+            <label>Período de conclusão (previsto)</label>
             <InputMask
               value={formData.periodoConclusao}
               onChange={(e) => setField("periodoConclusao", e.target.value)}

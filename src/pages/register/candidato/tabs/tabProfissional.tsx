@@ -56,7 +56,7 @@ const TabProfissional = ({
 
       {formData.disponivel === true && (
         <div className="field">
-          <label>Horas disponíveis *</label>
+          <label>Horas disponíveis (na semana) *</label>
           <InputNumber
             value={formData.tempoDisponivel}
             onValueChange={(e) => setField("tempoDisponivel", e.value)}
