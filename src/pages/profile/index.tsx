@@ -94,6 +94,11 @@ export const ProfilePage = ({
                 image={formData?.perfil?.foto}
                 size="xlarge"
                 shape="circle"
+                style={{
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
               />
             </div>
 
