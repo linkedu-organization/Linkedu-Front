@@ -185,18 +185,18 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editperfil-field">
           <label>Curso/Área de atuação *</label>
-          <Dropdown
-            value={formData.areaAtuacao}
-            options={cursos}
-            optionLabel="label"
-            optionValue="value"
-            onChange={(e) => {
-              setField("areaAtuacao", e.value);
+          <MultiSelectWithCustom
+            value={formData.areaAtuacao ?? ""}
+            onChange={(val) => {
+              setField("areaAtuacao", val);
               setField("areasInteresse", []);
               setField("habilidades", []);
             }}
+            options={cursos}
             className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
+            customLabel="Outro (digitar manualmente)"
+            selectionMode="single"
           />
           {errorsForm("areaAtuacao")}
         </div>
