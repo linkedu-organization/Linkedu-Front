@@ -44,39 +44,6 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   const conditionalFields = [
     <>
       <div className="editperfil-field">
-        <label>Horas disponíveis (na semana)</label>
-        <InputNumber
-          value={formData.tempoDisponivel}
-          onValueChange={(e) => setField("tempoDisponivel", e.value)}
-          min={0}
-          max={168}
-          placeholder="Selecione sua carga horária disponível na semana"
-          className={errors.tempoDisponivel ? "p-invalid" : ""}
-          inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
-        />
-
-        {errorsForm("tempoDisponivel")}
-      </div>
-
-      <div className="editperfil-field">
-        <label>Currículo Lattes</label>
-        <InputText
-          value={formData.lattes ?? ""}
-          onChange={(e) => setField("lattes", e.target.value)}
-          placeholder="Digite o link do seu currículo"
-        />
-      </div>
-    </>,
-    <>
-      <div className="editperfil-field">
-        <label>LinkedIn</label>
-        <InputText
-          value={formData.linkedin ?? ""}
-          onChange={(e) => setField("linkedin", e.target.value)}
-          placeholder="Digite o link do seu perfil"
-        />
-      </div>
-      <div className="editperfil-field">
         <label>Disponível para contratação *</label>
         <div className="radio-row">
           {simNao.map((opt) => (
@@ -96,6 +63,37 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           ))}
         </div>
         {errorsForm("disponivel")}
+      </div>
+      <div className="editperfil-field">
+        <label>Horas disponíveis (na semana)</label>
+        <InputNumber
+          value={formData.tempoDisponivel}
+          onValueChange={(e) => setField("tempoDisponivel", e.value)}
+          min={0}
+          max={168}
+          placeholder="Selecione sua carga horária disponível na semana"
+          className={errors.tempoDisponivel ? "p-invalid" : ""}
+          inputClassName={errors.tempoDisponivel ? "p-invalid" : ""}
+        />
+        {errorsForm("tempoDisponivel")}
+      </div>
+    </>,
+    <>
+      <div className="editperfil-field">
+        <label>Currículo Lattes</label>
+        <InputText
+          value={formData.lattes ?? ""}
+          onChange={(e) => setField("lattes", e.target.value)}
+          placeholder="Digite o link do seu currículo"
+        />
+      </div>
+      <div className="editperfil-field">
+        <label>LinkedIn</label>
+        <InputText
+          value={formData.linkedin ?? ""}
+          onChange={(e) => setField("linkedin", e.target.value)}
+          placeholder="Digite o link do seu perfil"
+        />
       </div>
     </>,
   ];
@@ -213,21 +211,20 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         {formData.cargo === "ALUNO" && (
           <>
             <div className="editperfil-field">
-              <label>Período de conclusão (previsto)</label>
-              <InputMask
-                value={formData.periodoConclusao ?? ""}
-                onChange={(e) => setField("periodoConclusao", e.target.value)}
-                placeholder="Ex.: 2023.1"
-                mask="9999.9"
-              />
-            </div>
-
-            <div className="editperfil-field">
               <label>Período de ingresso</label>
               <InputMask
                 value={formData.periodoIngresso ?? ""}
                 onChange={(e) => setField("periodoIngresso", e.target.value)}
                 placeholder="Ex.: 2027.2"
+                mask="9999.9"
+              />
+            </div>
+            <div className="editperfil-field">
+              <label>Período de conclusão (previsto)</label>
+              <InputMask
+                value={formData.periodoConclusao ?? ""}
+                onChange={(e) => setField("periodoConclusao", e.target.value)}
+                placeholder="Ex.: 2023.1"
                 mask="9999.9"
               />
             </div>
