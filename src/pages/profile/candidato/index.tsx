@@ -43,24 +43,14 @@ const aboutRows = (formData: Candidato): unknown => [
               {formData?.periodoIngresso && (
                 <>
                   <strong>Período de ingresso:</strong>
-                  <span>
-                    {getValueDate(
-                      formData?.periodoIngresso,
-                      DATE_FORMAT_PERIOD
-                    )}
-                    -
-                  </span>
+                  <span>{formData?.periodoIngresso}</span>
                 </>
               )}
               {formData?.periodoConclusao && (
                 <>
+                  <span> - </span>
                   <strong>Período de conclusão:</strong>
-                  <span>
-                    {getValueDate(
-                      formData?.periodoConclusao,
-                      DATE_FORMAT_PERIOD
-                    )}
-                  </span>
+                  <span>{formData?.periodoConclusao}</span>
                 </>
               )}
             </>
