@@ -75,7 +75,7 @@ const TabDadosBasicos = ({
           onChange={(e) => setField("perfil.senha", e.target.value)}
           type="password"
           className={invalid(submitted, errors["perfil.senha"])}
-          placeholder="Crie uma senha"
+          placeholder="Digite sua senha"
         />
         {hasError(submitted, errors["perfil.senha"]) && (
           <small>{errors["perfil.senha"]}</small>
@@ -89,7 +89,7 @@ const TabDadosBasicos = ({
           onChange={(e) => setField("perfil.confirmaSenha", e.target.value)}
           type="password"
           className={invalid(submitted, errors["perfil.confirmaSenha"])}
-          placeholder="Digite novamente"
+          placeholder="Digite sua senha novamente"
         />
         {hasError(submitted, errors["perfil.confirmaSenha"]) && (
           <small>{errors["perfil.confirmaSenha"]}</small>
