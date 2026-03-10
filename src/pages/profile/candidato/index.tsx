@@ -28,7 +28,6 @@ import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
 
-// Converte valor CUSTOM_MINHA_OPCAO → "Minha opcao" para exibição
 const customValueToLabel = (val: string): string =>
   val
     .replace(/^CUSTOM_/, "")
@@ -36,7 +35,6 @@ const customValueToLabel = (val: string): string =>
     .toLowerCase()
     .replace(/^\w/, (c) => c.toUpperCase());
 
-// Versão de getMultipleValuesByKey que lida com valores CUSTOM_
 const getMultipleValuesWithCustom = (
   values: string[],
   list: { label: string; value: string }[],
@@ -241,9 +239,9 @@ const ProfileCandidatoPage: React.FC = () => {
         addLabel="Adicionar Experiência"
         addDialogHeader="Experiência"
         AddProvider={RegisterExperienciaProvider}
-        renderAddForm={({ close, data }) => (
+        renderAddForm={({ close, formData: candidatoData }) => (
           <ExperienciaFormPage
-            candidato={data}
+            candidato={candidatoData}
             switchVisibility={close}
             callbackAdd={() => getCandById(formData?.id)}
           />
