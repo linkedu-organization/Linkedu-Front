@@ -96,7 +96,6 @@ export const RegisterExperienciaProvider = ({
     const required: string[] = [
       "titulo",
       "orientador",
-      "instituicao",
       "periodoInicio",
       "descricao",
     ];

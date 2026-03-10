@@ -58,16 +58,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Instituição de ensino *</label>
+          <label>Instituição de ensino</label>
           <InputText
             value={formData.instituicao}
             onChange={(e) => setField("instituicao", e.target.value)}
-            className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Digite a instituição"
           />
-          {errors.instituicao && (
-            <small className="p-error">{errors.instituicao}</small>
-          )}
         </div>
 
         <div className="exp-field">
