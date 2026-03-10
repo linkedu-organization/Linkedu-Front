@@ -40,6 +40,9 @@ const LoginPage = () => {
                 className={
                   errors.senha ? "p-invalid login-input" : "login-input"
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") finalizeLogin();
+                }}
               />
               {errorsForm("senha")}
 

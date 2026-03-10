@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
 import { PanelMenu } from "primereact/panelmenu";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { useClickOutside } from "primereact/hooks";
 import "primeicons/primeicons.css";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
@@ -19,7 +20,14 @@ const Header = ({ headerType }: HeaderProps) => {
   const { perfil, handleLogout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [query, setQuery] = useState("");
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
   const toggleMenu = () => setMenuVisible((v) => !v);
+
+  useClickOutside(menuRef, () => {
+    setMenuVisible(false);
+  });
 
   const logo = (
     <Link to="/">
@@ -50,17 +58,26 @@ const Header = ({ headerType }: HeaderProps) => {
       {
         label: "Início",
         icon: "pi pi-home",
-        command: () => navigate("/"),
+        command: () => {
+          setMenuVisible(false);
+          navigate("/");
+        },
       },
       {
         label: "Meu Perfil",
         icon: "pi pi-user",
-        command: () => redirectPerfil(),
+        command: () => {
+          setMenuVisible(false);
+          redirectPerfil();
+        },
       },
       {
         label: "Sair",
         icon: "pi pi-sign-out",
-        command: () => handleLogout(),
+        command: () => {
+          setMenuVisible(false);
+          handleLogout();
+        },
       },
     ];
 
@@ -82,6 +99,7 @@ const Header = ({ headerType }: HeaderProps) => {
               value={query}
               type="text"
               style={{ height: "2rem" }}
+              placeholder="Buscar por vagas ou perfis"
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") submitSearch();
@@ -90,7 +108,10 @@ const Header = ({ headerType }: HeaderProps) => {
           </IconField>
         </div>
 
-        <div className="flex align-items-center gap-4 justify-center">
+        <div
+          className="flex align-items-center gap-4 justify-center"
+          ref={menuRef}
+        >
           <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
 
           {menuVisible && (
