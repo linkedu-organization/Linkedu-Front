@@ -13,7 +13,7 @@ interface RegisterEditCandidatoContextType {
   setField: (field: string, value: unknown) => void;
   errors: FieldErrors;
   validate: () => Promise<boolean>;
-  submit: (callback: Function) => Promise<Candidato | null>;
+  submit: (callback: () => void) => Promise<Candidato | null>;
   errorsForm: (path: string) => ReactNode;
 }
 
@@ -157,7 +157,7 @@ export const RegisterEditCandidatoProvider = ({
   const errorsForm = (path: string) =>
     errors[path] && <small className="p-error">{errors[path]}</small>;
 
-  const submit = async (callback: Function): Promise<Candidato | null> => {
+  const submit = async (callback: () => void): Promise<Candidato | null> => {
     try {
       if (formData && (await validate())) {
         const response = await updateCandidato(formData.id, formData);

@@ -94,6 +94,11 @@ export const ProfilePage = ({
                 image={formData?.perfil?.foto}
                 size="xlarge"
                 shape="circle"
+                style={{
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
               />
             </div>
 
@@ -184,8 +189,7 @@ export const ProfilePage = ({
 
           <div className="bio-update">
             <span className="last-update">
-              Última atualização:
-              {getUTCDate(formData?.perfil?.updatedAt)}
+              Última atualização: {getUTCDate(formData?.perfil?.updatedAt)}
             </span>
           </div>
         </Card>

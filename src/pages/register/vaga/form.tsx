@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
@@ -15,22 +16,33 @@ type VagaFormProps = {
   recrutador: Recrutador;
   switchVisibility: () => void;
   vaga?: Vaga | undefined;
-  callbackAdd: () => void;
+  callback?: () => void;
 };
 
 const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
   switchVisibility,
   vaga,
-  callbackAdd,
+  callback,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterVaga();
+  const [conhecimentosText, setConhecimentosText] = useState(
+    (formData.conhecimentosObrigatorios ?? []).join(", ")
+  );
+  const [conhecimentosOpText, setConhecimentosOpText] = useState(
+    (formData.conhecimentosOpcionais ?? []).join(", ")
+  );
 
   useEffect(() => {
     if (vaga) load(vaga);
     else resetForm();
   }, [vaga]);
+
+  useEffect(() => {
+    setConhecimentosText((formData.conhecimentosObrigatorios ?? []).join(", "));
+    setConhecimentosOpText((formData.conhecimentosOpcionais ?? []).join(", "));
+  }, [formData.conhecimentosObrigatorios, formData.conhecimentosOpcionais]);
 
   return (
     <div className="exp-form">
@@ -129,11 +141,12 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>Data de expiração da vaga *</label>
-          <InputText
+          <InputMask
             value={formData.dataExpiracao}
             onChange={(e) => setField("dataExpiracao", e.target.value)}
             className={errors.dataExpiracao ? "p-invalid" : ""}
-            placeholder="DD/MM/AA"
+            placeholder="DD/MM/AAAA"
+            mask="99/99/9999"
           />
           {errors.dataExpiracao && (
             <small className="p-error">{errors.dataExpiracao}</small>
@@ -141,7 +154,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Carga horária *</label>
+          <label>Carga horária (semanal) *</label>
           <InputText
             value={formData.cargaHoraria ? String(formData.cargaHoraria) : ""}
             onChange={(e) => {
@@ -159,6 +172,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           <label>Tempo de duração (em meses) *</label>
           <InputText
             value={formData.duracao}
+            keyfilter="int"
             onChange={(e) => setField("duracao", e.target.value)}
             className={errors.duracao ? "p-invalid" : ""}
             placeholder="Informe o período de duração da vaga"
@@ -217,8 +231,9 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         <div className="exp-field">
           <label>Conhecimentos Obrigatórios *</label>
           <InputText
-            value={formData.conhecimentosObrigatorios.join(", ")}
-            onChange={(e) =>
+            value={conhecimentosText}
+            onChange={(e) => setConhecimentosText(e.target.value)}
+            onBlur={(e) =>
               setField(
                 "conhecimentosObrigatorios",
                 e.target.value
@@ -238,10 +253,11 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Conhecimentos Opcionais *</label>
+          <label>Conhecimentos Opcionais</label>
           <InputText
-            value={formData.conhecimentosOpcionais.join(", ")}
-            onChange={(e) =>
+            value={conhecimentosOpText}
+            onChange={(e) => setConhecimentosOpText(e.target.value)}
+            onBlur={(e) =>
               setField(
                 "conhecimentosOpcionais",
                 e.target.value
@@ -250,12 +266,8 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
                   .filter(Boolean)
               )
             }
-            className={errors.conhecimentosOpcionais ? "p-invalid" : ""}
             placeholder="Digite os conhecimentos opcionais"
           />
-          {errors.conhecimentosOpcionais && (
-            <small className="p-error">{errors.conhecimentosOpcionais}</small>
-          )}
         </div>
 
         <div className="exp-field">
@@ -276,10 +288,8 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
           <InputText
             value={formData.local}
             onChange={(e) => setField("local", e.target.value)}
-            className={errors.local ? "p-invalid" : ""}
             placeholder="Digite o nome do laboratório ou o local associado"
           />
-          {errors.local && <small className="p-error">{errors.local}</small>}
         </div>
 
         <div className="exp-field exp-field-full">
@@ -315,7 +325,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               recrutador,
               () => {
                 switchVisibility();
-                callbackAdd();
+                callback?.();
               },
               vaga?.id
             );

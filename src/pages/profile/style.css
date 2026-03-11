@@ -139,7 +139,7 @@
 .about-line {
   font-size: 13px;
   color: var(--Linkedu-DarkLetterSecond);
-  align-self: flex-start;
+  align-self: center;
 }
 
 .about-line strong {
@@ -193,7 +193,7 @@
 }
 
 .recrutador-vaga-dialog .p-dialog-header {
-  background: #364fab !important;
+  background: var(--Linkedu-Blue) !important;
   color: var(--Linkedu-White) !important;
   border-bottom: none !important;
 }

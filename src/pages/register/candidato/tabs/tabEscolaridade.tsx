@@ -7,6 +7,7 @@ import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import { hasError, invalid } from "@utils/utils";
 
 import "./tabs.css";
+import { InputMask } from "primereact/inputmask";
 
 type TabEscolaridadeProps = {
   formData: Candidato;
@@ -43,7 +44,11 @@ const TabEscolaridade = ({
               inputId="cargo-tec"
               name="cargo"
               value="TECNICO"
-              onChange={(e) => setField("cargo", e.value)}
+              onChange={(e) => {
+                setField("cargo", e.value);
+                setField("periodoIngresso", undefined);
+                setField("periodoConclusao", undefined);
+              }}
               checked={formData.cargo === "TECNICO"}
             />
             <label htmlFor="cargo-tec">Técnico Administrativo</label>
@@ -105,19 +110,21 @@ const TabEscolaridade = ({
         <>
           <div className="field">
             <label>Período de ingresso</label>
-            <InputText
+            <InputMask
               value={formData.periodoIngresso}
               onChange={(e) => setField("periodoIngresso", e.target.value)}
               placeholder="Ex.: 2023.1"
+              mask="9999.9"
             />
           </div>
 
           <div className="field">
-            <label>Período de conclusão</label>
-            <InputText
+            <label>Período de conclusão (previsto)</label>
+            <InputMask
               value={formData.periodoConclusao}
               onChange={(e) => setField("periodoConclusao", e.target.value)}
               placeholder="Ex.: 2027.2"
+              mask="9999.9"
             />
           </div>
         </>

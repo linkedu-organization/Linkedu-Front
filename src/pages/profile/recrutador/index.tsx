@@ -34,6 +34,7 @@ const aboutRows = (formData: Recrutador): unknown => [
     ? [
         {
           icon: "pi pi-bookmark",
+          label: "Laboratório(s):",
           value: formData?.laboratorios,
         },
       ]
@@ -154,7 +155,7 @@ const ProfileRecrutadorPage: React.FC = () => {
           <VagaFormPage
             recrutador={formData}
             switchVisibility={close}
-            callbackAdd={() => getRecById(formData?.id)}
+            callback={() => getRecById(formData?.id)}
           />
         )}
         renderItem={(vaga: Vaga) => (
@@ -164,7 +165,6 @@ const ProfileRecrutadorPage: React.FC = () => {
             onEdit={openEdit}
             onDelete={(e) => {
               confirmDeleteVaga(window.event, e);
-              getRecById(String(formData?.id));
             }}
             showActions={isOwnProfile}
             showRecommendedButton={isOwnProfile}

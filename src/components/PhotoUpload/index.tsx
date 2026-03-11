@@ -45,6 +45,9 @@ const PhotoUpload = ({
         }`}
         style={{
           backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         {canUpload && <i className="pi pi-pencil icon-image" />}

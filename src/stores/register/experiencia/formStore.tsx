@@ -24,7 +24,7 @@ interface RegisterExperienciaContextType {
   load: (exp: Experiencia) => void;
   submit: (
     candidato: Candidato,
-    callback: Function,
+    callback: () => void,
     experienciaId?: string | number
   ) => Promise<Experiencia | null>;
 }
@@ -96,7 +96,6 @@ export const RegisterExperienciaProvider = ({
     const required: string[] = [
       "titulo",
       "orientador",
-      "instituicao",
       "periodoInicio",
       "descricao",
     ];
@@ -132,7 +131,7 @@ export const RegisterExperienciaProvider = ({
 
   const submit = async (
     candidato: Candidato,
-    callback: Function,
+    callback: () => void,
     experienciaId?: string | number
   ) => {
     try {

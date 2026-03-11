@@ -42,7 +42,7 @@ const TabProfissional = ({
               <RadioButton
                 inputId="contratacao-sim"
                 name="contratacao"
-                value
+                value={true}
                 onChange={(e) => setField("disponivel", e.value)}
                 checked={formData.disponivel === true}
               />
@@ -54,7 +54,10 @@ const TabProfissional = ({
                 inputId="contratacao-nao"
                 name="contratacao"
                 value={false}
-                onChange={(e) => setField("disponivel", e.value)}
+                onChange={(e) => {
+                  setField("disponivel", e.value);
+                  setField("tempoDisponivel", 0);
+                }}
                 checked={formData.disponivel === false}
               />
               <label htmlFor="contratacao-nao">Não</label>
@@ -68,11 +71,12 @@ const TabProfissional = ({
 
         {formData.disponivel === true && (
           <div className="field">
-            <label>Horas disponíveis *</label>
+            <label>Horas disponíveis (na semana) *</label>
             <InputNumber
               value={formData.tempoDisponivel}
               onValueChange={(e) => setField("tempoDisponivel", e.value)}
               min={0}
+              max={168}
               placeholder="Digite sua carga horária semanal"
               className={invalid(submitted, errors.tempoDisponivel)}
               inputClassName={invalid(submitted, errors.tempoDisponivel)}

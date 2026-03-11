@@ -15,7 +15,11 @@ interface RegisterVagaContextType {
   resetForm: () => void;
   load: () => void;
   validate: () => boolean;
-  submit: (recrutador: Recrutador, callback: Function) => Promise<Vaga | null>;
+  submit: (
+    recrutador: Recrutador,
+    callback: () => void,
+    vagaId?: string | number
+  ) => Promise<Vaga | null>;
 }
 
 const RegisterVagaContext = createContext<RegisterVagaContextType | null>(null);
@@ -90,7 +94,6 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
       "curso",
       "conhecimentosObrigatorios",
       "linkInscricao",
-      "local",
       "descricao",
     ];
 
@@ -127,7 +130,7 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
 
   const submit = async (
     recrutador: Recrutador,
-    callback: Function,
+    callback: () => void,
     vagaId?: string | number
   ) => {
     try {
@@ -155,6 +158,7 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
         resetForm();
       }
     } catch (error) {
+      debugger;
       showNotification("error", "Houve um erro ao criar a Vaga");
     }
   };

@@ -1,34 +1,34 @@
-.position-card {
+.vaga-card {
   min-height: var(--cardHeight);
-  height: auto;  
+  height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.p-card.position-card {
+.p-card.vaga-card {
   margin: 16px !important;
 }
 
-.p-card.position-card > .p-card-body {
+.p-card.vaga-card > .p-card-body {
   padding: 24px 24px 0px !important;
 }
 
-.position-card .p-card-body {
+.vaga-card .p-card-body {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-.position-card .p-card-content {
+.vaga-card .p-card-content {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 1 auto !important;
   padding: 1px !important;
 }
 
-.position-card-header {
+.vaga-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,13 +67,15 @@
   margin-bottom: 12px;
 }
 
-.position-card-footer{
-  padding-left: 0 !important;   /* ou apague a linha antiga */
+.vaga-card-footer {
+  padding-left: 0 !important;
   padding-right: 0 !important;
   padding-top: 14px !important;
+  display: flex;
+  margin-bottom: 20px;
 }
 
-.p-card.position-card .p-card-footer{
+.p-card.vaga-card .p-card-footer {
   display: flex !important;
   justify-content: flex-start !important;
 }
@@ -89,7 +91,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: auto;     
+  margin-left: auto;
   flex: 0 0 auto;
 }
 
@@ -154,6 +156,7 @@
 .vaga-row .item {
   flex: 1 1 220px;
   min-width: 180px;
+  align-self: flex-start;
 }
 
 .vaga-row.wide {
@@ -186,31 +189,39 @@
   overflow: hidden;
 }
 
+.vaga-row.link-row b {
+  color: var(--Linkedu-White);
+  font-size: 14px;
+  font: "Inter";
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
 .vaga-row.link-row .pi {
   color: var(--Linkedu-White);
   font-size: 12px;
 }
 
-.vaga-row.link-row,
-.vaga-row.link-row .link-label {
+.vaga-row.link-row .link-value {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.vaga-row.link-row .link-value a {
   color: var(--Linkedu-White);
   font-size: 14px;
   font: "Inter";
-  font-weight: 100;
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-
-.vaga-row.link-row a {
-  color: var(--Linkedu-White);
   font-weight: 300;
   display: block;
-  flex: 1 1 auto;
-  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-bottom-left-radius: 24px;
+
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
 }
 
 .vaga-row .item .icon-badge {
@@ -245,11 +256,11 @@
 .recommended-button.p-button {
   width: auto !important;
 
-  background: #3F905A;
-  border-color: #3F905A;
-  height: 33px;    
-  align-self: flex-start !important;  
-  margin: 0 !important;       
+  background: var(--Linkedu-LightGreen);
+  border-color: var(--Linkedu-LightGreen);
+  height: 33px;
+  align-self: flex-start !important;
+  margin: 0 !important;
 }
 
 .footer-right .details-button.icon-only.p-button,
@@ -258,9 +269,8 @@
   height: 33px;
   padding: 0 !important;
   display: inline-flex;
-  
+
   font-size: 16px;
- 
 
   border-radius: 8px !important;
   box-sizing: border-box;
@@ -277,7 +287,17 @@
   display: none;
 }
 
+.details-button.p-button .p-button-label {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.details-button.p-button {
+  background: var(--Linkedu-Blue);
+  border-color: var(--Linkedu-Blue);
+}
+
 .footer-right .action-buttons {
   display: flex;
-  gap: 8px; 
+  gap: 8px;
 }

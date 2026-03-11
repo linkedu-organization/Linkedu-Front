@@ -13,7 +13,7 @@ interface RegisterEditRecrutadorContextType {
   setField: (field: string, value: unknown) => void;
   errors: FieldErrors;
   validate: () => Promise<boolean>;
-  submit: (callback: Function) => Promise<Recrutador | null>;
+  submit: (callback: () => void) => Promise<Recrutador | null>;
   errorsForm: (path: string) => ReactNode;
 }
 
@@ -145,7 +145,7 @@ export const RegisterEditRecrutadorProvider = ({
   const errorsForm = (path: string) =>
     errors[path] && <small className="p-error">{errors[path]}</small>;
 
-  const submit = async (callback: Function): Promise<Recrutador | null> => {
+  const submit = async (callback: () => void): Promise<Recrutador | null> => {
     try {
       if (formData && (await validate())) {
         const response = await updateRecrutador(formData.id, formData);

@@ -155,7 +155,7 @@ export const RegisterCandidatoProvider = ({
   const finalizeRegister = async () => {
     try {
       await registerCandidato(formData);
-      showNotification("success", null, "Candidato cadastrado com sucesso!");
+      showNotification("success", null, "Cadastro concluído com sucesso!");
       navigate("/login");
     } catch (error) {
       showNotification(

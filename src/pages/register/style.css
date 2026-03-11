@@ -48,7 +48,7 @@
 
 .option-title {
   color: var(--Linkedu-DarkLetter);
-  font-family: Poppins, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 38px;
   font-weight: 920;
 }
@@ -57,7 +57,7 @@
   display: flex;
   width: 240px;
   color: var(--Linkedu-DarkLetterSecond);
-  font-family: Poppins, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 16px;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .login-link {
-  font-family: Poppins, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 16px;
   color: var(--Linkedu-DarkLetterSecond);
   margin-top: 5px;

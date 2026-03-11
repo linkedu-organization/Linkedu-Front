@@ -25,7 +25,7 @@ export const defaultVaga: Omit<Vaga, "id" | "recrutador"> = {
   recrutadorId: 0,
   titulo: "",
   descricao: "",
-  ehPublica: false,
+  ehPublica: true,
   ehRemunerada: false,
   dataExpiracao: "",
   cargaHoraria: 0,

@@ -7,19 +7,20 @@ import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
 import { useRegisterExperiencia } from "@stores/register/experiencia/formStore";
 import "./style.css";
+import { InputMask } from "primereact/inputmask";
 
 type ExperienciaFormProps = {
   candidato: Candidato;
   switchVisibility: () => void;
   experiencia?: Experiencia | null;
-  callbackAdd: () => void;
+  callback?: () => void;
 };
 
 const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
   candidato,
   switchVisibility,
   experiencia,
-  callbackAdd,
+  callback,
 }) => {
   const { formData, setField, errors, submit, resetForm, load } =
     useRegisterExperiencia();
@@ -57,16 +58,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Instituição de ensino *</label>
+          <label>Instituição de ensino</label>
           <InputText
             value={formData.instituicao}
             onChange={(e) => setField("instituicao", e.target.value)}
-            className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Digite a instituição"
           />
-          {errors.instituicao && (
-            <small className="p-error">{errors.instituicao}</small>
-          )}
         </div>
 
         <div className="exp-field">
@@ -80,11 +77,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
 
         <div className="exp-field">
           <label>Período de início (MM/AAAA) *</label>
-          <InputText
+          <InputMask
             value={formData.periodoInicio}
             onChange={(e) => setField("periodoInicio", e.target.value)}
             className={errors.periodoInicio ? "p-invalid" : ""}
             placeholder="Ex: 10/2024"
+            mask="99/9999"
           />
           {errors.periodoInicio && (
             <small className="p-error">{errors.periodoInicio}</small>
@@ -93,11 +91,12 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
 
         <div className="exp-field">
           <label>Período de conclusão (MM/AAAA)</label>
-          <InputText
+          <InputMask
             value={formData.periodoFim}
             onChange={(e) => setField("periodoFim", e.target.value)}
             className={errors.periodoFim ? "p-invalid" : ""}
             placeholder="Ex: 03/2025"
+            mask="99/9999"
           />
           {errors.periodoFim && (
             <small className="p-error">{errors.periodoFim}</small>
@@ -139,7 +138,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
               candidato,
               () => {
                 switchVisibility();
-                callbackAdd();
+                callback?.();
               },
               experiencia?.id
             );

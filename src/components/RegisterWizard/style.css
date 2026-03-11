@@ -15,7 +15,7 @@
 
 .tittle-register {
   color: var(--Linkedu-DarkLetter);
-  font-family: Poppins, sans-serif;
+  font-family: Inter, sans-serif;
   font-size: 38px;
   font-weight: 900;
   text-align: center;
@@ -43,7 +43,7 @@
 .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
   color: var(--Linkedu-Blue);
   border: 1px solid var(--Linkedu-Blue);
-  background: #ffffff;
+  background: var(--Linkedu-White);
   min-width: 2rem;
   height: 2rem;
   line-height: 2rem;

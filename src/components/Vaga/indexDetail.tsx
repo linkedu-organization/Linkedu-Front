@@ -16,15 +16,23 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
         <div className="vaga-row">
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
+              <i className="pi pi-dollar" />
+            </span>
+            <span className="remunerada">
+              <b>{vaga.ehRemunerada ? "Remunerada" : "Voluntária"}</b>
+            </span>
+          </div>
+
+          <div className="item">
+            <span className="icon-badge" aria-hidden="true">
               <i className="pi pi-building" />
             </span>
-
             <span className="label">
               <b>Instituição</b>
             </span>
-
             <div className="value">{vaga.instituicao}</div>
           </div>
+
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
               <i className="pi pi-book" />
@@ -34,6 +42,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             </span>
             <div className="value">{vaga.curso}</div>
           </div>
+
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
               <i className="pi pi-user" />
@@ -49,6 +58,9 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
                 .join(", ") || "-"}
             </div>
           </div>
+        </div>
+
+        <div className="vaga-row">
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
               <i className="pi pi-list" />
@@ -60,9 +72,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
               {getValueByKey(vaga.categoria, categorias as any)}
             </div>
           </div>
-        </div>
 
-        <div className="vaga-row">
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
               <i className="pi pi-user" />
@@ -92,16 +102,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             <span className="label">
               <b>Tempo de duração</b>
             </span>
-            <div className="value">{vaga.duracao}</div>
-          </div>
-
-          <div className="item">
-            <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-dollar" />
-            </span>
-            <span className="remunerada">
-              <b>{vaga.ehRemunerada ? "Remunerada" : "Voluntária"}</b>
-            </span>
+            <div className="value">{vaga.duracao} meses</div>
           </div>
         </div>
 
@@ -134,13 +135,16 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
         <div className="vaga-row link-row">
           <i className="pi pi-external-link" />
           <b>Link para inscrição:</b>
-          <a
-            href={normalizeUrl(vaga.linkInscricao)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {vaga.linkInscricao}
-          </a>
+
+          <span className="link-value">
+            <a
+              href={normalizeUrl(vaga.linkInscricao)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {vaga.linkInscricao}
+            </a>
+          </span>
         </div>
       </div>
     </div>
