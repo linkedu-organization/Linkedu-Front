@@ -12,6 +12,7 @@ import { Layout } from "@components/Layout";
 import { getUTCDate } from "@utils/utils";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
+import PhotoUpload from "@components/PhotoUpload";
 
 type ProfilePageProps = {
   formData: any;
@@ -90,15 +91,9 @@ export const ProfilePage = ({
         <Card className="profile-card">
           <div className="profile-card-content">
             <div className="profile-avatar">
-              <Avatar
-                image={formData?.perfil?.foto}
-                size="xlarge"
-                shape="circle"
-                style={{
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
+              <PhotoUpload
+                canUpload={false}
+                imageProfile={formData?.perfil?.foto || ""}
               />
             </div>
 

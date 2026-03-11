@@ -14,9 +14,9 @@
 }
 
 .profile-picture {
-  width: 175px;
-  min-width: 175px;
-  height: 175px;
+  width: 140px;
+  min-width: 140px;
+  height: 140px;
   border-radius: 999px;
   border: 1px solid #e7e7e7;
   background: var(--Linkedu-LighterBlue);
