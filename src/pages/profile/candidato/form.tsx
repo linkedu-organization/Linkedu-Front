@@ -17,6 +17,7 @@ import {
   cursos,
   getHabilidadesPorCurso,
   getInteressesPorCurso,
+  instituicoes,
   niveis,
   simNao,
 } from "@utils/constants";
@@ -184,9 +185,10 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editperfil-field">
           <label>Instituição de Ensino *</label>
-          <InputText
+          <Dropdown
             value={formData.instituicao}
-            onChange={(e) => setField("instituicao", e.target.value)}
+            options={instituicoes}
+            onChange={(e) => setField("instituicao", e.value)}
             className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Selecione a sua instituição"
           />
