@@ -89,9 +89,9 @@ const ProfileRecrutadorPage: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      getRecById(id);
+      getRecById(id, false);
     } else if (perfil?.tipo === "RECRUTADOR") {
-      getRecById(perfil?.recrutador?.id);
+      getRecById(perfil?.recrutador?.id, true);
     }
   }, [id, perfil]);
 

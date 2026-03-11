@@ -11,7 +11,7 @@ interface ProfileRecrutadorContextType {
   vagas: Vaga[];
   deleteRec: () => void;
   deleteVag: (id: number, callback: () => void) => void;
-  getRecById: (id: string) => void;
+  getRecById: (id: string, isOwnProfile: boolean) => void;
   loading: boolean;
 }
 
@@ -41,14 +41,18 @@ export const ProfileRecrutadorProvider = ({
   const { showNotification } = useNotification();
   const { handleLogout } = useAuth();
 
-  const getRecById = async (id: string) => {
+  const getRecById = async (id: string, isOwnProfile: boolean) => {
     setLoading(true);
     try {
       const response = await getRecrutador(Number(id));
       setFormData(response);
 
-      const allVagas = await getAllVagas();
+      const filters = [{ campo: "ehPublica", operador: "eq", valor: true }];
+      const sorters = [];
 
+      const allVagas = await getAllVagas(
+        isOwnProfile ? {} : { filters, sorters }
+      );
       const recrutadorVagas = (allVagas ?? []).filter((v) => {
         const recId = v.recrutadorId ?? v.recrutador?.id;
         return recId === response.id;
