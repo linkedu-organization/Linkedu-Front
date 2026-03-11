@@ -11,10 +11,11 @@ interface Option {
 }
 
 type SelectionMode = "multi" | "single";
+type SingleSaveAs = "value" | "label";
 
 interface MultiSelectWithCustomProps {
   value: string | string[];
-  onChange: (val: any) => void;
+  onChange: (val: string | string[]) => void;
   options: Option[];
   placeholder?: string;
   disabled?: boolean;
@@ -22,6 +23,7 @@ interface MultiSelectWithCustomProps {
   display?: "chip" | "comma";
   customLabel?: string;
   selectionMode?: SelectionMode;
+  singleSaveAs?: SingleSaveAs;
 }
 
 export const toOptionValue = (label: string) =>
@@ -39,9 +41,27 @@ const deriveCustomOptions = (
   fixedOptions: Option[]
 ): Option[] => {
   const arr = Array.isArray(values) ? values : values ? [values] : [];
+
   return arr
-    .filter((v) => v.startsWith("CUSTOM_") && !fixedOptions.some((o) => o.value === v))
-    .map((v) => ({ label: toLabelFromValue(v), value: v }));
+    .filter((v) => typeof v === "string")
+    .filter((v) => {
+      const isExistingValue = fixedOptions.some((o) => o.value === v);
+      const isExistingLabel = fixedOptions.some((o) => o.label === v);
+      const isCustomValue = v.startsWith("CUSTOM_");
+
+      return (
+        (isCustomValue && !isExistingValue) ||
+        (!isCustomValue && !isExistingLabel)
+      );
+    })
+    .map((v) => {
+      const isCustomValue = v.startsWith("CUSTOM_");
+
+      return {
+        label: isCustomValue ? toLabelFromValue(v) : v,
+        value: isCustomValue ? v : toOptionValue(v),
+      };
+    });
 };
 
 const MultiSelectWithCustom = ({
@@ -54,6 +74,7 @@ const MultiSelectWithCustom = ({
   display = "chip",
   customLabel = "Adicionar opção personalizada",
   selectionMode = "multi",
+  singleSaveAs = "value",
 }: MultiSelectWithCustomProps) => {
   const isSingle = selectionMode === "single";
 
@@ -62,20 +83,50 @@ const MultiSelectWithCustom = ({
   const [customOptions, setCustomOptions] = useState<Option[]>(() =>
     deriveCustomOptions(value, options)
   );
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setCustomOptions((prev) => {
       const fromValue = deriveCustomOptions(value, options);
       const merged = [...prev];
+
       fromValue.forEach((opt) => {
-        if (!merged.some((o) => o.value === opt.value)) merged.push(opt);
+        if (!merged.some((o) => o.value === opt.value)) {
+          merged.push(opt);
+        }
       });
+
       return merged;
     });
   }, [value, options]);
 
   const allOptions = [...options, ...customOptions];
+  const multiValue = Array.isArray(value) ? value : [];
+
+  useEffect(() => {
+    if (isSingle) return;
+
+    const missing = multiValue
+      .filter((v) => typeof v === "string")
+      .filter((v) => !allOptions.some((o) => o.value === v))
+      .map((v) => ({
+        label: v.startsWith("CUSTOM_") ? toLabelFromValue(v) : v,
+        value: v.startsWith("CUSTOM_") ? v : toOptionValue(v),
+      }));
+
+    if (missing.length > 0) {
+      setCustomOptions((prev) => {
+        const merged = [...prev];
+        missing.forEach((opt) => {
+          if (!merged.some((o) => o.value === opt.value)) {
+            merged.push(opt);
+          }
+        });
+        return merged;
+      });
+    }
+  }, [isSingle, multiValue, allOptions]);
 
   const handleAddCustom = () => {
     const trimmed = customInput.trim();
@@ -85,20 +136,26 @@ const MultiSelectWithCustom = ({
 
     const existing = allOptions.find(
       (o) =>
-        o.value === newValue ||
-        o.label.toLowerCase() === trimmed.toLowerCase()
+        o.value === newValue || o.label.toLowerCase() === trimmed.toLowerCase()
     );
+
     const valueToAdd = existing?.value ?? newValue;
+    const labelToAdd = existing?.label ?? trimmed;
 
     if (!existing) {
-      setCustomOptions((prev) => [...prev, { label: trimmed, value: newValue }]);
+      setCustomOptions((prev) => [
+        ...prev,
+        { label: trimmed, value: newValue },
+      ]);
     }
 
     if (isSingle) {
-      onChange(valueToAdd);
+      onChange(singleSaveAs === "label" ? labelToAdd : valueToAdd);
     } else {
       const arr = Array.isArray(value) ? value : [];
-      if (!arr.includes(valueToAdd)) onChange([...arr, valueToAdd]);
+      if (!arr.includes(valueToAdd)) {
+        onChange([...arr, valueToAdd]);
+      }
     }
 
     setCustomInput("");
@@ -153,7 +210,9 @@ const MultiSelectWithCustom = ({
             e.preventDefault();
             handleAddCustom();
           }
-          if (e.key === "Escape") closeInput();
+          if (e.key === "Escape") {
+            closeInput();
+          }
         }}
       />
       <Button
@@ -173,20 +232,37 @@ const MultiSelectWithCustom = ({
   );
 
   if (isSingle) {
-    const strValue = typeof value === "string" ? value : "";
+    const rawValue = typeof value === "string" ? value : "";
 
-    const displayLabel = strValue
-      ? allOptions.find((o) => o.value === strValue)?.label ??
-        (strValue.startsWith("CUSTOM_") ? toLabelFromValue(strValue) : strValue)
+    const internalValue =
+      singleSaveAs === "label"
+        ? (allOptions.find((o) => o.label === rawValue)?.value ??
+          (rawValue && !options.some((o) => o.label === rawValue)
+            ? toOptionValue(rawValue)
+            : ""))
+        : rawValue;
+
+    const displayLabel = internalValue
+      ? (allOptions.find((o) => o.value === internalValue)?.label ??
+        (internalValue.startsWith("CUSTOM_")
+          ? toLabelFromValue(internalValue)
+          : internalValue))
       : null;
 
     return (
       <div className="dropdown-custom-wrapper">
         <Dropdown
-          value={strValue}
+          value={internalValue}
           onChange={(e) => {
             setShowInput(false);
-            onChange(e.value);
+
+            const selected = allOptions.find((o) => o.value === e.value);
+
+            if (singleSaveAs === "label") {
+              onChange(selected?.label ?? "");
+            } else {
+              onChange(e.value ?? "");
+            }
           }}
           options={allOptions}
           optionLabel="label"
@@ -196,9 +272,7 @@ const MultiSelectWithCustom = ({
           className={className}
           style={{ width: "100%" }}
           valueTemplate={
-            displayLabel
-              ? () => <span>{displayLabel}</span>
-              : undefined
+            displayLabel ? () => <span>{displayLabel}</span> : undefined
           }
           panelFooterTemplate={addCustomButton}
         />
@@ -207,40 +281,34 @@ const MultiSelectWithCustom = ({
     );
   }
 
-  const multiValue = Array.isArray(value) ? value : [];
-
   const selectedItems = multiValue.map((v) => {
     const found = allOptions.find((o) => o.value === v);
+
     if (found) return found;
-    return { label: v.startsWith("CUSTOM_") ? toLabelFromValue(v) : v, value: v };
+
+    return {
+      label: v.startsWith("CUSTOM_") ? toLabelFromValue(v) : v,
+      value: v,
+    };
   });
 
-  useEffect(() => {
-    const missing = multiValue
-      .filter(
-        (v) =>
-          v.startsWith("CUSTOM_") &&
-          !allOptions.some((o) => o.value === v)
-      )
-      .map((v) => ({ label: toLabelFromValue(v), value: v }));
-    if (missing.length > 0) {
-      setCustomOptions((prev) => [...prev, ...missing]);
-    }
-  }, []);
+  const mergedOptions = [
+    ...allOptions,
+    ...selectedItems.filter(
+      (s) => !allOptions.some((o) => o.value === s.value)
+    ),
+  ];
 
   return (
     <div className="dropdown-custom-wrapper">
       <MultiSelect
         value={multiValue}
         onChange={(e) => {
-          if (e.value.length === 0 && multiValue.length > 0 && allOptions.length === 0) {
-            return;
-          }
-          onChange(e.value);
+          onChange(e.value ?? []);
         }}
-        options={[...allOptions, ...selectedItems.filter(
-          (s) => !allOptions.some((o) => o.value === s.value)
-        )]}
+        options={mergedOptions}
+        optionLabel="label"
+        optionValue="value"
         placeholder={placeholder}
         disabled={disabled}
         className={className}

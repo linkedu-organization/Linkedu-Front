@@ -86,6 +86,7 @@ const TabEscolaridade = ({
           className={invalid(submitted, errors.areaAtuacao)}
           customLabel="Outro (digitar manualmente)"
           selectionMode="single"
+          singleSaveAs="label"
         />
         {hasError(submitted, errors.areaAtuacao) && (
           <small>{errors.areaAtuacao}</small>

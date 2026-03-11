@@ -43,15 +43,21 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   if (!formData) return null;
 
-  const curso = formData.areaAtuacao ?? null;
+  const curso =
+    cursos.find((c) => c.label === formData.areaAtuacao)?.value ?? null;
+
   const interessesDisponiveis = getInteressesPorCurso(curso);
   const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
 
-  const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
-    interessesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const interessesFiltrados = (formData.areasInteresse ?? []).filter(
+    (v) =>
+      interessesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
-  const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
-    habilidadesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const habilidadesFiltradas = (formData.habilidades ?? []).filter(
+    (v) =>
+      habilidadesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
 
   const conditionalFields = [
@@ -209,6 +215,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             placeholder="Selecione o seu curso ou área de atuação"
             customLabel="Outro (digitar manualmente)"
             selectionMode="single"
+            singleSaveAs="label"
           />
           {errorsForm("areaAtuacao")}
         </div>

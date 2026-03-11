@@ -5,17 +5,11 @@ import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
 import {
   cargoCandidato,
-  cursos,
   habilidades,
   interesses,
   niveis,
 } from "@utils/constants";
-import {
-  getValueByKey,
-  getValueDate,
-  parseBoolean,
-} from "@utils/utils";
-import { DATE_FORMAT_PERIOD } from "@utils/date";
+import { getValueByKey, parseBoolean } from "@utils/utils";
 import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
 import { CardExperiencia } from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
@@ -132,9 +126,9 @@ const tags = (formData: Candidato): unknown => [
   {
     icon: "pi pi-briefcase",
     label: formData?.areaAtuacao
-      ? (formData.areaAtuacao.startsWith("CUSTOM_")
-          ? customValueToLabel(formData.areaAtuacao)
-          : getValueByKey(formData.areaAtuacao, cursos))
+      ? formData.areaAtuacao.startsWith("CUSTOM_")
+        ? customValueToLabel(formData.areaAtuacao)
+        : formData.areaAtuacao
       : null,
     color: "#FCF9DD",
   },
