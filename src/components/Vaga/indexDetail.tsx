@@ -1,5 +1,5 @@
 import type { Vaga } from "@domains/Vaga";
-import { publicoAlvo, categorias } from "@utils/constants";
+import { publicoAlvo, categorias, cursos } from "@utils/constants";
 import { getValueByKey, normalizeUrl } from "@utils/utils";
 import "./style.css";
 
@@ -40,7 +40,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             <span className="label">
               <b>Curso</b>
             </span>
-            <div className="value">{vaga.curso}</div>
+            <div className="value">{getValueByKey(vaga.curso, cursos as any)}</div>
           </div>
 
           <div className="item">
