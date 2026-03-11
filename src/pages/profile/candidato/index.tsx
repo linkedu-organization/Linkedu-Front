@@ -5,12 +5,12 @@ import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
 import {
   cargoCandidato,
+  cursos,
   habilidades,
   interesses,
   niveis,
 } from "@utils/constants";
 import {
-  getMultipleValuesByKey,
   getValueByKey,
   getValueDate,
   parseBoolean,
@@ -27,6 +27,31 @@ import { useParams } from "react-router-dom";
 import CandidatoEditFormPage from "./form";
 import ProfilePage from "../index";
 import "../style.css";
+
+const customValueToLabel = (val: string): string =>
+  val
+    .replace(/^CUSTOM_/, "")
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase());
+
+const getMultipleValuesWithCustom = (
+  values: string[],
+  list: { label: string; value: string }[],
+  separator = ", "
+): string => {
+  if (!values || values.length === 0) return "-";
+  return (
+    values
+      .map((v) => {
+        if (v.startsWith("CUSTOM_")) return customValueToLabel(v);
+        const found = list.find((o) => o.value === v);
+        return found ? found.label : null;
+      })
+      .filter(Boolean)
+      .join(separator) || "-"
+  );
+};
 
 const aboutRows = (formData: Candidato): unknown => [
   {
@@ -81,7 +106,7 @@ const aboutRows = (formData: Candidato): unknown => [
   {
     icon: "pi pi-wrench",
     label: "Habilidades:",
-    value: getMultipleValuesByKey(
+    value: getMultipleValuesWithCustom(
       formData?.habilidades || [],
       habilidades,
       " | "
@@ -90,7 +115,7 @@ const aboutRows = (formData: Candidato): unknown => [
   {
     icon: "pi pi-eye",
     label: "Áreas de interesse:",
-    value: getMultipleValuesByKey(
+    value: getMultipleValuesWithCustom(
       formData?.areasInteresse || [],
       interesses,
       " | "
@@ -106,7 +131,11 @@ const tags = (formData: Candidato): unknown => [
   },
   {
     icon: "pi pi-briefcase",
-    label: formData?.areaAtuacao,
+    label: formData?.areaAtuacao
+      ? (formData.areaAtuacao.startsWith("CUSTOM_")
+          ? customValueToLabel(formData.areaAtuacao)
+          : getValueByKey(formData.areaAtuacao, cursos))
+      : null,
     color: "#FCF9DD",
   },
   ...(formData?.linkedin
@@ -200,9 +229,9 @@ const ProfileCandidatoPage: React.FC = () => {
         addLabel="Adicionar Experiência"
         addDialogHeader="Experiência"
         AddProvider={RegisterExperienciaProvider}
-        renderAddForm={({ close, data }) => (
+        renderAddForm={({ close, formData: candidatoData }) => (
           <ExperienciaFormPage
-            candidato={data}
+            candidato={candidatoData}
             switchVisibility={close}
             callback={() => getCandById(formData?.id)}
           />

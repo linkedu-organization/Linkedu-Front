@@ -4,7 +4,7 @@ import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
-import { instituicoes, categorias, publicoAlvo } from "@utils/constants";
+import { instituicoes, categorias, publicoAlvo, cursos } from "@utils/constants";
 import { RadioButton } from "primereact/radiobutton";
 import { MultiSelect } from "primereact/multiselect";
 import type { Recrutador } from "@domains/Recrutador";
@@ -60,7 +60,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>Visibilidade *</label>
-
           <div className="radio-row">
             <div className="radio-item">
               <RadioButton
@@ -72,7 +71,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               />
               <label htmlFor="vis-publica">Pública</label>
             </div>
-
             <div className="radio-item">
               <RadioButton
                 inputId="vis-privada"
@@ -84,7 +82,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               <label htmlFor="vis-privada">Privada</label>
             </div>
           </div>
-
           {errors.ehPublica && (
             <small className="p-error">{errors.ehPublica}</small>
           )}
@@ -109,7 +106,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>A vaga é *</label>
-
           <div className="radio-row">
             <div className="radio-item">
               <RadioButton
@@ -121,7 +117,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               />
               <label htmlFor="remunerada-nao">Voluntária</label>
             </div>
-
             <div className="radio-item">
               <RadioButton
                 inputId="remunerada-sim"
@@ -133,7 +128,6 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               <label htmlFor="remunerada-sim">Remunerada</label>
             </div>
           </div>
-
           {errors.ehRemunerada && (
             <small className="p-error">{errors.ehRemunerada}</small>
           )}
@@ -219,11 +213,17 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>Curso *</label>
-          <InputText
-            value={formData.curso}
-            onChange={(e) => setField("curso", e.target.value)}
+          <Dropdown
+            value={formData.curso ?? ""}
+            options={cursos}
+            optionLabel="label"
+            optionValue="value"
+            onChange={(e) => setField("curso", e.value)}
+            placeholder="Selecione o curso"
             className={errors.curso ? "p-invalid" : ""}
-            placeholder="Digite o curso"
+            style={{ width: "100%" }}
+            filter
+            filterPlaceholder="Buscar curso..."
           />
           {errors.curso && <small className="p-error">{errors.curso}</small>}
         </div>

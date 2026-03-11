@@ -2,8 +2,10 @@ import { Dropdown } from "primereact/dropdown";
 import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
 import type { Candidato } from "@domains/Candidato";
-import { instituicoes, niveis } from "@utils/constants";
+import { instituicoes, niveis, cursos } from "@utils/constants";
+import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import { hasError, invalid } from "@utils/utils";
+
 import "./tabs.css";
 import { InputMask } from "primereact/inputmask";
 
@@ -72,11 +74,18 @@ const TabEscolaridade = ({
 
       <div className="field">
         <label>Curso / Área de atuação *</label>
-        <InputText
-          value={formData.areaAtuacao}
-          onChange={(e) => setField("areaAtuacao", e.target.value)}
+        <MultiSelectWithCustom
+          value={formData.areaAtuacao ?? ""}
+          onChange={(val) => {
+            setField("areaAtuacao", val);
+            setField("areasInteresse", []);
+            setField("habilidades", []);
+          }}
+          options={cursos}
           placeholder="Selecione o seu curso ou área de atuação"
           className={invalid(submitted, errors.areaAtuacao)}
+          customLabel="Outro (digitar manualmente)"
+          selectionMode="single"
         />
         {hasError(submitted, errors.areaAtuacao) && (
           <small>{errors.areaAtuacao}</small>
@@ -96,6 +105,7 @@ const TabEscolaridade = ({
           <small>{errors.nivelEscolaridade}</small>
         )}
       </div>
+
       {formData.cargo === "ALUNO" && (
         <>
           <div className="field">

@@ -6,20 +6,22 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
-import { MultiSelect } from "primereact/multiselect";
 import { InputNumber } from "primereact/inputnumber";
+import { InputMask } from "primereact/inputmask";
 
 import { useRegisterEditCandidato } from "@stores/profile/candidato/formStore";
 import PhotoUpload from "@components/PhotoUpload";
+import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import {
   cargoCandidato,
-  habilidades,
-  interesses,
+  cursos,
+  getHabilidadesPorCurso,
+  getInteressesPorCurso,
+  instituicoes,
   niveis,
   simNao,
 } from "@utils/constants";
 import "../styleForm.css";
-import { InputMask } from "primereact/inputmask";
 
 type CandidatoEditFormProps = {
   candidato: Candidato;
@@ -41,8 +43,19 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
   if (!formData) return null;
 
+  const curso = formData.areaAtuacao ?? null;
+  const interessesDisponiveis = getInteressesPorCurso(curso);
+  const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
+
+  const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
+    interessesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  );
+  const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
+    habilidadesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  );
+
   const conditionalFields = [
-    <>
+    <React.Fragment key="disp-field">
       <div className="editperfil-field">
         <label>Disponível para contratação *</label>
         <div className="radio-row">
@@ -77,8 +90,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
         />
         {errorsForm("tempoDisponivel")}
       </div>
-    </>,
-    <>
+    </React.Fragment>,
+    <React.Fragment key="social-field">
       <div className="editperfil-field">
         <label>Currículo Lattes</label>
         <InputText
@@ -95,7 +108,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           placeholder="Digite o link do seu perfil"
         />
       </div>
-    </>,
+    </React.Fragment>,
   ];
 
   return (
@@ -117,9 +130,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
             rows={4}
             autoResize
             placeholder="Fale um pouco sobre você, seu perfil e objetivos."
-            style={{
-              width: "-webkit-fill-available",
-            }}
+            style={{ width: "-webkit-fill-available" }}
           />
         </div>
       </div>
@@ -174,9 +185,10 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editperfil-field">
           <label>Instituição de Ensino *</label>
-          <InputText
+          <Dropdown
             value={formData.instituicao}
-            onChange={(e) => setField("instituicao", e.target.value)}
+            options={instituicoes}
+            onChange={(e) => setField("instituicao", e.value)}
             className={errors.instituicao ? "p-invalid" : ""}
             placeholder="Selecione a sua instituição"
           />
@@ -185,11 +197,18 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
 
         <div className="editperfil-field">
           <label>Curso/Área de atuação *</label>
-          <InputText
-            value={formData.areaAtuacao}
-            onChange={(e) => setField("areaAtuacao", e.target.value)}
+          <MultiSelectWithCustom
+            value={formData.areaAtuacao ?? ""}
+            onChange={(val) => {
+              setField("areaAtuacao", val);
+              setField("areasInteresse", []);
+              setField("habilidades", []);
+            }}
+            options={cursos}
             className={errors.areaAtuacao ? "p-invalid" : ""}
             placeholder="Selecione o seu curso ou área de atuação"
+            customLabel="Outro (digitar manualmente)"
+            selectionMode="single"
           />
           {errorsForm("areaAtuacao")}
         </div>
@@ -232,35 +251,57 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
           </>
         )}
       </div>
+
       {formData.cargo === "TECNICO" &&
-        conditionalFields.map((fields) => (
-          <div className="editcand-half-grid">{fields}</div>
+        conditionalFields.map((fields, i) => (
+          <div key={i} className="editcand-half-grid">
+            {fields}
+          </div>
         ))}
+
       <div className="editcand-half-grid">
         <div className="editperfil-field">
           <label>Áreas de interesse *</label>
-          <MultiSelect
-            value={formData.areasInteresse}
-            onChange={(e) => setField("areasInteresse", e.value)}
-            options={interesses}
-            placeholder="Selecione as suas áreas de interesse"
+          {!curso && (
+            <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
+              Selecione um curso para ver as opções disponíveis.
+            </small>
+          )}
+          <MultiSelectWithCustom
+            value={interessesFiltrados}
+            onChange={(vals) => setField("areasInteresse", vals)}
+            options={interessesDisponiveis}
+            placeholder={
+              curso
+                ? "Selecione as suas áreas de interesse"
+                : "Disponível após selecionar o curso"
+            }
             className={errors.areasInteresse ? "p-invalid" : ""}
-            display="chip"
-            maxSelectedLabels={2}
+            disabled={!curso}
+            customLabel="Adicionar área personalizada"
           />
           {errorsForm("areasInteresse")}
         </div>
 
         <div className="editperfil-field">
           <label>Habilidades *</label>
-          <MultiSelect
-            value={formData.habilidades}
-            onChange={(e) => setField("habilidades", e.value)}
-            options={habilidades}
-            placeholder="Selecione as suas habilidades"
+          {!curso && (
+            <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
+              Selecione um curso para ver as opções disponíveis.
+            </small>
+          )}
+          <MultiSelectWithCustom
+            value={habilidadesFiltradas}
+            onChange={(vals) => setField("habilidades", vals)}
+            options={habilidadesDisponiveis}
+            placeholder={
+              curso
+                ? "Selecione as suas habilidades"
+                : "Disponível após selecionar o curso"
+            }
             className={errors.habilidades ? "p-invalid" : ""}
-            display="chip"
-            maxSelectedLabels={2}
+            disabled={!curso}
+            customLabel="Adicionar habilidade personalizada"
           />
           {errorsForm("habilidades")}
         </div>
