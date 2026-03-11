@@ -3,7 +3,7 @@ import { Button } from "primereact/button";
 import type { Vaga } from "@domains/Vaga";
 import { Avatar } from "primereact/avatar";
 import { getValueByKey } from "@utils/utils";
-import { categorias } from "@utils/constants";
+import { categorias, cursos } from "@utils/constants";
 import "./style.css";
 
 export interface VagaCardProps {
@@ -64,7 +64,7 @@ export const VagaCard = ({
     <div className="position-course">
       <Avatar icon="pi pi-book" shape="circle" className="icon-badge" />
       <b>Curso: </b>
-      <span className="value ellipsis">{vaga.curso}</span>
+      <span className="value ellipsis">{getValueByKey(vaga.curso, cursos as any)}</span>
     </div>
 
     <div className="position-skills">
