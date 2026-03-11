@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 
 import type { Candidato } from "@domains/Candidato";
 import type { Experiencia } from "@domains/Experiencia";
 import { useRegisterExperiencia } from "@stores/register/experiencia/formStore";
+import { instituicoes } from "@utils/constants";
 import "./style.css";
 import { InputMask } from "primereact/inputmask";
 
@@ -59,10 +61,14 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
 
         <div className="exp-field">
           <label>Instituição de ensino</label>
-          <InputText
+          <Dropdown
             value={formData.instituicao}
-            onChange={(e) => setField("instituicao", e.target.value)}
-            placeholder="Digite a instituição"
+            options={instituicoes}
+            optionLabel="label"
+            optionValue="value"
+            onChange={(e) => setField("instituicao", e.value)}
+            placeholder="Selecione a instituição"
+            style={{ width: "100%" }}
           />
         </div>
 
