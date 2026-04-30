@@ -40,12 +40,14 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             <span className="label">
               <b>Curso</b>
             </span>
-            <div className="value">{getValueByKey(vaga.curso, cursos as any)}</div>
+            <div className="value">
+              {getValueByKey(vaga.curso, cursos as any)}
+            </div>
           </div>
 
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-user" />
+              <i className="pi pi-users" />
             </span>
             <span className="label">
               <b>Público-alvo</b>
@@ -75,7 +77,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
 
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-user" />
+              <i className="pi pi-id-card" />
             </span>
             <span className="label">
               <b>Ofertada por</b>
@@ -97,7 +99,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
 
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-clock" />
+              <i className="pi pi-calendar" />
             </span>
             <span className="label">
               <b>Tempo de duração</b>
@@ -109,7 +111,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
         <div className="vaga-row wide">
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-book" />
+              <i className="pi pi-check-circle" />
             </span>
             <span className="label">
               <b>Conhecimentos Obrigatórios</b>
@@ -121,7 +123,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
 
           <div className="item">
             <span className="icon-badge" aria-hidden="true">
-              <i className="pi pi-book" />
+              <i className="pi pi-plus-circle" />
             </span>
             <span className="label">
               <b>Conhecimentos Opcionais</b>
