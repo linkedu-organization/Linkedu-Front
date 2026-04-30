@@ -27,6 +27,7 @@ interface RegisterExperienciaContextType {
     callback: () => void,
     experienciaId?: string | number
   ) => Promise<Experiencia | null>;
+  loading: boolean;
 }
 
 const RegisterExperienciaContext =
@@ -51,6 +52,7 @@ export const RegisterExperienciaProvider = ({
 }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
 
   const getByPath = (obj: any, path: string) =>
@@ -134,9 +136,11 @@ export const RegisterExperienciaProvider = ({
     callback: () => void,
     experienciaId?: string | number
   ) => {
-    try {
-      if (!validate()) return null;
+    if (loading) return null;
+    if (!validate()) return null;
 
+    setLoading(true);
+    try {
       const payload: ExperienciaSubmit = {
         candidatoId: candidato?.id,
         ...formData,
@@ -161,6 +165,8 @@ export const RegisterExperienciaProvider = ({
           : "Houve um erro ao criar a experiência"
       );
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -174,6 +180,7 @@ export const RegisterExperienciaProvider = ({
         validate,
         load,
         submit,
+        loading,
       }}
     >
       {children}
