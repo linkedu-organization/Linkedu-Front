@@ -8,6 +8,7 @@ export interface CardExperienciaProps {
   showActions?: boolean;
   onEdit?: (exp: Experiencia) => void;
   onDelete?: (exp: Experiencia) => void;
+  deleteLoading?: boolean;
 }
 
 export const CardExperiencia = ({
@@ -15,6 +16,7 @@ export const CardExperiencia = ({
   showActions = true,
   onEdit,
   onDelete,
+  deleteLoading,
 }: CardExperienciaProps) => (
   <Card className="exp-card">
     <div className="exp-bar">
@@ -40,6 +42,8 @@ export const CardExperiencia = ({
             text
             type="button"
             onClick={() => onDelete?.(data)}
+            loading={deleteLoading}
+            disabled={deleteLoading}
           />
         </div>
       )}
