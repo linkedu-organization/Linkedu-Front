@@ -34,7 +34,7 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   switchVisibility,
   onSaved,
 }) => {
-  const { formData, setInitialData, setField, errors, submit, errorsForm } =
+  const { formData, setInitialData, setField, errors, submit, errorsForm, loading } =
     useRegisterEditCandidato();
 
   useEffect(() => {
@@ -317,6 +317,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               switchVisibility();
             })
           }
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </div>

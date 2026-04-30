@@ -17,7 +17,7 @@ import PhotoUpload from "@components/PhotoUpload";
 type ProfilePageProps = {
   formData: any;
   items: any[] | null | undefined;
-  deleteProfile: () => void;
+  deleteProfile: () => void | Promise<void>;
   buildTags: (formData: any) => any[];
   buildAboutRows: (formData: any) => any[];
   EditProvider?: React.ComponentType<React.PropsWithChildren>;
@@ -55,6 +55,7 @@ export const ProfilePage = ({
 
   const [dialogAdd, setDialogAdd] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
+  const [deleteProfileLoading, setDeleteProfileLoading] = useState(false);
 
   const isOwnProfile = useMemo(() => {
     if (perfil !== null) {
@@ -72,7 +73,14 @@ export const ProfilePage = ({
       header: "Excluir Perfil",
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Confirmar exclusão",
-      accept: () => deleteProfile(),
+      accept: async () => {
+        setDeleteProfileLoading(true);
+        try {
+          await deleteProfile();
+        } finally {
+          setDeleteProfileLoading(false);
+        }
+      },
     });
   };
 
@@ -173,6 +181,8 @@ export const ProfilePage = ({
                       }}
                       size="small"
                       onClick={confirmExcluir}
+                      loading={deleteProfileLoading}
+                      disabled={deleteProfileLoading}
                     />
 
                     <ConfirmDialog />
