@@ -40,7 +40,9 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
             <span className="label">
               <b>Curso</b>
             </span>
-            <div className="value">{getValueByKey(vaga.curso, cursos as any)}</div>
+            <div className="value">
+              {getValueByKey(vaga.curso, cursos as any)}
+            </div>
           </div>
 
           <div className="item">
