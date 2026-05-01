@@ -155,11 +155,7 @@ export const RegisterCandidatoProvider = ({
   const finalizeRegister = async () => {
     try {
       await registerCandidato(formData);
-      showNotification(
-        "success",
-        "Cadastro concluído com sucesso!",
-        "Seu perfil será considerado ativo e poderá ser recomendado para vagas por até 30 dias após seu último acesso. Após esse período sem atividade, ele será desativado automaticamente. Para continuar sendo recomendado em vagas, basta acessar sua conta novamente."
-      );
+      showNotification("success", "Cadastro concluído com sucesso!");
       navigate("/login");
     } catch (error) {
       showNotification(
