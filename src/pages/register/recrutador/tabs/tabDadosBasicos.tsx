@@ -1,5 +1,6 @@
 import type { Recrutador } from "@domains/Recrutador";
 import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
 import { InputTextarea } from "primereact/inputtextarea";
 import { invalid, hasError } from "@utils/utils";
 import PhotoUpload from "@components/PhotoUpload";
@@ -70,12 +71,13 @@ const TabDadosBasicos = ({
 
       <div className="field">
         <label>Senha *</label>
-        <InputText
+        <Password
           value={formData.perfil.senha}
           onChange={(e) => setField("perfil.senha", e.target.value)}
-          type="password"
-          className={invalid(submitted, errors["perfil.senha"])}
+          inputClassName={invalid(submitted, errors["perfil.senha"])}
           placeholder="Digite sua senha"
+          feedback={false}
+          toggleMask
         />
         {hasError(submitted, errors["perfil.senha"]) && (
           <small>{errors["perfil.senha"]}</small>
@@ -84,12 +86,13 @@ const TabDadosBasicos = ({
 
       <div className="field">
         <label>Confirme sua senha *</label>
-        <InputText
+        <Password
           value={formData.perfil.confirmaSenha}
           onChange={(e) => setField("perfil.confirmaSenha", e.target.value)}
-          type="password"
-          className={invalid(submitted, errors["perfil.confirmaSenha"])}
+          inputClassName={invalid(submitted, errors["perfil.confirmaSenha"])}
           placeholder="Digite sua senha novamente"
+          feedback={false}
+          toggleMask
         />
         {hasError(submitted, errors["perfil.confirmaSenha"]) && (
           <small>{errors["perfil.confirmaSenha"]}</small>

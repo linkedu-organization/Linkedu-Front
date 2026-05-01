@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Layout } from "@components/Layout";
 import "./style.css";
 import { useLogin } from "@stores/login/indexStore";
+import { Password } from "primereact/password";
 
 const LoginPage = () => {
   const { formData, setField, errors, finalizeLogin, errorsForm, loading } = useLogin();
@@ -31,7 +32,7 @@ const LoginPage = () => {
               />
               {errorsForm("email")}
 
-              <InputText
+              <Password
                 id="senha"
                 type="password"
                 placeholder="Senha"
@@ -43,6 +44,8 @@ const LoginPage = () => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") finalizeLogin();
                 }}
+                feedback={false}
+                toggleMask
               />
               {errorsForm("senha")}
 
