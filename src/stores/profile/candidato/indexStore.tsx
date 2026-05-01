@@ -9,8 +9,8 @@ import { useAuth } from "@contexts/authContext";
 interface ProfileCandidatoContextType {
   formData: Candidato;
   experiencias: Experiencia[];
-  deleteCand: () => void;
-  deleteExp: (id: number, callback: () => void) => void;
+  deleteCand: () => Promise<void>;
+  deleteExp: (id: number, callback: () => void) => Promise<void>;
   getCandById: (id: string) => void;
   loading: boolean;
 }

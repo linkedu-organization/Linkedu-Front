@@ -20,6 +20,7 @@ interface RegisterVagaContextType {
     callback: () => void,
     vagaId?: string | number
   ) => Promise<Vaga | null>;
+  loading: boolean;
 }
 
 const RegisterVagaContext = createContext<RegisterVagaContextType | null>(null);
@@ -39,6 +40,7 @@ const initialFormData = defaultVaga;
 export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
 
   const getByPath = (obj: any, path: string) =>
@@ -132,33 +134,39 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
     callback: () => void,
     vagaId?: string | number
   ) => {
+    if (loading) return null;
+    if (!validate()) return null;
+
+    if (recrutador.id == null) {
+      showNotification("error", "Recrutador inválido (sem id)");
+      return null;
+    }
+
+    setLoading(true);
     try {
-      if (validate()) {
-        if (recrutador.id == null) {
-          showNotification("error", "Recrutador inválido (sem id)");
-          return null;
-        }
+      const payload: Vaga = {
+        ...formData,
+        recrutadorId: recrutador.id,
+        recrutador,
+      };
 
-        const payload: Vaga = {
-          ...formData,
-          recrutadorId: recrutador.id,
-          recrutador,
-        };
-
-        if (vagaId) {
-          await updateVaga(Number(vagaId), payload);
-          showNotification("success", "Vaga atualizada com sucesso!");
-        } else {
-          await registerVaga(payload);
-          showNotification("success", "Vaga criada com sucesso!");
-        }
-
-        callback();
-        resetForm();
+      if (vagaId) {
+        await updateVaga(Number(vagaId), payload);
+        showNotification("success", "Vaga atualizada com sucesso!");
+      } else {
+        await registerVaga(payload);
+        showNotification("success", "Vaga criada com sucesso!");
       }
+
+      callback();
+      resetForm();
+      return formData;
     } catch (error) {
       debugger;
       showNotification("error", "Houve um erro ao criar a Vaga");
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -172,6 +180,7 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
         validate,
         submit,
         load,
+        loading,
       }}
     >
       {children}

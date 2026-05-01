@@ -15,6 +15,7 @@ interface RegisterEditCandidatoContextType {
   validate: () => Promise<boolean>;
   submit: (callback: () => void) => Promise<Candidato | null>;
   errorsForm: (path: string) => ReactNode;
+  loading: boolean;
 }
 
 const RegisterEditCandidatoContext =
@@ -39,6 +40,7 @@ export const RegisterEditCandidatoProvider = ({
   const [initialData, setInitialDataState] = useState<Candidato>();
   const [formData, setFormData] = useState<Candidato>();
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
 
   const getByPath = (obj: any, path: string) =>
@@ -158,8 +160,11 @@ export const RegisterEditCandidatoProvider = ({
     errors[path] && <small className="p-error">{errors[path]}</small>;
 
   const submit = async (callback: () => void): Promise<Candidato | null> => {
+    if (loading) return null;
+
     try {
       if (formData && (await validate())) {
+        setLoading(true);
         const response = await updateCandidato(formData.id, formData);
 
         showNotification("success", null, "Dados atualizados com sucesso!");
@@ -169,7 +174,11 @@ export const RegisterEditCandidatoProvider = ({
       }
     } catch (error) {
       showNotification("error", "Houve um erro ao atualizar a conta");
+    } finally {
+      setLoading(false);
     }
+
+    return null;
   };
 
   return (
@@ -182,6 +191,7 @@ export const RegisterEditCandidatoProvider = ({
         validate,
         submit,
         errorsForm,
+        loading,
       }}
     >
       {children}

@@ -14,6 +14,7 @@ type RegisterWizardProps = {
 const RegisterWizard = ({ title, useStore, steps }: RegisterWizardProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { formData, setField, validateStep, finalizeRegister, errors } =
     useStore();
@@ -21,20 +22,29 @@ const RegisterWizard = ({ title, useStore, steps }: RegisterWizardProps) => {
   const lastIndex = steps.length - 1;
 
   const nextStep = async () => {
+    if (loading) return;
+
     setSubmitted(true);
-    if (await validateStep(activeIndex)) {
-      if (activeIndex === lastIndex) {
-        finalizeRegister();
+    setLoading(true);
+    try {
+      if (await validateStep(activeIndex)) {
+        if (activeIndex === lastIndex) {
+          await finalizeRegister();
+        } else {
+          setActiveIndex((v) => Math.min(lastIndex, v + 1));
+        }
+        setSubmitted(false);
       } else {
-        setActiveIndex((v) => Math.min(lastIndex, v + 1));
+        showNotification("error", null, "Verifique os campos do formulário!");
       }
-      setSubmitted(false);
-    } else {
-      showNotification("error", null, "Verifique os campos do formulário!");
+    } finally {
+      setLoading(false);
     }
   };
 
   const stepBack = () => {
+    if (loading) return;
+
     setSubmitted(false);
     setActiveIndex((v) => Math.max(0, v - 1));
   };
@@ -70,6 +80,7 @@ const RegisterWizard = ({ title, useStore, steps }: RegisterWizardProps) => {
                   onClick={stepBack}
                   icon="pi pi-arrow-left"
                   iconPos="left"
+                  disabled={loading}
                 />
               )}
               {activeIndex < lastIndex && (
@@ -79,6 +90,8 @@ const RegisterWizard = ({ title, useStore, steps }: RegisterWizardProps) => {
                   onClick={nextStep}
                   icon="pi pi-arrow-right"
                   iconPos="right"
+                  loading={loading}
+                  disabled={loading}
                 />
               )}
               {activeIndex === lastIndex && (
@@ -88,6 +101,8 @@ const RegisterWizard = ({ title, useStore, steps }: RegisterWizardProps) => {
                   onClick={nextStep}
                   icon="pi pi-check"
                   iconPos="right"
+                  loading={loading}
+                  disabled={loading}
                 />
               )}
             </div>

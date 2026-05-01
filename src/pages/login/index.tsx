@@ -7,7 +7,7 @@ import { useLogin } from "@stores/login/indexStore";
 import { Password } from "primereact/password";
 
 const LoginPage = () => {
-  const { formData, setField, errors, finalizeLogin, errorsForm } = useLogin();
+  const { formData, setField, errors, finalizeLogin, errorsForm, loading } = useLogin();
   return (
     <Layout headerType="none" showFooter={false}>
       <div className="login-page">
@@ -62,6 +62,8 @@ const LoginPage = () => {
                   label="Entrar"
                   className="login-button"
                   onClick={() => finalizeLogin()}
+                  loading={loading}
+                  disabled={loading}
                 />
               </div>
             </div>

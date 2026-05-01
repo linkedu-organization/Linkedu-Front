@@ -24,7 +24,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
   experiencia,
   callback,
 }) => {
-  const { formData, setField, errors, submit, resetForm, load } =
+  const { formData, setField, errors, submit, resetForm, load, loading } =
     useRegisterExperiencia();
 
   useEffect(() => {
@@ -134,6 +134,7 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
             resetForm();
             switchVisibility();
           }}
+          disabled={loading}
         />
         <Button
           label="Salvar"
@@ -149,6 +150,8 @@ const ExperienciaFormPage: React.FC<ExperienciaFormProps> = ({
               experiencia?.id
             );
           }}
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </div>

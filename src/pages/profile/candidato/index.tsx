@@ -10,12 +10,7 @@ import {
   interesses,
   niveis,
 } from "@utils/constants";
-import {
-  getValueByKey,
-  getValueDate,
-  parseBoolean,
-} from "@utils/utils";
-import { DATE_FORMAT_PERIOD } from "@utils/date";
+import { getValueByKey, parseBoolean } from "@utils/utils";
 import { RegisterEditCandidatoProvider } from "@stores/profile/candidato/formStore";
 import { CardExperiencia } from "@components/CardExperiencia";
 import ExperienciaFormPage from "@pages/register/experiencia/form";
@@ -132,9 +127,9 @@ const tags = (formData: Candidato): unknown => [
   {
     icon: "pi pi-briefcase",
     label: formData?.areaAtuacao
-      ? (formData.areaAtuacao.startsWith("CUSTOM_")
-          ? customValueToLabel(formData.areaAtuacao)
-          : getValueByKey(formData.areaAtuacao, cursos))
+      ? formData.areaAtuacao.startsWith("CUSTOM_")
+        ? customValueToLabel(formData.areaAtuacao)
+        : getValueByKey(formData.areaAtuacao, cursos)
       : null,
     color: "#FCF9DD",
   },
@@ -174,6 +169,7 @@ const ProfileCandidatoPage: React.FC = () => {
 
   const [dialogExperiencia, setDialogExperiencia] = useState(false);
   const [selectedExp, setSelectedExp] = useState<Experiencia | null>(null);
+  const [deletingExpId, setDeletingExpId] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -201,7 +197,12 @@ const ProfileCandidatoPage: React.FC = () => {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Excluir",
       accept: async () => {
-        deleteExp(exp.id, () => getCandById(formData?.id));
+        setDeletingExpId(exp.id);
+        try {
+          await deleteExp(exp.id, () => getCandById(formData?.id));
+        } finally {
+          setDeletingExpId(null);
+        }
       },
     });
   };
@@ -244,6 +245,7 @@ const ProfileCandidatoPage: React.FC = () => {
             onDelete={(e) => {
               confirmDeleteExp(window.event, e);
             }}
+            deleteLoading={deletingExpId === exp.id}
             showActions={isOwnProfile}
           />
         )}

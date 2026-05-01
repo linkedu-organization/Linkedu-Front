@@ -9,8 +9,8 @@ import { useAuth } from "@contexts/authContext";
 interface ProfileRecrutadorContextType {
   formData: Recrutador;
   vagas: Vaga[];
-  deleteRec: () => void;
-  deleteVag: (id: number, callback: () => void) => void;
+  deleteRec: () => Promise<void>;
+  deleteVag: (id: number, callback: () => void) => Promise<void>;
   getRecById: (id: string, isOwnProfile: boolean) => void;
   loading: boolean;
 }

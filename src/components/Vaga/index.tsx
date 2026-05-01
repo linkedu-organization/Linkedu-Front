@@ -13,9 +13,11 @@ export interface VagaCardProps {
   showActions?: boolean;
   onEdit?: (exp: Vaga) => void;
   onDelete?: (exp: Vaga) => void;
+  deleteLoading?: boolean;
 
   showRecommendedButton?: boolean;
   onRecommendedCandidates?: (vaga: Vaga) => void;
+  recommendedLoading?: boolean;
   detailsVariant?: "button" | "icon" | "hidden";
 }
 
@@ -24,9 +26,11 @@ export const VagaCard = ({
   openDetails,
   onEdit,
   onDelete,
+  deleteLoading,
   showActions,
   showRecommendedButton,
   onRecommendedCandidates,
+  recommendedLoading,
   detailsVariant = "button",
 }: VagaCardProps) => (
   <Card key={vaga.id} className="vaga-card">
@@ -64,7 +68,9 @@ export const VagaCard = ({
     <div className="position-course">
       <Avatar icon="pi pi-book" shape="circle" className="icon-badge" />
       <b>Curso: </b>
-      <span className="value ellipsis">{getValueByKey(vaga.curso, cursos as any)}</span>
+      <span className="value ellipsis">
+        {getValueByKey(vaga.curso, cursos as any)}
+      </span>
     </div>
 
     <div className="position-skills">
@@ -83,6 +89,8 @@ export const VagaCard = ({
             icon="pi pi-sparkles"
             className="recommended-button"
             onClick={() => onRecommendedCandidates?.(vaga)}
+            loading={recommendedLoading}
+            disabled={recommendedLoading}
           />
         )}
       </div>
@@ -121,6 +129,8 @@ export const VagaCard = ({
               text
               type="button"
               onClick={() => onDelete?.(vaga)}
+              loading={deleteLoading}
+              disabled={deleteLoading}
             />
           </div>
         )}
