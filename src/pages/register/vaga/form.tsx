@@ -4,7 +4,12 @@ import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
-import { instituicoes, categorias, publicoAlvo, cursos } from "@utils/constants";
+import {
+  instituicoes,
+  categorias,
+  publicoAlvo,
+  cursos,
+} from "@utils/constants";
 import { RadioButton } from "primereact/radiobutton";
 import { MultiSelect } from "primereact/multiselect";
 import type { Recrutador } from "@domains/Recrutador";
@@ -156,6 +161,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               setField("cargaHoraria", Number.isNaN(n) ? 0 : n);
             }}
             className={errors.cargaHoraria ? "p-invalid" : ""}
+            placeholder="Digite a carga horária semanal"
           />
           {errors.cargaHoraria && (
             <small className="p-error">{errors.cargaHoraria}</small>
@@ -169,7 +175,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             keyfilter="int"
             onChange={(e) => setField("duracao", e.target.value)}
             className={errors.duracao ? "p-invalid" : ""}
-            placeholder="Informe o período de duração da vaga"
+            placeholder="Digite o tempo de duração da vaga"
           />
           {errors.duracao && (
             <small className="p-error">{errors.duracao}</small>
@@ -184,7 +190,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             optionLabel="label"
             optionValue="value"
             onChange={(e) => setField("publicoAlvo", e.value)}
-            placeholder="Selecione um ou mais públicos..."
+            placeholder="Selecione o público-alvo"
             className={errors.publicoAlvo ? "p-invalid" : ""}
             style={{ width: "100%" }}
             maxSelectedLabels={2}
@@ -223,7 +229,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             className={errors.curso ? "p-invalid" : ""}
             style={{ width: "100%" }}
             filter
-            filterPlaceholder="Buscar curso..."
+            filterPlaceholder="Buscar curso"
           />
           {errors.curso && <small className="p-error">{errors.curso}</small>}
         </div>
@@ -300,7 +306,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             className={errors.descricao ? "p-invalid" : ""}
             rows={5}
             autoResize
-            placeholder="Descreva os detalhes da vaga: atividades, objetivos e demais informações relevantes."
+            placeholder="Descreva os detalhes da vaga: atividades, objetivos e demais informações relevantes"
           />
           {errors.descricao && (
             <small className="p-error">{errors.descricao}</small>
