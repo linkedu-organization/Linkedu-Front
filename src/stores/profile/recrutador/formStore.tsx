@@ -15,6 +15,7 @@ interface RegisterEditRecrutadorContextType {
   validate: () => Promise<boolean>;
   submit: (callback: () => void) => Promise<Recrutador | null>;
   errorsForm: (path: string) => ReactNode;
+  loading: boolean;
 }
 
 const RegisterEditRecrutadorContext =
@@ -39,6 +40,7 @@ export const RegisterEditRecrutadorProvider = ({
   const [initialData, setInitialDataState] = useState<Recrutador>();
   const [formData, setFormData] = useState<Recrutador>();
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
 
   const getByPath = (obj: any, path: string) =>
@@ -146,8 +148,11 @@ export const RegisterEditRecrutadorProvider = ({
     errors[path] && <small className="p-error">{errors[path]}</small>;
 
   const submit = async (callback: () => void): Promise<Recrutador | null> => {
+    if (loading) return null;
+
     try {
       if (formData && (await validate())) {
+        setLoading(true);
         const response = await updateRecrutador(formData.id, formData);
 
         showNotification("success", null, "Dados atualizados com sucesso!");
@@ -157,7 +162,11 @@ export const RegisterEditRecrutadorProvider = ({
       }
     } catch (error) {
       showNotification("error", "Houve um erro ao atualizar a conta");
+    } finally {
+      setLoading(false);
     }
+
+    return null;
   };
 
   return (
@@ -170,6 +179,7 @@ export const RegisterEditRecrutadorProvider = ({
         validate,
         submit,
         errorsForm,
+        loading,
       }}
     >
       {children}

@@ -86,6 +86,7 @@ const ProfileRecrutadorPage: React.FC = () => {
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [dialogVaga, setDialogVaga] = useState(false);
+  const [deletingVagaId, setDeletingVagaId] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -113,7 +114,12 @@ const ProfileRecrutadorPage: React.FC = () => {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Excluir",
       accept: async () => {
-        deleteVag(vag.id, () => getRecById(formData?.id));
+        setDeletingVagaId(vag.id);
+        try {
+          await deleteVag(vag.id, () => getRecById(formData?.id));
+        } finally {
+          setDeletingVagaId(null);
+        }
       },
     });
   };
@@ -167,8 +173,12 @@ const ProfileRecrutadorPage: React.FC = () => {
               confirmDeleteVaga(window.event, e);
             }}
             showActions={isOwnProfile}
+            deleteLoading={deletingVagaId === vaga.id}
             showRecommendedButton={isOwnProfile}
             onRecommendedCandidates={() => openRecommended(vaga)}
+            recommendedLoading={
+              loadingCandidates && recommendedVaga?.id === vaga.id
+            }
             detailsVariant="icon"
           />
         )}
@@ -222,6 +232,8 @@ const ProfileRecrutadorPage: React.FC = () => {
             setForceUpdate(true);
             openRecommended(recommendedVaga!);
           }}
+          loading={loadingCandidates || loadingProfiles}
+          disabled={loadingCandidates || loadingProfiles}
         />
       </Dialog>
 

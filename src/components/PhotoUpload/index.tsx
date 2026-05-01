@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
+import { ProgressSpinner } from "primereact/progressspinner";
 import uploadImage from "@routes/routesCloudinary";
 
 interface PhotoUploadProps {
@@ -14,6 +15,7 @@ const PhotoUpload = ({
   setField,
 }: PhotoUploadProps) => {
   const [image, setImage] = useState(imageProfile || "");
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = async (
@@ -21,11 +23,16 @@ const PhotoUpload = ({
   ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      const imageUrl = await uploadImage(file);
+      setLoading(true);
+      try {
+        const imageUrl = await uploadImage(file);
 
-      if (imageUrl) {
-        setImage(imageUrl);
-        setField && setField("perfil.foto", imageUrl);
+        if (imageUrl) {
+          setImage(imageUrl);
+          setField && setField("perfil.foto", imageUrl);
+        }
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -36,7 +43,7 @@ const PhotoUpload = ({
 
   return (
     <div
-      onClick={() => canUpload && fileInputRef.current?.click()}
+      onClick={() => canUpload && !loading && fileInputRef.current?.click()}
       style={{ cursor: canUpload ? "pointer" : "default" }}
     >
       <div
@@ -50,7 +57,11 @@ const PhotoUpload = ({
           backgroundRepeat: "no-repeat",
         }}
       >
-        {canUpload && <i className="pi pi-pencil icon-image" />}
+        {loading ? (
+          <ProgressSpinner className="photo-upload-spinner" />
+        ) : (
+          canUpload && <i className="pi pi-pencil icon-image" />
+        )}
       </div>
       {canUpload && (
         <input

@@ -34,8 +34,15 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   switchVisibility,
   onSaved,
 }) => {
-  const { formData, setInitialData, setField, errors, submit, errorsForm } =
-    useRegisterEditCandidato();
+  const {
+    formData,
+    setInitialData,
+    setField,
+    errors,
+    submit,
+    errorsForm,
+    loading,
+  } = useRegisterEditCandidato();
 
   useEffect(() => {
     if (candidato) setInitialData(candidato);
@@ -47,11 +54,15 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
   const interessesDisponiveis = getInteressesPorCurso(curso);
   const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
 
-  const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
-    interessesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const interessesFiltrados = (formData.areasInteresse ?? []).filter(
+    (v) =>
+      interessesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
-  const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
-    habilidadesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const habilidadesFiltradas = (formData.habilidades ?? []).filter(
+    (v) =>
+      habilidadesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
 
   const conditionalFields = [
@@ -170,8 +181,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
                   onChange={(e) => {
                     setField("cargo", e.value);
                     if (e.value === "TECNICO") {
-                      setField("periodoConclusao", undefined);
-                      setField("periodoIngresso", undefined);
+                      setField("periodoConclusao", "");
+                      setField("periodoIngresso", "");
                     }
                   }}
                   checked={formData.cargo === opt.value}
@@ -317,6 +328,8 @@ const CandidatoEditFormPage: React.FC<CandidatoEditFormProps> = ({
               switchVisibility();
             })
           }
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </div>

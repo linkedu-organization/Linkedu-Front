@@ -60,7 +60,14 @@ function buildPerfisFilters(selected: PerfisFilterKey[]): FilterField[] {
 }
 
 const HomePage = () => {
-  const { vagas, perfis, fetchVagas, fetchPerfis } = useHomePage();
+  const {
+    vagas,
+    perfis,
+    fetchVagas,
+    fetchPerfis,
+    loadingVagas,
+    loadingPerfis,
+  } = useHomePage();
   const [searchParams] = useSearchParams();
   const q = (searchParams.get("q") ?? "").trim().toLowerCase();
 
@@ -141,16 +148,14 @@ const HomePage = () => {
   const closeDetails = useCallback(() => setSelectedVaga(null), []);
 
   const applyVagasQuery = useCallback(
-    (nextFilters: FilterField[], nextSort: Sorter) => {
-      fetchVagas({ filters: nextFilters, sorters: [nextSort] });
-    },
+    (nextFilters: FilterField[], nextSort: Sorter) =>
+      fetchVagas({ filters: nextFilters, sorters: [nextSort] }),
     [fetchVagas]
   );
 
   const applyPerfisQuery = useCallback(
-    (nextFilters: FilterField[], nextSort: Sorter) => {
-      fetchPerfis({ filters: nextFilters, sorters: [nextSort] });
-    },
+    (nextFilters: FilterField[], nextSort: Sorter) =>
+      fetchPerfis({ filters: nextFilters, sorters: [nextSort] }),
     [fetchPerfis]
   );
 
@@ -171,11 +176,11 @@ const HomePage = () => {
     );
   }, []);
 
-  const applySelectedFilters = useCallback(() => {
+  const applySelectedFilters = useCallback(async () => {
     if (filterTab === "vagas") {
-      applyVagasQuery(vagasFilters, vagasSort);
+      await applyVagasQuery(vagasFilters, vagasSort);
     } else {
-      applyPerfisQuery(perfisFilters, perfisSort);
+      await applyPerfisQuery(perfisFilters, perfisSort);
     }
     setFiltersOpen(false);
   }, [
@@ -188,13 +193,13 @@ const HomePage = () => {
     perfisSort,
   ]);
 
-  const clearFilters = useCallback(() => {
+  const clearFilters = useCallback(async () => {
     if (filterTab === "vagas") {
       setVagasSelectedFilters([]);
-      applyVagasQuery([], vagasSort);
+      await applyVagasQuery([], vagasSort);
     } else {
       setPerfisSelectedFilters([]);
-      applyPerfisQuery([], perfisSort);
+      await applyPerfisQuery([], perfisSort);
     }
     setFiltersOpen(false);
   }, [filterTab, applyVagasQuery, applyPerfisQuery, vagasSort, perfisSort]);
@@ -202,26 +207,29 @@ const HomePage = () => {
   const toggleSort = useCallback(
     (tab: TabKey) => {
       if (tab === "vagas") {
-        setVagasSort((prev) => {
-          const next: Sorter = {
-            ...prev,
-            ordem: prev.ordem === "ASC" ? "DESC" : "ASC",
-          };
-          applyVagasQuery(vagasFilters, next);
-          return next;
-        });
+        const next: Sorter = {
+          ...vagasSort,
+          ordem: vagasSort.ordem === "ASC" ? "DESC" : "ASC",
+        };
+        setVagasSort(next);
+        applyVagasQuery(vagasFilters, next);
       } else {
-        setPerfisSort((prev) => {
-          const next: Sorter = {
-            ...prev,
-            ordem: prev.ordem === "ASC" ? "DESC" : "ASC",
-          };
-          applyPerfisQuery(perfisFilters, next);
-          return next;
-        });
+        const next: Sorter = {
+          ...perfisSort,
+          ordem: perfisSort.ordem === "ASC" ? "DESC" : "ASC",
+        };
+        setPerfisSort(next);
+        applyPerfisQuery(perfisFilters, next);
       }
     },
-    [applyVagasQuery, applyPerfisQuery, vagasFilters, perfisFilters]
+    [
+      applyVagasQuery,
+      applyPerfisQuery,
+      vagasFilters,
+      perfisFilters,
+      vagasSort,
+      perfisSort,
+    ]
   );
 
   const vagasFilterLabel = useMemo(() => {
@@ -233,6 +241,8 @@ const HomePage = () => {
     if (perfisSelectedFilters.length === 0) return "Nenhum";
     return `${perfisSelectedFilters.length} selecionado(s)`;
   }, [perfisSelectedFilters.length]);
+
+  const filtersLoading = filterTab === "vagas" ? loadingVagas : loadingPerfis;
 
   return !isAuthenticated ? (
     <></>
@@ -323,12 +333,16 @@ const HomePage = () => {
                 severity="secondary"
                 outlined
                 onClick={clearFilters}
+                loading={filtersLoading}
+                disabled={filtersLoading}
               />
               <Button
                 className="aplicar-button"
                 label="Aplicar"
                 icon="pi pi-check"
                 onClick={applySelectedFilters}
+                loading={filtersLoading}
+                disabled={filtersLoading}
               />
             </div>
           </div>
@@ -346,6 +360,8 @@ const HomePage = () => {
                     icon="pi pi-sparkles"
                     className="recomendation-button"
                     onClick={openRecommended}
+                    loading={loading}
+                    disabled={loading}
                   />
                 )}
 
@@ -361,6 +377,8 @@ const HomePage = () => {
                   icon="pi pi-sort-alt"
                   className="sort-button"
                   onClick={() => toggleSort("vagas")}
+                  loading={loadingVagas}
+                  disabled={loadingVagas}
                 />
               </div>
             </div>
@@ -414,6 +432,8 @@ const HomePage = () => {
                   icon="pi pi-sort-alt"
                   className="sort-button"
                   onClick={() => toggleSort("perfis")}
+                  loading={loadingPerfis}
+                  disabled={loadingPerfis}
                 />
               </div>
             </div>
@@ -467,6 +487,8 @@ const HomePage = () => {
               icon="pi pi-sparkles"
               className="recommended-update-button"
               onClick={refetch}
+              loading={loading}
+              disabled={loading}
             />
           </div>
         </Dialog>

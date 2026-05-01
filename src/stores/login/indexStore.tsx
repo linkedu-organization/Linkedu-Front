@@ -14,7 +14,8 @@ interface LoginContextType {
   errors: FieldErrors;
   validate: () => Promise<boolean>;
   errorsForm: (path: string) => ReactNode;
-  finalizeLogin: () => void;
+  finalizeLogin: () => Promise<void>;
+  loading: boolean;
 }
 
 const LoginContext = createContext<LoginContextType | null>(null);
@@ -36,6 +37,7 @@ const initialFormData = defaultPerfilLogin;
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
   const { validateAuth } = useAuth();
   const navigate = useNavigate();
@@ -101,7 +103,10 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     errors[path] && <small className="p-error">{errors[path]}</small>;
 
   const finalizeLogin = async () => {
+    if (loading) return;
+
     if (await validate()) {
+      setLoading(true);
       try {
         const response = await login(formData);
 
@@ -112,6 +117,8 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         }
       } catch (error) {
         showNotification("error", error.response.data.message, "");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -125,6 +132,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         validate,
         errorsForm,
         finalizeLogin,
+        loading,
       }}
     >
       {children}

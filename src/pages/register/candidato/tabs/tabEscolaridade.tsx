@@ -46,8 +46,8 @@ const TabEscolaridade = ({
               value="TECNICO"
               onChange={(e) => {
                 setField("cargo", e.value);
-                setField("periodoIngresso", undefined);
-                setField("periodoConclusao", undefined);
+                setField("periodoIngresso", "");
+                setField("periodoConclusao", "");
               }}
               checked={formData.cargo === "TECNICO"}
             />
@@ -134,3 +134,4 @@ const TabEscolaridade = ({
 );
 
 export default TabEscolaridade;
+

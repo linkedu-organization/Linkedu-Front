@@ -30,7 +30,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
   vaga,
   callback,
 }) => {
-  const { formData, setField, errors, submit, resetForm, load } =
+  const { formData, setField, errors, submit, resetForm, load, loading } =
     useRegisterVaga();
   const [conhecimentosText, setConhecimentosText] = useState(
     (formData.conhecimentosObrigatorios ?? []).join(", ")
@@ -322,6 +322,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
             resetForm();
             switchVisibility();
           }}
+          disabled={loading}
         />
         <Button
           label="Salvar"
@@ -336,6 +337,8 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
               vaga?.id
             );
           }}
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </div>

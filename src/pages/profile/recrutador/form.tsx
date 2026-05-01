@@ -22,8 +22,15 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
   switchVisibility,
   onSaved,
 }) => {
-  const { formData, setInitialData, setField, errors, submit, errorsForm } =
-    useRegisterEditRecrutador();
+  const {
+    formData,
+    setInitialData,
+    setField,
+    errors,
+    submit,
+    errorsForm,
+    loading,
+  } = useRegisterEditRecrutador();
 
   useEffect(() => {
     if (recrutador) setInitialData(recrutador);
@@ -142,6 +149,8 @@ const RecrutadorEditFormPage: React.FC<RecrutadorEditFormProps> = ({
               switchVisibility();
             })
           }
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </div>

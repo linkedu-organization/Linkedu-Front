@@ -25,6 +25,8 @@ interface HomePageContextType {
   fetchVagas: (args?: FetchArgs) => Promise<void>;
   fetchPerfis: (args?: FetchArgs) => Promise<void>;
   refresh: () => Promise<void>;
+  loadingVagas: boolean;
+  loadingPerfis: boolean;
 }
 
 const HomePageContext = createContext<HomePageContextType | null>(null);
@@ -100,10 +102,13 @@ const mapPerfisFromApi = (candidatos: any[] = [], recrutadores: any[] = []) => {
 export const HomePageProvider = ({ children }: HomePageProviderProps) => {
   const [vagas, setVagas] = useState<Vaga[]>([]);
   const [perfis, setPerfis] = useState<Perfil[]>([]);
+  const [loadingVagas, setLoadingVagas] = useState(false);
+  const [loadingPerfis, setLoadingPerfis] = useState(false);
   const { showNotification } = useNotification();
 
   const fetchVagas = useCallback(
     async (args?: FetchArgs) => {
+      setLoadingVagas(true);
       try {
         const filters = args?.filters ?? [];
         const sorters = args?.sorters ?? [];
@@ -113,6 +118,8 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
       } catch {
         showNotification("error", "Erro ao carregar vagas");
         setVagas([]);
+      } finally {
+        setLoadingVagas(false);
       }
     },
     [showNotification]
@@ -120,6 +127,7 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
 
   const fetchPerfis = useCallback(
     async (args?: FetchArgs) => {
+      setLoadingPerfis(true);
       try {
         const filters = args?.filters ?? [];
         const sorters = args?.sorters ?? [];
@@ -137,6 +145,8 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
       } catch {
         showNotification("error", "Erro ao carregar perfis");
         setPerfis([]);
+      } finally {
+        setLoadingPerfis(false);
       }
     },
     [showNotification]
@@ -157,8 +167,10 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
       fetchVagas,
       fetchPerfis,
       refresh,
+      loadingVagas,
+      loadingPerfis,
     }),
-    [vagas, perfis, fetchVagas, fetchPerfis, refresh]
+    [vagas, perfis, fetchVagas, fetchPerfis, refresh, loadingVagas, loadingPerfis]
   );
 
    return (
