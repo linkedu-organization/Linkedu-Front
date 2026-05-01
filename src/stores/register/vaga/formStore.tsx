@@ -86,7 +86,6 @@ export const RegisterVagaProvider = ({ children }: { children: ReactNode }) => {
       "ehPublica",
       "categoria",
       "ehRemunerada",
-      "dataExpiracao",
       "cargaHoraria",
       "duracao",
       "publicoAlvo",

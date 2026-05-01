@@ -4,6 +4,7 @@ import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
+import { Tooltip } from "primereact/tooltip";
 import { instituicoes, categorias, publicoAlvo, cursos } from "@utils/constants";
 import { RadioButton } from "primereact/radiobutton";
 import { MultiSelect } from "primereact/multiselect";
@@ -18,6 +19,9 @@ type VagaFormProps = {
   vaga?: Vaga | undefined;
   callback?: () => void;
 };
+
+const VISIBILITY_TOOLTIP =
+  "Define quem pode ver esta vaga: quando pública, ela é visível para todos os candidatos; quando privada, é visível apenas para quem a criou. Mesmo sendo privada, você ainda pode receber recomendações de candidatos para a vaga, mas ela não será exibida nem recomendada para outros.";
 
 const VagaFormPage: React.FC<VagaFormProps> = ({
   recrutador,
@@ -59,7 +63,16 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Visibilidade *</label>
+          <label>
+            Visibilidade *
+            <i
+              className="pi pi-question-circle visibility-tooltip"
+              data-pr-tooltip={VISIBILITY_TOOLTIP}
+              data-pr-position="top"
+              style={{ marginLeft: 6, cursor: "help" }}
+            />
+          </label>
+          <Tooltip target=".visibility-tooltip" />
           <div className="radio-row">
             <div className="radio-item">
               <RadioButton
@@ -134,7 +147,7 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
         </div>
 
         <div className="exp-field">
-          <label>Data de expiração da vaga *</label>
+          <label>Data de expiração da vaga</label>
           <InputMask
             value={formData.dataExpiracao}
             onChange={(e) => setField("dataExpiracao", e.target.value)}
