@@ -21,6 +21,15 @@ export interface PerfilLogin {
   senha: string;
 }
 
+export interface PerfilRecuperarSenha {
+  email: string;
+}
+
+export interface PerfilAtualizarSenha {
+  senha: string;
+  token: string;
+}
+
 export const defaultPerfilLogin: PerfilLogin = {
   email: "",
   senha: "",

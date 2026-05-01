@@ -131,3 +131,8 @@
     min-height: 50vh;
   }
 }
+
+.forgot-password-link {
+  font-size: 14px;
+  white-space: nowrap;
+}
