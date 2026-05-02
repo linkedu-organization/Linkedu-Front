@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
+import { Paginator } from "primereact/paginator";
 
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
@@ -44,6 +45,9 @@ import {
 } from "@utils/perfilFilters";
 
 type TabKey = "vagas" | "perfis";
+
+const VAGAS_PAGE_SIZE = 6;
+const PERFIS_PAGE_SIZE = 10;
 
 const STORAGE_KEYS = {
   vagaCursos: "linkedu:vaga-filters:cursos",
@@ -213,8 +217,10 @@ const ExplorePage = () => {
   const [perfilFilters, setPerfilFilters] =
     useState<PerfilFilters>(defaultPerfilFilters);
 
-  const [perfilSort, setPerfilSort] =
-    useState<PerfilSortOption>("nome_asc");
+  const [perfilSort, setPerfilSort] = useState<PerfilSortOption>("nome_asc");
+
+  const [vagaFirst, setVagaFirst] = useState(0);
+  const [perfilFirst, setPerfilFirst] = useState(0);
 
   const [cachedVagaCursos, setCachedVagaCursos] = useState<string[]>(() =>
     loadCachedOptions(STORAGE_KEYS.vagaCursos)
@@ -394,6 +400,34 @@ const ExplorePage = () => {
     return applyPerfilFiltersAndSort(perfis, perfilFilters, perfilSort, q);
   }, [perfis, perfilFilters, perfilSort, q]);
 
+  const vagasPaginadas = useMemo(() => {
+    return vagasFiltradas.slice(vagaFirst, vagaFirst + VAGAS_PAGE_SIZE);
+  }, [vagasFiltradas, vagaFirst]);
+
+  const perfisPaginados = useMemo(() => {
+    return perfisFiltrados.slice(perfilFirst, perfilFirst + PERFIS_PAGE_SIZE);
+  }, [perfisFiltrados, perfilFirst]);
+
+  useEffect(() => {
+    setVagaFirst(0);
+  }, [q, vagaFilters, vagaSort]);
+
+  useEffect(() => {
+    setPerfilFirst(0);
+  }, [q, perfilFilters, perfilSort]);
+
+  useEffect(() => {
+    if (vagaFirst >= vagasFiltradas.length && vagaFirst !== 0) {
+      setVagaFirst(0);
+    }
+  }, [vagaFirst, vagasFiltradas.length]);
+
+  useEffect(() => {
+    if (perfilFirst >= perfisFiltrados.length && perfilFirst !== 0) {
+      setPerfilFirst(0);
+    }
+  }, [perfilFirst, perfisFiltrados.length]);
+
   const items = useMemo(
     () => [
       { label: `Vagas (${vagasFiltradas.length})` },
@@ -434,11 +468,13 @@ const ExplorePage = () => {
   const clearFilters = useCallback(() => {
     if (filterTab === "vagas") {
       setVagaFilters(defaultVagaFilters);
+      setVagaFirst(0);
       setFiltersOpen(false);
       return;
     }
 
     setPerfilFilters(defaultPerfilFilters);
+    setPerfilFirst(0);
     setFiltersOpen(false);
   }, [filterTab]);
 
@@ -785,7 +821,7 @@ const ExplorePage = () => {
             )}
 
             <div className="position-list-cards">
-              {vagasFiltradas.map((vaga) => (
+              {vagasPaginadas.map((vaga) => (
                 <VagaCard
                   key={vaga.id}
                   vaga={vaga}
@@ -793,17 +829,32 @@ const ExplorePage = () => {
                   showActions={false}
                 />
               ))}
-
-              <Dialog
-                className="vaga-dialog"
-                visible={isDetailsOpen}
-                onHide={closeDetails}
-                header={selectedVaga?.titulo}
-                style={{ width: "70vw" }}
-              >
-                {selectedVaga && <VagaDetails vaga={selectedVaga} />}
-              </Dialog>
             </div>
+
+            {vagasFiltradas.length > VAGAS_PAGE_SIZE && (
+              <div className="pagination-wrapper">
+                <Paginator
+                  first={vagaFirst}
+                  rows={VAGAS_PAGE_SIZE}
+                  totalRecords={vagasFiltradas.length}
+                  onPageChange={(e) => {
+                    setVagaFirst(e.first);
+                  }}
+                  template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                  currentPageReportTemplate="{first} - {last} de {totalRecords}"
+                />
+              </div>
+            )}
+
+            <Dialog
+              className="vaga-dialog"
+              visible={isDetailsOpen}
+              onHide={closeDetails}
+              header={selectedVaga?.titulo}
+              style={{ width: "70vw" }}
+            >
+              {selectedVaga && <VagaDetails vaga={selectedVaga} />}
+            </Dialog>
           </>
         )}
 
@@ -844,10 +895,25 @@ const ExplorePage = () => {
             )}
 
             <div className="perfis-list-card">
-              {perfisFiltrados.map((perfil) => (
+              {perfisPaginados.map((perfil) => (
                 <PerfilCard key={`${perfil.id}`} perfil={perfil} />
               ))}
             </div>
+
+            {perfisFiltrados.length > PERFIS_PAGE_SIZE && (
+              <div className="pagination-wrapper">
+                <Paginator
+                  first={perfilFirst}
+                  rows={PERFIS_PAGE_SIZE}
+                  totalRecords={perfisFiltrados.length}
+                  onPageChange={(e) => {
+                    setPerfilFirst(e.first);
+                  }}
+                  template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                  currentPageReportTemplate="{first} - {last} de {totalRecords}"
+                />
+              </div>
+            )}
           </>
         )}
 
