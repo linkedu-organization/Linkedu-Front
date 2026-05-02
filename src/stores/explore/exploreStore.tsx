@@ -19,7 +19,7 @@ type Sorter = { campo: string; ordem: "ASC" | "DESC" };
 
 type FetchArgs = { filters?: FilterField[]; sorters?: Sorter[] };
 
-interface HomePageContextType {
+interface ExploreContextType {
   vagas: Vaga[];
   perfis: Perfil[];
   fetchVagas: (args?: FetchArgs) => Promise<void>;
@@ -29,15 +29,15 @@ interface HomePageContextType {
   loadingPerfis: boolean;
 }
 
-const HomePageContext = createContext<HomePageContextType | null>(null);
+const ExploreContext = createContext<ExploreContextType | null>(null);
 
-export const useHomePage = (): HomePageContextType => {
-  const context = useContext(HomePageContext);
-  if (!context) throw new Error("useHomePage must be used within a HomePageProvider");
+export const useExplore = (): ExploreContextType => {
+  const context = useContext(ExploreContext);
+  if (!context) throw new Error("useExplore must be used within a ExploreProvider");
   return context;
 };
 
-interface HomePageProviderProps {
+interface ExploreProviderProps {
   children: ReactNode;
 }
 
@@ -99,7 +99,7 @@ const mapPerfisFromApi = (candidatos: any[] = [], recrutadores: any[] = []) => {
   return uniqueById([...fromCandidatos, ...fromRecrutadores]);
 };
 
-export const HomePageProvider = ({ children }: HomePageProviderProps) => {
+export const ExploreProvider = ({ children }: ExploreProviderProps) => {
   const [vagas, setVagas] = useState<Vaga[]>([]);
   const [perfis, setPerfis] = useState<Perfil[]>([]);
   const [loadingVagas, setLoadingVagas] = useState(false);
@@ -160,7 +160,7 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
     refresh();
   }, [refresh]);
 
-  const value = useMemo<HomePageContextType>(
+  const value = useMemo<ExploreContextType>(
     () => ({
       vagas,
       perfis,
@@ -174,8 +174,8 @@ export const HomePageProvider = ({ children }: HomePageProviderProps) => {
   );
 
    return (
-    <HomePageContext.Provider value={value}>
+    <ExploreContext.Provider value={value}>
       {children}
-    </HomePageContext.Provider>
+    </ExploreContext.Provider>
   );
 };
