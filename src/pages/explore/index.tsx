@@ -2,9 +2,13 @@ import { Dialog } from "primereact/dialog";
 import { Layout } from "@components/Layout";
 import { TabMenu } from "primereact/tabmenu";
 import { Button } from "primereact/button";
-import { Checkbox } from "primereact/checkbox";
+import { MultiSelect } from "primereact/multiselect";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/300.css";
+
 import VagaDetails from "@components/Vaga/indexDetail";
 import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
@@ -16,76 +20,235 @@ import "./style.css";
 import { useAuth } from "@contexts/authContext";
 import { useRecommendedVagas } from "@hooks/useRecommendedVaga";
 
-type FilterField = { campo: string; operador: "eq" | "in"; valor: any };
-type Sorter = { campo: string; ordem: "ASC" | "DESC" };
+import {
+  applyVagaFiltersAndSort,
+  cargaHorariaFilterOptions,
+  countActiveVagaFilters,
+  defaultVagaFilters,
+  duracaoFilterOptions,
+  getVagaFilterOptions,
+  publicoAlvoFilterOptions,
+  type VagaFilters,
+  type VagaSortOption,
+} from "@utils/vagaFilters";
+
+import {
+  applyPerfilFiltersAndSort,
+  countActivePerfilFilters,
+  defaultPerfilFilters,
+  disponibilidadePerfilFilterOptions,
+  getPerfilFilterOptions,
+  perfilTipoFilterOptions,
+  type PerfilFilters,
+  type PerfilSortOption,
+} from "@utils/perfilFilters";
 
 type TabKey = "vagas" | "perfis";
 
-type VagasFilterKey = "remunerada" | "20h" | "30h" | "40h";
-type PerfisFilterKey = "candidato" | "recrutador";
+const STORAGE_KEYS = {
+  vagaCursos: "linkedu:vaga-filters:cursos",
+  vagaInstituicoes: "linkedu:vaga-filters:instituicoes",
+  vagaLocais: "linkedu:vaga-filters:locais",
 
-const VAGAS_DEFAULT_SORT: Sorter = { campo: "titulo", ordem: "ASC" };
-const PERFIS_DEFAULT_SORT: Sorter = { campo: "nome", ordem: "ASC" };
+  perfilAreasInteresse: "linkedu:perfil-filters:areas-interesse",
+  perfilPeriodosConclusao: "linkedu:perfil-filters:periodos-conclusao",
+  perfilInstituicoes: "linkedu:perfil-filters:instituicoes",
+  perfilLaboratorios: "linkedu:perfil-filters:laboratorios",
+  perfilAreasAtuacao: "linkedu:perfil-filters:areas-atuacao",
+};
 
-function buildVagasFilters(selected: VagasFilterKey[]): FilterField[] {
-  const out: FilterField[] = [];
+const remuneracaoOptions = [
+  { label: "Todas", value: "todas" },
+  { label: "Remuneradas", value: "remunerada" },
+  { label: "Voluntárias", value: "voluntaria" },
+];
 
-  if (selected.includes("remunerada")) {
-    out.push({ campo: "ehRemunerada", operador: "eq", valor: true });
-  }
-
-  const horas: number[] = [];
-  if (selected.includes("20h")) horas.push(20);
-  if (selected.includes("30h")) horas.push(30);
-  if (selected.includes("40h")) horas.push(40);
-
-  if (horas.length === 1)
-    out.push({ campo: "cargaHoraria", operador: "eq", valor: horas[0] });
-  if (horas.length > 1)
-    out.push({ campo: "cargaHoraria", operador: "in", valor: horas });
-
-  return out;
+function normalizeText(value?: string | null): string {
+  return String(value ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 }
 
-function buildPerfisFilters(selected: PerfisFilterKey[]): FilterField[] {
-  if (selected.length === 0) return [];
+function mergeUniqueStrings(...lists: string[][]): string[] {
+  const map = new Map<string, string>();
 
-  const tipos = selected.map((k) =>
-    k === "candidato" ? "CANDIDATO" : "RECRUTADOR"
+  lists.flat().forEach((value) => {
+    const trimmed = value.trim();
+    const key = normalizeText(trimmed);
+
+    if (key && !map.has(key)) {
+      map.set(key, trimmed);
+    }
+  });
+
+  return Array.from(map.values()).sort((a, b) =>
+    normalizeText(a).localeCompare(normalizeText(b))
   );
+}
 
-  return tipos.length === 1
-    ? [{ campo: "tipo", operador: "eq", valor: tipos[0] }]
-    : [{ campo: "tipo", operador: "in", valor: tipos }];
+function loadCachedOptions(key: string): string[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((item) => typeof item === "string");
+  } catch {
+    return [];
+  }
+}
+
+function saveCachedOptions(key: string, values: string[]) {
+  if (typeof window === "undefined") return;
+
+  window.localStorage.setItem(key, JSON.stringify(values));
+}
+
+function toSelectOptions<T extends string | number>(values: T[]) {
+  return values.map((value) => ({
+    label: String(value),
+    value,
+  }));
+}
+
+interface MultiSelectWithAddProps {
+  label: string;
+  value: string[];
+  options: string[];
+  placeholder: string;
+  addPlaceholder: string;
+  onChange: (value: string[]) => void;
+  onAddOption: (value: string) => void;
+}
+
+function MultiSelectWithAdd({
+  label,
+  value,
+  options,
+  placeholder,
+  addPlaceholder,
+  onChange,
+  onAddOption,
+}: MultiSelectWithAddProps) {
+  const [newOption, setNewOption] = useState("");
+
+  const handleAddOption = () => {
+    const trimmed = newOption.trim();
+
+    if (!trimmed) return;
+
+    onAddOption(trimmed);
+    onChange(mergeUniqueStrings(value, [trimmed]));
+    setNewOption("");
+  };
+
+  return (
+    <div className="filter-field">
+      <label>{label}</label>
+
+      <MultiSelect
+        value={value}
+        options={toSelectOptions(options)}
+        onChange={(e) => onChange(e.value)}
+        placeholder={placeholder}
+        display="chip"
+        filter
+        className="w-full"
+      />
+
+      <div className="filter-add-row">
+        <InputText
+          value={newOption}
+          onChange={(e) => setNewOption(e.target.value)}
+          placeholder={addPlaceholder}
+          className="filter-add-input"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleAddOption();
+            }
+          }}
+        />
+
+        <Button
+          icon="pi pi-plus"
+          label="Adicionar"
+          className="filter-button add-filter-option-button"
+          type="button"
+          onClick={handleAddOption}
+        />
+      </div>
+    </div>
+  );
 }
 
 const ExplorePage = () => {
-  const {
-    vagas,
-    perfis,
-    fetchVagas,
-    fetchPerfis,
-    loadingVagas,
-    loadingPerfis,
-  } = useExplore();
+  const { vagas, perfis, loadingVagas, loadingPerfis } = useExplore();
+
   const [searchParams] = useSearchParams();
-  const q = (searchParams.get("q") ?? "").trim().toLowerCase();
+  const q = (searchParams.get("q") ?? "").trim();
 
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
   const { recommendedVagas, loading, error, refetch, fetchRecommendedVagas } =
     useRecommendedVagas();
+
   const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterTab, setFilterTab] = useState<TabKey>("vagas");
-  const [vagasSelectedFilters, setVagasSelectedFilters] = useState<
-    VagasFilterKey[]
-  >([]);
-  const [perfisSelectedFilters, setPerfisSelectedFilters] = useState<
-    PerfisFilterKey[]
-  >([]);
-  const [vagasSort, setVagasSort] = useState<Sorter>(VAGAS_DEFAULT_SORT);
-  const [perfisSort, setPerfisSort] = useState<Sorter>(PERFIS_DEFAULT_SORT);
+
+  const [vagaFilters, setVagaFilters] =
+    useState<VagaFilters>(defaultVagaFilters);
+
+  const [vagaSort, setVagaSort] = useState<VagaSortOption>("titulo_asc");
+
+  const [perfilFilters, setPerfilFilters] =
+    useState<PerfilFilters>(defaultPerfilFilters);
+
+  const [perfilSort, setPerfilSort] =
+    useState<PerfilSortOption>("nome_asc");
+
+  const [cachedVagaCursos, setCachedVagaCursos] = useState<string[]>(() =>
+    loadCachedOptions(STORAGE_KEYS.vagaCursos)
+  );
+
+  const [cachedVagaInstituicoes, setCachedVagaInstituicoes] = useState<
+    string[]
+  >(() => loadCachedOptions(STORAGE_KEYS.vagaInstituicoes));
+
+  const [cachedVagaLocais, setCachedVagaLocais] = useState<string[]>(() =>
+    loadCachedOptions(STORAGE_KEYS.vagaLocais)
+  );
+
+  const [cachedPerfilAreasInteresse, setCachedPerfilAreasInteresse] = useState<
+    string[]
+  >(() => loadCachedOptions(STORAGE_KEYS.perfilAreasInteresse));
+
+  const [cachedPerfilPeriodosConclusao, setCachedPerfilPeriodosConclusao] =
+    useState<string[]>(() =>
+      loadCachedOptions(STORAGE_KEYS.perfilPeriodosConclusao)
+    );
+
+  const [cachedPerfilInstituicoes, setCachedPerfilInstituicoes] = useState<
+    string[]
+  >(() => loadCachedOptions(STORAGE_KEYS.perfilInstituicoes));
+
+  const [cachedPerfilLaboratorios, setCachedPerfilLaboratorios] = useState<
+    string[]
+  >(() => loadCachedOptions(STORAGE_KEYS.perfilLaboratorios));
+
+  const [cachedPerfilAreasAtuacao, setCachedPerfilAreasAtuacao] = useState<
+    string[]
+  >(() => loadCachedOptions(STORAGE_KEYS.perfilAreasAtuacao));
+
   const navigate = useNavigate();
   const { isAuthenticated, authChecked, perfil } = useAuth();
 
@@ -104,35 +267,132 @@ const ExplorePage = () => {
     setIsRecommendedOpen(false);
   }, []);
 
-  const vagasFilters = useMemo(
-    () => buildVagasFilters(vagasSelectedFilters),
-    [vagasSelectedFilters]
+  const updateVagaFilter = useCallback(
+    <K extends keyof VagaFilters>(key: K, value: VagaFilters[K]) => {
+      setVagaFilters((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    },
+    []
   );
 
-  const perfisFilters = useMemo(
-    () => buildPerfisFilters(perfisSelectedFilters),
-    [perfisSelectedFilters]
+  const updatePerfilFilter = useCallback(
+    <K extends keyof PerfilFilters>(key: K, value: PerfilFilters[K]) => {
+      setPerfilFilters((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    },
+    []
+  );
+
+  const addCachedOption = useCallback(
+    (
+      value: string,
+      setState: React.Dispatch<React.SetStateAction<string[]>>,
+      storageKey: string
+    ) => {
+      setState((prev) => {
+        const next = mergeUniqueStrings(prev, [value]);
+        saveCachedOptions(storageKey, next);
+        return next;
+      });
+    },
+    []
+  );
+
+  const vagaFilterOptions = useMemo(
+    () => getVagaFilterOptions(vagas),
+    [vagas]
+  );
+
+  const perfilFilterOptions = useMemo(
+    () => getPerfilFilterOptions(perfis),
+    [perfis]
+  );
+
+  const vagaCursoOptions = useMemo(
+    () => mergeUniqueStrings(vagaFilterOptions.cursos, cachedVagaCursos),
+    [vagaFilterOptions.cursos, cachedVagaCursos]
+  );
+
+  const vagaInstituicaoOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        vagaFilterOptions.instituicoes,
+        cachedVagaInstituicoes
+      ),
+    [vagaFilterOptions.instituicoes, cachedVagaInstituicoes]
+  );
+
+  const vagaLocalOptions = useMemo(
+    () => mergeUniqueStrings(vagaFilterOptions.locais, cachedVagaLocais),
+    [vagaFilterOptions.locais, cachedVagaLocais]
+  );
+
+  const perfilAreasInteresseOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        perfilFilterOptions.areasInteresse,
+        cachedPerfilAreasInteresse
+      ),
+    [perfilFilterOptions.areasInteresse, cachedPerfilAreasInteresse]
+  );
+
+  const perfilPeriodosConclusaoOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        perfilFilterOptions.periodosConclusao,
+        cachedPerfilPeriodosConclusao
+      ),
+    [perfilFilterOptions.periodosConclusao, cachedPerfilPeriodosConclusao]
+  );
+
+  const perfilInstituicoesOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        perfilFilterOptions.instituicoes,
+        cachedPerfilInstituicoes
+      ),
+    [perfilFilterOptions.instituicoes, cachedPerfilInstituicoes]
+  );
+
+  const perfilLaboratoriosOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        perfilFilterOptions.laboratorios,
+        cachedPerfilLaboratorios
+      ),
+    [perfilFilterOptions.laboratorios, cachedPerfilLaboratorios]
+  );
+
+  const perfilAreasAtuacaoOptions = useMemo(
+    () =>
+      mergeUniqueStrings(
+        perfilFilterOptions.areasAtuacao,
+        cachedPerfilAreasAtuacao
+      ),
+    [perfilFilterOptions.areasAtuacao, cachedPerfilAreasAtuacao]
+  );
+
+  const activeVagaFiltersCount = useMemo(
+    () => countActiveVagaFilters(vagaFilters),
+    [vagaFilters]
+  );
+
+  const activePerfilFiltersCount = useMemo(
+    () => countActivePerfilFilters(perfilFilters),
+    [perfilFilters]
   );
 
   const vagasFiltradas = useMemo(() => {
-    if (!q) return vagas;
-
-    return vagas.filter((v) =>
-      [v.titulo, v.categoria, v.ehRemunerada, v.cargaHoraria]
-        .filter(Boolean)
-        .some((field) => String(field).toLowerCase().includes(q))
-    );
-  }, [vagas, q]);
+    return applyVagaFiltersAndSort(vagas, vagaFilters, vagaSort, q);
+  }, [vagas, vagaFilters, vagaSort, q]);
 
   const perfisFiltrados = useMemo(() => {
-    if (!q) return perfis;
-
-    return perfis.filter((p) =>
-      [(p as any).nome, (p as any).email]
-        .filter(Boolean)
-        .some((field) => String(field).toLowerCase().includes(q))
-    );
-  }, [perfis, q]);
+    return applyPerfilFiltersAndSort(perfis, perfilFilters, perfilSort, q);
+  }, [perfis, perfilFilters, perfilSort, q]);
 
   const items = useMemo(
     () => [
@@ -144,105 +404,61 @@ const ExplorePage = () => {
 
   const isDetailsOpen = selectedVaga !== null;
 
-  const openDetails = useCallback((vaga: Vaga) => setSelectedVaga(vaga), []);
-  const closeDetails = useCallback(() => setSelectedVaga(null), []);
+  const openDetails = useCallback((vaga: Vaga) => {
+    setSelectedVaga(vaga);
+  }, []);
 
-  const applyVagasQuery = useCallback(
-    (nextFilters: FilterField[], nextSort: Sorter) =>
-      fetchVagas({ filters: nextFilters, sorters: [nextSort] }),
-    [fetchVagas]
-  );
-
-  const applyPerfisQuery = useCallback(
-    (nextFilters: FilterField[], nextSort: Sorter) =>
-      fetchPerfis({ filters: nextFilters, sorters: [nextSort] }),
-    [fetchPerfis]
-  );
+  const closeDetails = useCallback(() => {
+    setSelectedVaga(null);
+  }, []);
 
   const openFiltersDialog = useCallback((tab: TabKey) => {
     setFilterTab(tab);
     setFiltersOpen(true);
   }, []);
 
-  const toggleVagasFilter = useCallback((key: VagasFilterKey) => {
-    setVagasSelectedFilters((prev) =>
-      prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]
+  const toggleVagaSort = useCallback(() => {
+    setVagaSort((prev) =>
+      prev === "titulo_asc" ? "titulo_desc" : "titulo_asc"
     );
   }, []);
 
-  const togglePerfisFilter = useCallback((key: PerfisFilterKey) => {
-    setPerfisSelectedFilters((prev) =>
-      prev.includes(key) ? prev.filter((x) => x !== key) : [...prev, key]
-    );
+  const togglePerfilSort = useCallback(() => {
+    setPerfilSort((prev) => (prev === "nome_asc" ? "nome_desc" : "nome_asc"));
   }, []);
 
-  const applySelectedFilters = useCallback(async () => {
-    if (filterTab === "vagas") {
-      await applyVagasQuery(vagasFilters, vagasSort);
-    } else {
-      await applyPerfisQuery(perfisFilters, perfisSort);
-    }
+  const applySelectedFilters = useCallback(() => {
     setFiltersOpen(false);
-  }, [
-    filterTab,
-    applyVagasQuery,
-    applyPerfisQuery,
-    vagasFilters,
-    perfisFilters,
-    vagasSort,
-    perfisSort,
-  ]);
+  }, []);
 
-  const clearFilters = useCallback(async () => {
+  const clearFilters = useCallback(() => {
     if (filterTab === "vagas") {
-      setVagasSelectedFilters([]);
-      await applyVagasQuery([], vagasSort);
-    } else {
-      setPerfisSelectedFilters([]);
-      await applyPerfisQuery([], perfisSort);
+      setVagaFilters(defaultVagaFilters);
+      setFiltersOpen(false);
+      return;
     }
-    setFiltersOpen(false);
-  }, [filterTab, applyVagasQuery, applyPerfisQuery, vagasSort, perfisSort]);
 
-  const toggleSort = useCallback(
-    (tab: TabKey) => {
-      if (tab === "vagas") {
-        const next: Sorter = {
-          ...vagasSort,
-          ordem: vagasSort.ordem === "ASC" ? "DESC" : "ASC",
-        };
-        setVagasSort(next);
-        applyVagasQuery(vagasFilters, next);
-      } else {
-        const next: Sorter = {
-          ...perfisSort,
-          ordem: perfisSort.ordem === "ASC" ? "DESC" : "ASC",
-        };
-        setPerfisSort(next);
-        applyPerfisQuery(perfisFilters, next);
-      }
-    },
-    [
-      applyVagasQuery,
-      applyPerfisQuery,
-      vagasFilters,
-      perfisFilters,
-      vagasSort,
-      perfisSort,
-    ]
-  );
+    setPerfilFilters(defaultPerfilFilters);
+    setFiltersOpen(false);
+  }, [filterTab]);
 
   const vagasFilterLabel = useMemo(() => {
-    if (vagasSelectedFilters.length === 0) return "Nenhum";
-    return `${vagasSelectedFilters.length} selecionado(s)`;
-  }, [vagasSelectedFilters.length]);
+    if (activeVagaFiltersCount === 0) return "Nenhum";
+    return `${activeVagaFiltersCount} selecionado(s)`;
+  }, [activeVagaFiltersCount]);
 
   const perfisFilterLabel = useMemo(() => {
-    if (perfisSelectedFilters.length === 0) return "Nenhum";
-    return `${perfisSelectedFilters.length} selecionado(s)`;
-  }, [perfisSelectedFilters.length]);
+    if (activePerfilFiltersCount === 0) return "Nenhum";
+    return `${activePerfilFiltersCount} selecionado(s)`;
+  }, [activePerfilFiltersCount]);
 
   const filtersLoading = filterTab === "vagas" ? loadingVagas : loadingPerfis;
+
+  const vagaSortLabel =
+    vagaSort === "titulo_asc" ? "Título A-Z" : "Título Z-A";
+
+  const perfilSortLabel =
+    perfilSort === "nome_asc" ? "Nome A-Z" : "Nome Z-A";
 
   return !isAuthenticated ? (
     <></>
@@ -260,67 +476,239 @@ const ExplorePage = () => {
           header={`Filtros - ${filterTab === "vagas" ? "Vagas" : "Perfis"}`}
           visible={filtersOpen}
           onHide={() => setFiltersOpen(false)}
-          style={{ width: "520px", maxWidth: "92vw" }}
+          style={{ width: "620px", maxWidth: "92vw" }}
         >
           <div className="filters-content">
             <div className="filters-list">
               {filterTab === "vagas" ? (
                 <>
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="f-remunerada"
-                      checked={vagasSelectedFilters.includes("remunerada")}
-                      onChange={() => toggleVagasFilter("remunerada")}
+                  <MultiSelectWithAdd
+                    label="Curso"
+                    value={vagaFilters.cursos}
+                    options={vagaCursoOptions}
+                    placeholder="Selecione cursos"
+                    addPlaceholder="Adicionar curso"
+                    onChange={(value) => updateVagaFilter("cursos", value)}
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedVagaCursos,
+                        STORAGE_KEYS.vagaCursos
+                      )
+                    }
+                  />
+
+                  <MultiSelectWithAdd
+                    label="Instituição"
+                    value={vagaFilters.instituicoes}
+                    options={vagaInstituicaoOptions}
+                    placeholder="Selecione instituições"
+                    addPlaceholder="Adicionar instituição"
+                    onChange={(value) =>
+                      updateVagaFilter("instituicoes", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedVagaInstituicoes,
+                        STORAGE_KEYS.vagaInstituicoes
+                      )
+                    }
+                  />
+
+                  <MultiSelectWithAdd
+                    label="Local"
+                    value={vagaFilters.locais}
+                    options={vagaLocalOptions}
+                    placeholder="Selecione locais"
+                    addPlaceholder="Adicionar local"
+                    onChange={(value) => updateVagaFilter("locais", value)}
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedVagaLocais,
+                        STORAGE_KEYS.vagaLocais
+                      )
+                    }
+                  />
+
+                  <div className="filter-field">
+                    <label>Duração</label>
+                    <MultiSelect
+                      value={vagaFilters.duracoes}
+                      options={duracaoFilterOptions}
+                      onChange={(e) => updateVagaFilter("duracoes", e.value)}
+                      placeholder="Selecione durações"
+                      display="chip"
+                      className="w-full"
                     />
-                    <label htmlFor="f-remunerada">Vaga Remunerada</label>
                   </div>
 
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="f-20h"
-                      checked={vagasSelectedFilters.includes("20h")}
-                      onChange={() => toggleVagasFilter("20h")}
+                  <div className="filter-field">
+                    <label>Público-alvo</label>
+                    <MultiSelect
+                      value={vagaFilters.publicoAlvo}
+                      options={publicoAlvoFilterOptions}
+                      onChange={(e) =>
+                        updateVagaFilter("publicoAlvo", e.value)
+                      }
+                      placeholder="Selecione públicos"
+                      display="chip"
+                      className="w-full"
                     />
-                    <label htmlFor="f-20h">20h semanais</label>
                   </div>
 
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="f-30h"
-                      checked={vagasSelectedFilters.includes("30h")}
-                      onChange={() => toggleVagasFilter("30h")}
+                  <div className="filter-field">
+                    <label>Carga horária</label>
+                    <MultiSelect
+                      value={vagaFilters.cargasHorarias}
+                      options={cargaHorariaFilterOptions.map((hora) => ({
+                        label: `${hora}h semanais`,
+                        value: hora,
+                      }))}
+                      onChange={(e) =>
+                        updateVagaFilter("cargasHorarias", e.value)
+                      }
+                      placeholder="Selecione cargas horárias"
+                      display="chip"
+                      className="w-full"
                     />
-                    <label htmlFor="f-30h">30h semanais</label>
                   </div>
 
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="f-40h"
-                      checked={vagasSelectedFilters.includes("40h")}
-                      onChange={() => toggleVagasFilter("40h")}
+                  <div className="filter-field">
+                    <label>Remuneração</label>
+                    <Dropdown
+                      value={vagaFilters.remuneracao}
+                      options={remuneracaoOptions}
+                      onChange={(e) =>
+                        updateVagaFilter("remuneracao", e.value)
+                      }
+                      className="w-full"
                     />
-                    <label htmlFor="f-40h">40h semanais</label>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="p-candidato"
-                      checked={perfisSelectedFilters.includes("candidato")}
-                      onChange={() => togglePerfisFilter("candidato")}
+                  <div className="filter-field">
+                    <label>Tipo de perfil</label>
+                    <MultiSelect
+                      value={perfilFilters.tipos}
+                      options={perfilTipoFilterOptions}
+                      onChange={(e) => updatePerfilFilter("tipos", e.value)}
+                      placeholder="Selecione tipos"
+                      display="chip"
+                      className="w-full"
                     />
-                    <label htmlFor="p-candidato">Candidatos</label>
                   </div>
 
-                  <div className="filter-row">
-                    <Checkbox
-                      inputId="p-recrutador"
-                      checked={perfisSelectedFilters.includes("recrutador")}
-                      onChange={() => togglePerfisFilter("recrutador")}
+                  <MultiSelectWithAdd
+                    label="Áreas de interesse"
+                    value={perfilFilters.areasInteresse}
+                    options={perfilAreasInteresseOptions}
+                    placeholder="Selecione áreas"
+                    addPlaceholder="Adicionar área"
+                    onChange={(value) =>
+                      updatePerfilFilter("areasInteresse", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedPerfilAreasInteresse,
+                        STORAGE_KEYS.perfilAreasInteresse
+                      )
+                    }
+                  />
+
+                  <div className="filter-field">
+                    <label>Disponibilidade</label>
+                    <MultiSelect
+                      value={perfilFilters.disponibilidades}
+                      options={disponibilidadePerfilFilterOptions.map(
+                        (hora) => ({
+                          label: `${hora}h semanais`,
+                          value: hora,
+                        })
+                      )}
+                      onChange={(e) =>
+                        updatePerfilFilter("disponibilidades", e.value)
+                      }
+                      placeholder="Selecione disponibilidades"
+                      display="chip"
+                      className="w-full"
                     />
-                    <label htmlFor="p-recrutador">Recrutadores</label>
                   </div>
+
+                  <MultiSelectWithAdd
+                    label="Período de conclusão"
+                    value={perfilFilters.periodosConclusao}
+                    options={perfilPeriodosConclusaoOptions}
+                    placeholder="Selecione períodos"
+                    addPlaceholder="Adicionar período"
+                    onChange={(value) =>
+                      updatePerfilFilter("periodosConclusao", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedPerfilPeriodosConclusao,
+                        STORAGE_KEYS.perfilPeriodosConclusao
+                      )
+                    }
+                  />
+
+                  <MultiSelectWithAdd
+                    label="Instituição"
+                    value={perfilFilters.instituicoes}
+                    options={perfilInstituicoesOptions}
+                    placeholder="Selecione instituições"
+                    addPlaceholder="Adicionar instituição"
+                    onChange={(value) =>
+                      updatePerfilFilter("instituicoes", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedPerfilInstituicoes,
+                        STORAGE_KEYS.perfilInstituicoes
+                      )
+                    }
+                  />
+
+                  <MultiSelectWithAdd
+                    label="Laboratórios"
+                    value={perfilFilters.laboratorios}
+                    options={perfilLaboratoriosOptions}
+                    placeholder="Selecione laboratórios"
+                    addPlaceholder="Adicionar laboratório"
+                    onChange={(value) =>
+                      updatePerfilFilter("laboratorios", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedPerfilLaboratorios,
+                        STORAGE_KEYS.perfilLaboratorios
+                      )
+                    }
+                  />
+
+                  <MultiSelectWithAdd
+                    label="Área de atuação"
+                    value={perfilFilters.areasAtuacao}
+                    options={perfilAreasAtuacaoOptions}
+                    placeholder="Selecione áreas"
+                    addPlaceholder="Adicionar área"
+                    onChange={(value) =>
+                      updatePerfilFilter("areasAtuacao", value)
+                    }
+                    onAddOption={(value) =>
+                      addCachedOption(
+                        value,
+                        setCachedPerfilAreasAtuacao,
+                        STORAGE_KEYS.perfilAreasAtuacao
+                      )
+                    }
+                  />
                 </>
               )}
             </div>
@@ -336,6 +724,7 @@ const ExplorePage = () => {
                 loading={filtersLoading}
                 disabled={filtersLoading}
               />
+
               <Button
                 className="aplicar-button"
                 label="Aplicar"
@@ -373,10 +762,14 @@ const ExplorePage = () => {
                 />
 
                 <Button
-                  label="Ordenação"
-                  icon="pi pi-sort-alt"
+                  label={vagaSortLabel}
+                  icon={
+                    vagaSort === "titulo_asc"
+                      ? "pi pi-sort-alpha-down"
+                      : "pi pi-sort-alpha-up"
+                  }
                   className="sort-button"
-                  onClick={() => toggleSort("vagas")}
+                  onClick={toggleVagaSort}
                   loading={loadingVagas}
                   disabled={loadingVagas}
                 />
@@ -428,10 +821,14 @@ const ExplorePage = () => {
                 />
 
                 <Button
-                  label="Ordenação"
-                  icon="pi pi-sort-alt"
+                  label={perfilSortLabel}
+                  icon={
+                    perfilSort === "nome_asc"
+                      ? "pi pi-sort-alpha-down"
+                      : "pi pi-sort-alpha-up"
+                  }
                   className="sort-button"
-                  onClick={() => toggleSort("perfis")}
+                  onClick={togglePerfilSort}
                   loading={loadingPerfis}
                   disabled={loadingPerfis}
                 />
@@ -464,7 +861,9 @@ const ExplorePage = () => {
           {loading && (
             <p className="loading">Carregando vagas recomendadas...</p>
           )}
+
           {error && <p>{error}</p>}
+
           {recommendedVagas.length === 0 && !loading && !error && (
             <p>Não há vagas recomendadas no momento.</p>
           )}
@@ -481,6 +880,7 @@ const ExplorePage = () => {
               ))}
             </div>
           )}
+
           <div className="modal-footer">
             <Button
               label="Atualizar Recomendações"
