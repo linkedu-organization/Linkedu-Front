@@ -1,7 +1,7 @@
 import { Card } from "primereact/card";
 import type { Perfil } from "@domains/Perfil";
-import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import type { KeyboardEvent } from "react";
 import {
   getCargo,
   formatDisponibilidade,
@@ -17,6 +17,7 @@ export interface PerfilCardProps {
 
 const PerfilCard = ({ perfil }: PerfilCardProps) => {
   const isCandidato = perfil.tipo === "CANDIDATO";
+
   const areas = isCandidato
     ? getMultipleValuesByKey(
         perfil.candidato?.areasInteresse || [],
@@ -24,11 +25,33 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
         " | "
       )
     : perfil.recrutador?.areaAtuacao;
+
   const tempo = isCandidato ? perfil.candidato?.tempoDisponivel : null;
   const navigate = useNavigate();
 
+  const handleOpenPerfil = () => {
+    navigate(
+      perfil.tipo === "CANDIDATO"
+        ? `/profile/candidato/${perfil.candidato?.id}`
+        : `/profile/recrutador/${perfil.recrutador?.id}`
+    );
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpenPerfil();
+    }
+  };
+
   return (
-    <Card className="perfil-card">
+    <Card
+      className="perfil-card clickable-card"
+      onClick={handleOpenPerfil}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+    >
       <div className="perfil-header">
         <div className="perfil-title">
           <div className="perfil-name-row">
@@ -43,6 +66,7 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
                 {getIniciais(perfil?.nome)}
               </div>
             )}
+
             <h2 className="perfil-name">{perfil.nome}</h2>
             <span className="perfil-badge">{getCargo(perfil)}</span>
           </div>
@@ -94,20 +118,6 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
             </div>
           </div>
         )}
-      </div>
-
-      <div className="position-card-footer">
-        <Button
-          label="Visualizar Perfil"
-          className="details-button"
-          onClick={() =>
-            navigate(
-              perfil.tipo === "CANDIDATO"
-                ? `/profile/candidato/${perfil.candidato?.id}`
-                : `/profile/recrutador/${perfil.recrutador?.id}`
-            )
-          }
-        />
       </div>
     </Card>
   );

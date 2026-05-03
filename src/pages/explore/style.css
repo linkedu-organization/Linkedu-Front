@@ -131,3 +131,20 @@
 .limpar-button.p-button {
   height: 33px;
 }
+
+.filter-add-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  align-items: center;
+}
+
+.filter-add-input {
+  flex: 1;
+}
+
+.add-filter-option-button {
+  height: 40px;
+  white-space: nowrap;
+  padding: 0 1.1rem;
+}
