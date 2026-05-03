@@ -7,7 +7,7 @@ import "./style.css";
 
 export interface LayoutProps {
   children: React.ReactNode;
-  headerType: "none" | "simple" | "full";
+  headerType: "none" | "simple" | "full" | "home";
   showFooter: boolean;
 }
 

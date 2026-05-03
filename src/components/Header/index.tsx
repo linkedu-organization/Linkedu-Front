@@ -7,7 +7,7 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { useClickOutside } from "primereact/hooks";
 import "primeicons/primeicons.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 
@@ -17,13 +17,17 @@ interface HeaderProps {
 
 const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
+
   const { perfil, handleLogout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [query, setQuery] = useState("");
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleMenu = () => setMenuVisible((v) => !v);
+  const toggleMenu = () => setMenuVisible((visible) => !visible);
 
   useClickOutside(menuRef, () => {
     setMenuVisible(false);
@@ -49,49 +53,62 @@ const Header = ({ headerType }: HeaderProps) => {
     }
   };
 
-  let content = <div />;
+  const submitSearch = () => {
+    const q = query.trim();
+
+    if (!q) {
+      navigate({ pathname: "/explore", search: "" });
+      return;
+    }
+
+    navigate({
+      pathname: "/explore",
+      search: `?q=${encodeURIComponent(q)}`,
+    });
+  };
 
   if (headerType === "simple") {
-    content = <div className="simple-header">{logo}</div>;
-  } else {
-    const panelMenuItems = [
-      {
-        label: "Início",
-        icon: "pi pi-home",
-        command: () => {
-          setMenuVisible(false);
-          navigate("/");
-        },
-      },
-      {
-        label: "Meu Perfil",
-        icon: "pi pi-user",
-        command: () => {
-          setMenuVisible(false);
-          redirectPerfil();
-        },
-      },
-      {
-        label: "Sair",
-        icon: "pi pi-sign-out",
-        command: () => {
-          setMenuVisible(false);
-          handleLogout();
-        },
-      },
-    ];
+    return <div className="simple-header">{logo}</div>;
+  }
 
-    const submitSearch = () => {
-      const q = query.trim();
-      if (!q) {
-        navigate({ pathname: "/", search: "" });
-        return;
-      }
-      navigate({ pathname: "/", search: `?q=${encodeURIComponent(q)}` });
-    };
+  const panelMenuItems = [
+    {
+      label: "Início",
+      icon: "pi pi-home",
+      command: () => {
+        setMenuVisible(false);
+        navigate("/");
+      },
+    },
+    {
+      label: "Vagas e Perfis",
+      icon: "pi pi-search",
+      command: () => {
+        setMenuVisible(false);
+        navigate("/explore");
+      },
+    },
+    {
+      label: "Meu Perfil",
+      icon: "pi pi-user",
+      command: () => {
+        setMenuVisible(false);
+        redirectPerfil();
+      },
+    },
+    {
+      label: "Sair",
+      icon: "pi pi-sign-out",
+      command: () => {
+        setMenuVisible(false);
+        handleLogout();
+      },
+    },
+  ];
 
-    const end = (
-      <div className="flex align-items-center">
+  const end = (
+    <div className="flex align-items-center">
+      {!isHomePage && (
         <div className="search-container">
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
@@ -107,38 +124,36 @@ const Header = ({ headerType }: HeaderProps) => {
             />
           </IconField>
         </div>
+      )}
 
-        <div
-          className="flex align-items-center gap-4 justify-center"
-          ref={menuRef}
-        >
-          <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
+      <div
+        className="flex align-items-center gap-4 justify-center"
+        ref={menuRef}
+      >
+        <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
 
-          {menuVisible && (
-            <div className="menu-container">
-              <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
-            </div>
-          )}
-        </div>
+        {menuVisible && (
+          <div className="menu-container">
+            <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
+          </div>
+        )}
       </div>
-    );
+    </div>
+  );
 
-    content = (
-      <Menubar
-        start={logo}
-        end={end}
-        style={{
-          background: "#364FAB",
-          border: "none",
-          borderRadius: "0%",
-          padding: "0.5rem 2rem",
-          width: "100vw",
-        }}
-      />
-    );
-  }
-
-  return content;
+  return (
+    <Menubar
+      start={logo}
+      end={end}
+      style={{
+        background: "#364FAB",
+        border: "none",
+        borderRadius: "0%",
+        padding: "0.5rem 2rem",
+        width: "100vw",
+      }}
+    />
+  );
 };
 
 export default Header;

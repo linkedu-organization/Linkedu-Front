@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "@pages/homePage";
+import ExplorePage from "@pages/explore";
 import RegistrationPage from "@pages/register";
 import { NotificationProvider } from "@contexts/notificationContext";
 import RegisterCandidato from "@pages/register/candidato/form";
 import { RegisterCandidatoProvider } from "@stores/register/candidato/formStore";
-import { HomePageProvider } from "@stores/homePage/indexStore";
+import { ExploreProvider } from "@stores/explore/exploreStore";
 import ProfileCandidatoPage from "@pages/profile/candidato";
 import { ProfileCandidatoProvider } from "@stores/profile/candidato/indexStore";
 import RegisterRecrutador from "@pages/register/recrutador/form";
@@ -25,9 +26,16 @@ const App = () => (
           <Route
             path="/"
             element={
-              <HomePageProvider>
-                <HomePage />
-              </HomePageProvider>
+              <HomePage />
+            }
+          />
+
+          <Route
+            path="/explore"
+            element={
+              <ExploreProvider>
+                <ExplorePage />
+              </ExploreProvider>
             }
           />
           <Route

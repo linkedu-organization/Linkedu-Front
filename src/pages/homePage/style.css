@@ -1,133 +1,366 @@
 @import url("/public/assets/colorVariables");
 
-.main-context {
+.home-page {
   width: 100%;
+  min-height: 100%;
+  background: var(--Linkedu-OffWhite);
+  color: #071225;
+  overflow-x: hidden;
+}
+
+/* HERO */
+
+.home-hero {
+  position: relative;
+  min-height: 760px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  justify-content: center;
+  padding: 7rem 2rem 5rem;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.tab-menu-homepage {
-  width: 1312px;
-  height: 65px;
+.home-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 980px;
+  text-align: center;
 }
 
-.tab-menu-homepage .p-tabmenu-nav {
-  background-color: var(--Linkedu-OffWhite);
-  border-bottom: 0;
+.home-hero-content h1 {
+  margin: 0 auto;
+  max-width: 860px;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: #071225;
 }
 
-.tab-menu-homepage .p-menuitem-link,
-.tab-menu-homepage .p-menuitem-link:hover,
-.tab-menu-homepage .p-menuitem-link:focus {
-  background: var(--Linkedu-OffWhite) !important;
+.home-hero-content h1 span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--Linkedu-Blue);
 }
 
-.position-header {
-  width: 1312px;
+.home-hero-content p {
+  max-width: 760px;
+  margin: 2.2rem auto 0;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.7;
+  color: #63728d;
+}
+
+/* BOTÃO DO HERO */
+
+.home-hero-actions {
+  margin-top: 2.8rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 24px 0;
+  justify-content: center;
 }
 
-.page-title {
-  margin: 0;
-  font-family: "Inter";
-  font-size: 32px;
-  color: var(--Linkedu-DarkBlueLetter);
-}
-
-.position-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.position-buttons .p-button,
-.details-button.p-button {
-  height: 33px;
-  padding: 0 18px;
-  border-radius: 8px;
-  gap: 10px;
-}
-
-.position-buttons .p-button .p-button-label,
-.details-button.p-button .p-button-label {
-  font-size: 14px;
-  font-weight: 300;
-}
-
-.position-buttons .p-button .p-button-icon {
-  font-size: 14px;
-}
-
-.recomendation-button.p-button {
-  background: var(--Linkedu-LightGreen);
-  border-color: var(--Linkedu-LightGreen);
-}
-
-.filter-button.p-button,
-.sort-button.p-button,
-.details-button.p-button {
+.home-hero-button {
+  min-width: 300px;
+  height: 68px;
+  border: none;
+  border-radius: 999px;
   background: var(--Linkedu-Blue);
-  border-color: var(--Linkedu-Blue);
+  color: var(--Linkedu-OffWhite);
+  font-size: 1.2rem;
+  font-weight: 800;
+  box-shadow: 0 14px 28px rgba(7, 18, 37, 0.18);
 }
 
-.message {
-  align-self: center;
-  margin-top: 150px;
-  font-family: "Inter";
-  font-size: 20px;
-  color: var(--Linkedu-DarkBlueLetter);
+.home-hero-button:hover {
+  background: var(--Linkedu-Blue);
+  color: var(--Linkedu-OffWhite);
+  filter: brightness(0.95);
 }
 
-.position-list-cards {
-  width: 1312px;
+.home-hero-button:focus {
+  box-shadow: 0 0 0 2px var(--Linkedu-OffWhite),
+    0 0 0 4px var(--Linkedu-Blue);
+}
+
+/* DECORAÇÕES DO HERO */
+
+.home-hero-decoration {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ESFERA ESQUERDA - MAIS PRA CIMA */
+
+.home-hero-decoration-left {
+  left: -70px;
+  bottom: 180px;
+  width: 360px;
+  height: 360px;
+}
+
+.home-hero-decoration-left .home-hero-ball {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  left: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: var(--Linkedu-Blue);
+}
+
+.home-hero-ring {
+  position: absolute;
+  width: 342px;
+  height: 342px;
+  left: -11px;
+  bottom: -11px;
+  border: 2px solid var(--Linkedu-Blue);
+  border-radius: 50%;
+  opacity: 0.35;
+}
+
+/* ESFERA DIREITA */
+
+.home-hero-decoration-right {
+  right: 150px;
+  bottom: 300px;
+  width: 470px;
+  height: 470px;
+}
+
+.home-hero-decoration-right .home-hero-ball {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: var(--Linkedu-Blue);
+}
+
+/* FEATURES */
+
+.home-features {
+  padding: 4rem 2rem 6rem;
+}
+
+.home-section-header {
+  max-width: 860px;
+  margin: 0 auto 4rem;
+  text-align: center;
+}
+
+.home-section-header h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.4rem, 5vw, 3.7rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #071225;
+}
+
+.home-section-header p {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.5;
+  color: #63728d;
+}
+
+.home-feature-grid {
+  width: 100%;
+  max-width: 1420px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: 20px;
-  column-gap: 30px;
-  height: auto;
-  --cardHeight: 330px;
+  gap: 2rem;
 }
 
-.perfis-list-card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.home-feature-card {
+  min-height: 285px;
+  padding: 2.4rem;
+  border: 1px solid var(--Linkedu-LighterBlue);
+  border-radius: 26px;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(7, 18, 37, 0.08);
 }
 
-.filters-content {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.filters-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.filter-row {
+.home-feature-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 2rem;
+  border-radius: 24px;
+  background: var(--Linkedu-LighterBlue);
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  color: var(--Linkedu-Blue);
 }
 
-.filters-actions {
+.home-feature-icon i {
+  font-size: 1.8rem;
+}
+
+.home-feature-card h3 {
+  margin: 0 0 1.2rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #071225;
+}
+
+.home-feature-card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #63728d;
+}
+
+/* CTA */
+
+.home-cta {
+  margin-top: 5rem;
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
 }
 
-.aplicar-button.p-button {
-  height: 33px;
+.home-cta-button {
+  min-width: 260px;
+  height: 72px;
+  border: none;
+  border-radius: 18px;
   background: var(--Linkedu-Blue);
-  border-color: var(--Linkedu-Blue);
+  color: var(--Linkedu-OffWhite);
+  font-size: 1.35rem;
+  font-weight: 800;
+  box-shadow: 0 14px 28px rgba(7, 18, 37, 0.18);
 }
 
-.limpar-button.p-button {
-  height: 33px;
+.home-cta-button:hover {
+  background: var(--Linkedu-Blue);
+  color: var(--Linkedu-OffWhite);
+  filter: brightness(0.95);
+}
+
+.home-cta-button:focus {
+  box-shadow: 0 0 0 2px var(--Linkedu-OffWhite),
+    0 0 0 4px var(--Linkedu-Blue);
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 1100px) {
+  .home-hero {
+    min-height: 680px;
+    padding: 6rem 1.5rem 4rem;
+  }
+
+  .home-hero-decoration-left {
+    left: 20px;
+    bottom: 0px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .home-hero-decoration-left .home-hero-ball {
+    width: 270px;
+    height: 270px;
+  }
+
+  .home-hero-ring {
+    width: 300px;
+    height: 300px;
+    left: -9px;
+    bottom: -9px;
+  }
+
+  .home-hero-decoration-right {
+    right: -230px;
+    bottom: -140px;
+    width: 420px;
+    height: 420px;
+  }
+
+  .home-hero-decoration-right .home-hero-ball {
+    width: 390px;
+    height: 390px;
+  }
+
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-feature-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: auto;
+    padding: 5rem 1.25rem 3rem;
+  }
+
+  .home-hero-content h1 {
+    font-size: 3rem;
+    max-width: 100%;
+  }
+
+  .home-hero-content p {
+    font-size: 1.05rem;
+    max-width: 100%;
+  }
+
+  .home-hero-decoration-left {
+    left: 12px;
+    bottom: 60px;
+    width: 220px;
+    height: 220px;
+    opacity: 0.18;
+  }
+
+  .home-hero-decoration-left .home-hero-ball {
+    width: 190px;
+    height: 190px;
+  }
+
+  .home-hero-ring {
+    width: 204px;
+    height: 204px;
+    left: -7px;
+    bottom: -7px;
+  }
+
+  .home-hero-decoration-right {
+    right: -180px;
+    bottom: -90px;
+    width: 320px;
+    height: 320px;
+    opacity: 0.22;
+  }
+
+  .home-hero-decoration-right .home-hero-ball {
+    width: 260px;
+    height: 260px;
+  }
+
+  .home-feature-card {
+    padding: 1.8rem;
+  }
+
+  .home-feature-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .home-feature-card p {
+    font-size: 1.05rem;
+  }
+
+  .home-hero-button,
+  .home-cta-button {
+    width: 100%;
+    max-width: 320px;
+  }
 }
