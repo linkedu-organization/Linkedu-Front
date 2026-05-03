@@ -2,7 +2,10 @@ import { RadioButton } from "primereact/radiobutton";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import type { Candidato } from "@domains/Candidato";
-import { getHabilidadesPorCurso, getInteressesPorCurso } from "@utils/constants";
+import {
+  getHabilidadesPorCurso,
+  getInteressesPorCurso,
+} from "@utils/constants";
 import { hasError, invalid } from "@utils/utils";
 import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import "./tabs.css";
@@ -24,11 +27,15 @@ const TabProfissional = ({
   const interessesDisponiveis = getInteressesPorCurso(curso);
   const habilidadesDisponiveis = getHabilidadesPorCurso(curso);
 
-  const interessesFiltrados = (formData.areasInteresse ?? []).filter((v) =>
-    interessesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const interessesFiltrados = (formData.areasInteresse ?? []).filter(
+    (v) =>
+      interessesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
-  const habilidadesFiltradas = (formData.habilidades ?? []).filter((v) =>
-    habilidadesDisponiveis.some((o) => o.value === v) || v.startsWith("CUSTOM_")
+  const habilidadesFiltradas = (formData.habilidades ?? []).filter(
+    (v) =>
+      habilidadesDisponiveis.some((o) => o.value === v) ||
+      v.startsWith("CUSTOM_")
   );
 
   return (
@@ -42,7 +49,7 @@ const TabProfissional = ({
               <RadioButton
                 inputId="contratacao-sim"
                 name="contratacao"
-                value={true}
+                value
                 onChange={(e) => setField("disponivel", e.value)}
                 checked={formData.disponivel === true}
               />
@@ -91,7 +98,8 @@ const TabProfissional = ({
           <label>Áreas de interesse *</label>
           {!curso && (
             <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
-              Selecione um curso/área de atuação na etapa anterior para ver as opções disponíveis.
+              Selecione um curso/área de atuação na etapa anterior para ver as
+              opções disponíveis.
             </small>
           )}
           <MultiSelectWithCustom
@@ -103,7 +111,9 @@ const TabProfissional = ({
                 ? "Selecione as suas áreas de interesse"
                 : "Disponível após selecionar o curso"
             }
-            className={hasError(submitted, errors.areasInteresse) ? "p-invalid" : ""}
+            className={
+              hasError(submitted, errors.areasInteresse) ? "p-invalid" : ""
+            }
             disabled={!curso}
             customLabel="Adicionar área personalizada"
           />
@@ -116,7 +126,8 @@ const TabProfissional = ({
           <label>Habilidades *</label>
           {!curso && (
             <small style={{ color: "var(--Linkedu-Gray)", marginBottom: 4 }}>
-              Selecione um curso/área de atuação na etapa anterior para ver as opções disponíveis.
+              Selecione um curso/área de atuação na etapa anterior para ver as
+              opções disponíveis.
             </small>
           )}
           <MultiSelectWithCustom
@@ -128,7 +139,9 @@ const TabProfissional = ({
                 ? "Selecione as suas habilidades"
                 : "Disponível após selecionar o curso"
             }
-            className={hasError(submitted, errors.habilidades) ? "p-invalid" : ""}
+            className={
+              hasError(submitted, errors.habilidades) ? "p-invalid" : ""
+            }
             disabled={!curso}
             customLabel="Adicionar habilidade personalizada"
           />
@@ -154,6 +167,13 @@ const TabProfissional = ({
             placeholder="Digite o link do seu perfil"
           />
         </div>
+
+        <p className="account-expiration-message">
+          Seu perfil será considerado ativo e poderá ser recomendado para vagas
+          por até 30 dias após seu último acesso. Após esse período sem
+          atividade, ele será desativado automaticamente. Para continuar sendo
+          recomendado em vagas, basta acessar sua conta novamente.
+        </p>
       </div>
     </div>
   );

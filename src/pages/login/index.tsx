@@ -56,6 +56,9 @@ const LoginPage = () => {
                     Cadastre-se
                   </Link>
                 </span>
+                <Link className="enter-link forgot-password-link" to="/recover">
+                  Esqueci minha senha
+                </Link>
               </div>
               <div className="login-action">
                 <Button
