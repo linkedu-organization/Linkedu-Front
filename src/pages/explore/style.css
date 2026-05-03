@@ -148,3 +148,29 @@
   white-space: nowrap;
   padding: 0 1.1rem;
 }
+
+.pagination-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 8px;
+}
+
+.pagination-wrapper .p-paginator {
+  background: transparent;
+  border: none;
+  gap: 4px;
+}
+
+.pagination-wrapper .p-paginator .p-paginator-pages .p-paginator-page,
+.pagination-wrapper .p-paginator .p-paginator-first,
+.pagination-wrapper .p-paginator .p-paginator-prev,
+.pagination-wrapper .p-paginator .p-paginator-next,
+.pagination-wrapper .p-paginator .p-paginator-last {
+  border-radius: 8px;
+}
+
+.pagination-wrapper .p-paginator-current {
+  font-size: 0.9rem;
+  color: #666;
+}
