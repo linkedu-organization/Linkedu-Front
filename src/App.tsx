@@ -15,6 +15,8 @@ import { ProfileRecrutadorProvider } from "@stores/profile/recrutador/indexStore
 import LoginPage from "@pages/login";
 import { AuthProvider } from "@contexts/authContext";
 import { LoginProvider } from "@stores/login/indexStore";
+import PasswordRecoveryPage from "@pages/recover";
+import ResetPasswordPage from "@pages/recover/form";
 
 const App = () => (
   <BrowserRouter>
@@ -45,6 +47,9 @@ const App = () => (
             }
           />
           <Route path="/register" element={<RegistrationPage />} />
+
+          <Route path="/recover" element={<PasswordRecoveryPage />} />
+          <Route path="/recover/reset" element={<ResetPasswordPage />} />
           <Route
             path="/register/candidato"
             element={

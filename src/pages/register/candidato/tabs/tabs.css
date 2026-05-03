@@ -82,3 +82,10 @@ small {
     width: 100%;
   }
 }
+
+.account-expiration-message {
+  margin: 6px 0 0;
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--Linkedu-DarkLetterSecond);
+}

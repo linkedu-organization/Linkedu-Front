@@ -1,0 +1,90 @@
+.recover-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.recover-card {
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Achados-Lighter-OffWhite);
+  border-radius: 1rem;
+  padding: 28px;
+}
+
+.recover-logo {
+  width: 240px;
+  height: auto;
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.recover-title {
+  margin: 0;
+  color: var(--Linkedu-DarkLetter);
+  font-family: Inter, sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.recover-description {
+  margin: 10px 0 18px;
+  color: var(--Linkedu-Gray);
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.recover-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.recover-field label {
+  color: var(--Linkedu-DarkLetterSecond);
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recover-field small {
+  color: var(--red-500);
+}
+
+.recover-field .p-inputtext,
+.recover-password-field .p-password,
+.recover-password-field .p-password .p-inputtext,
+.recover-password-field .p-icon-field.p-icon-field-right {
+  width: 100%;
+}
+
+.recover-success {
+  margin: 0 0 14px;
+  color: var(--Linkedu-Blue);
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.recover-button {
+  background-color: var(--Linkedu-Blue);
+  border: 1px solid var(--Linkedu-Blue);
+  height: 38px;
+  margin-top: 4px;
+}
+
+.recover-link {
+  margin-top: 16px;
+  color: var(--Linkedu-Gray);
+  text-align: center;
+  text-decoration: underline;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+}
