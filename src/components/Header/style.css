@@ -37,17 +37,32 @@
 
 .p-menubar {
   width: 100%;
-  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .p-menubar-button {
   display: none;
 }
 
+.p-menubar-start {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.p-menubar-root-list {
+  display: none;
+}
+
 .p-menubar-end {
   display: flex;
-  justify-content: space-between !important;
-  width: 100%;
+  align-items: center;
+  justify-content: flex-end !important;
+  flex: 1;
+  width: auto;
+  margin-left: auto;
 }
 
 .simple-header {
@@ -62,11 +77,13 @@
   justify-content: center;
 }
 
-.flex.align-items-center {
-  gap: 1rem;
-  flex: 1;
-  position: relative;
+.p-menubar-end > .flex.align-items-center {
+  display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
 }
 
 .p-menuitem-content:hover {
@@ -96,8 +113,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  flex-grow: 1;
+  flex: 1;
   padding: 0 0 0 1rem;
 }
 
@@ -108,4 +124,41 @@
 
 .search-container .p-input-icon-left {
   width: 100%;
+}
+
+.header-auth-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.header-login-button,
+.header-register-button {
+  background: var(--Linkedu-Blue) !important;
+  border: none !important;
+  color: var(--Linkedu-OffWhite) !important;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 0.65rem 1.4rem;
+  min-width: auto;
+  box-shadow: none !important;
+}
+
+.header-login-button:hover,
+.header-register-button:hover {
+  background: var(--Linkedu-Blue) !important;
+  border: none !important;
+  color: var(--Linkedu-OffWhite) !important;
+  opacity: 0.9;
+}
+
+.header-login-button:focus,
+.header-register-button:focus,
+.header-login-button:enabled:focus,
+.header-register-button:enabled:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }

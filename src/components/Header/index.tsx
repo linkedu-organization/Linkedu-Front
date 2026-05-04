@@ -7,21 +7,19 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { useClickOutside } from "primereact/hooks";
 import "primeicons/primeicons.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 
 interface HeaderProps {
-  headerType: "simple" | "full";
+  headerType: "simple" | "full" | "home";
 }
 
 const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const isHomePage = location.pathname === "/";
 
   const { perfil, handleLogout } = useAuth();
+
   const [menuVisible, setMenuVisible] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -99,7 +97,7 @@ const Header = ({ headerType }: HeaderProps) => {
     {
       label: "Sair",
       icon: "pi pi-sign-out",
-      command: () => {
+      command: async () => {
         setMenuVisible(false);
         handleLogout();
       },
@@ -108,7 +106,7 @@ const Header = ({ headerType }: HeaderProps) => {
 
   const end = (
     <div className="flex align-items-center">
-      {!isHomePage && (
+      {headerType !== "home" && (
         <div className="search-container">
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
@@ -126,18 +124,34 @@ const Header = ({ headerType }: HeaderProps) => {
         </div>
       )}
 
-      <div
-        className="flex align-items-center gap-4 justify-center"
-        ref={menuRef}
-      >
-        <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
+      {headerType === "home" ? (
+        <div className="header-auth-actions">
+          <Button
+            label="Entrar"
+            className="header-login-button"
+            onClick={() => navigate("/login")}
+          />
 
-        {menuVisible && (
-          <div className="menu-container">
-            <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
-          </div>
-        )}
-      </div>
+          <Button
+            label="Registrar-se"
+            className="header-register-button"
+            onClick={() => navigate("/register")}
+          />
+        </div>
+      ) : (
+        <div
+          className="flex align-items-center gap-4 justify-center"
+          ref={menuRef}
+        >
+          <Button icon="pi pi-align-justify" onClick={toggleMenu} text />
+
+          {menuVisible && (
+            <div className="menu-container">
+              <PanelMenu model={panelMenuItems} style={{ width: "200px" }} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 

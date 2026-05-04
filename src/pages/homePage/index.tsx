@@ -7,7 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout showFooter={true} headerType="full">
+    <Layout showFooter={true} headerType="home">
       <div className="home-page">
         <section className="home-hero">
           <div className="home-hero-decoration home-hero-decoration-left">

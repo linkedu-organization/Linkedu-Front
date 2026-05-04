@@ -44,14 +44,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const handleLogout = useCallback(async () => {
     try {
       await logout();
-      showNotification("success", null, "Logout realizado com sucesso!");
 
       authLogout();
-      navigate("/login");
+
+      showNotification("success", null, "Logout realizado com sucesso!");
+
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 0);
     } catch (err) {
+      authLogout();
+
       showNotification("error", null, "Logout falhou");
+
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 0);
     }
-  }, []);
+  }, [authLogout, navigate, showNotification]);
 
   const validateAuth = useCallback(async () => {
     try {
