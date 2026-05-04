@@ -6,6 +6,7 @@ import { getValueByKey } from "@utils/utils";
 import { categorias, cursos } from "@utils/constants";
 import type { KeyboardEvent, MouseEvent } from "react";
 import "./style.css";
+import { toLabelFromValue } from "@components/MultiSelectWithCustom";
 
 export interface VagaCardProps {
   vaga: Vaga;
@@ -98,10 +99,14 @@ export const VagaCard = ({
       </div>
 
       <div className="position-skills">
-        <Avatar icon="pi pi-check-circle" shape="circle" className="icon-badge" />
+        <Avatar
+          icon="pi pi-check-circle"
+          shape="circle"
+          className="icon-badge"
+        />
         <b>Conhecimentos Obrigatórios: </b>
         <span className="value ellipsis">
-          {vaga.conhecimentosObrigatorios.join(", ")}
+          {vaga.conhecimentosObrigatorios.map(toLabelFromValue).join(", ")}
         </span>
       </div>
 
