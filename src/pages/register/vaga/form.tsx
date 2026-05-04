@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -10,6 +10,7 @@ import { RadioButton } from "primereact/radiobutton";
 import { MultiSelect } from "primereact/multiselect";
 import type { Recrutador } from "@domains/Recrutador";
 import { useRegisterVaga } from "@stores/register/vaga/formStore";
+import MultiSelectWithCustom from "@components/MultiSelectWithCustom";
 import "./style.css";
 import type { Vaga } from "@domains/Vaga";
 
@@ -31,22 +32,11 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 }) => {
   const { formData, setField, errors, submit, resetForm, load, loading } =
     useRegisterVaga();
-  const [conhecimentosText, setConhecimentosText] = useState(
-    (formData.conhecimentosObrigatorios ?? []).join(", ")
-  );
-  const [conhecimentosOpText, setConhecimentosOpText] = useState(
-    (formData.conhecimentosOpcionais ?? []).join(", ")
-  );
 
   useEffect(() => {
     if (vaga) load(vaga);
     else resetForm();
   }, [vaga]);
-
-  useEffect(() => {
-    setConhecimentosText((formData.conhecimentosObrigatorios ?? []).join(", "));
-    setConhecimentosOpText((formData.conhecimentosOpcionais ?? []).join(", "));
-  }, [formData.conhecimentosObrigatorios, formData.conhecimentosOpcionais]);
 
   return (
     <div className="exp-form">
@@ -244,43 +234,27 @@ const VagaFormPage: React.FC<VagaFormProps> = ({
 
         <div className="exp-field">
           <label>Conhecimentos Obrigatórios *</label>
-          <InputText
-            value={conhecimentosText}
-            onChange={(e) => setConhecimentosText(e.target.value)}
-            onBlur={(e) =>
-              setField(
-                "conhecimentosObrigatorios",
-                e.target.value
-                  .split(",")
-                  .map((s) => s.trim())
-                  .filter(Boolean)
-              )
-            }
+          <MultiSelectWithCustom
+            value={formData.conhecimentosObrigatorios ?? []}
+            onChange={(vals) => setField("conhecimentosObrigatorios", vals)}
+            options={[]}
             className={errors.conhecimentosObrigatorios ? "p-invalid" : ""}
-            placeholder="Digite os conhecimentos obrigatórios"
+            placeholder="Digite e pressione Enter para adicionar"
+            customLabel="Adicionar conhecimento"
           />
           {errors.conhecimentosObrigatorios && (
-            <small className="p-error">
-              {errors.conhecimentosObrigatorios}
-            </small>
+            <small className="p-error">{errors.conhecimentosObrigatorios}</small>
           )}
         </div>
 
         <div className="exp-field">
           <label>Conhecimentos Opcionais</label>
-          <InputText
-            value={conhecimentosOpText}
-            onChange={(e) => setConhecimentosOpText(e.target.value)}
-            onBlur={(e) =>
-              setField(
-                "conhecimentosOpcionais",
-                e.target.value
-                  .split(",")
-                  .map((s) => s.trim())
-                  .filter(Boolean)
-              )
-            }
-            placeholder="Digite os conhecimentos opcionais"
+          <MultiSelectWithCustom
+            value={formData.conhecimentosOpcionais ?? []}
+            onChange={(vals) => setField("conhecimentosOpcionais", vals)}
+            options={[]}
+            placeholder="Digite e pressione Enter para adicionar"
+            customLabel="Adicionar conhecimento"
           />
         </div>
 

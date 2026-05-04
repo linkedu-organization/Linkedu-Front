@@ -1,6 +1,7 @@
 import type { Vaga } from "@domains/Vaga";
 import { publicoAlvo, categorias, cursos } from "@utils/constants";
 import { getValueByKey, normalizeUrl } from "@utils/utils";
+import { toLabelFromValue } from "@components/MultiSelectWithCustom";
 import "./style.css";
 
 const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
@@ -117,7 +118,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
               <b>Conhecimentos Obrigatórios</b>
             </span>
             <div className="value">
-              {vaga.conhecimentosObrigatorios.join(", ")}
+              {vaga.conhecimentosObrigatorios.map(toLabelFromValue).join(", ")}
             </div>
           </div>
 
@@ -129,7 +130,7 @@ const VagaDetailsDialog = ({ vaga }: { vaga: Vaga | null }) => {
               <b>Conhecimentos Opcionais</b>
             </span>
             <div className="value">
-              {vaga.conhecimentosOpcionais.join(", ")}
+              {vaga.conhecimentosOpcionais.map(toLabelFromValue).join(", ")}
             </div>
           </div>
         </div>
