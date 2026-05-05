@@ -74,6 +74,7 @@ const ProfileRecrutadorPage: React.FC = () => {
     loadingCandidates,
     recommendedCandidates,
     recommendedProfiles,
+    otherProfiles,
     loadingProfiles,
     recommendedError,
     openRecommended,
@@ -224,7 +225,7 @@ const ProfileRecrutadorPage: React.FC = () => {
         {!loadingCandidates &&
           !recommendedError &&
           recommendedCandidates.length > 0 && (
-            <div style={{ display: "grid", gap: 12, width: "100%" }}>
+            <div style={{ display: "grid", gap: 12, width: "100%", marginBottom: "40px" }}>
               {recommendedCandidates.map((rec) => {
                 const candidato = recommendedProfiles[rec.candidatoId];
                 if (!candidato) return null;
@@ -236,6 +237,29 @@ const ProfileRecrutadorPage: React.FC = () => {
               })}
             </div>
           )}
+
+        {!loadingCandidates && !recommendedError && (
+          <div className="other-profiles-section">
+            <h3 style={{ margin: "20px 0", fontSize: "1.2rem", fontWeight: "700" }}>
+              Outros perfis que você pode se interessar
+            </h3>
+            {loadingProfiles ? (
+              <div>Carregando sugestões...</div>
+            ) : (
+              <div style={{ display: "grid", gap: 12, width: "100%" }}>
+                {otherProfiles.length > 0 ? (
+                  otherProfiles.map((candidato) => (
+                    <div key={candidato.id}>
+                      <PerfilCard perfil={candidatoToPerfil(candidato)} />
+                    </div>
+                  ))
+                ) : (
+                  <div>Nenhum outro perfil disponível no momento.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </Dialog>
 
       <Dialog
