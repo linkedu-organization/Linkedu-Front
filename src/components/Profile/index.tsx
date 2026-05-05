@@ -75,18 +75,14 @@ const PerfilCard = ({ perfil, descricao }: PerfilCardProps) => {
       </div>
 
       <div className="perfil-content">
+        <div className="perfil-email">
+          <b>Email: </b>
+          <span>{perfil.email}</span>
+        </div>
         {descricao ? (
-          <p className="perfil-descricao">
-            <b>Motivo da Recomendação: </b>
-            {descricao}
-          </p>
+          <div className="perfil-recomendacao-descricao">{descricao}</div>
         ) : (
           <>
-            <div className="perfil-email">
-              <b>Email: </b>
-              <span>{perfil.email}</span>
-            </div>
-
             {perfil.tipo === "RECRUTADOR" && (
               <div>
                 <div className="perfil-email">
