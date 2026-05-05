@@ -7,7 +7,7 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { useClickOutside } from "primereact/hooks";
 import "primeicons/primeicons.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 
@@ -17,6 +17,7 @@ interface HeaderProps {
 
 const Header = ({ headerType }: HeaderProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { perfil, handleLogout } = useAuth();
 
@@ -24,6 +25,9 @@ const Header = ({ headerType }: HeaderProps) => {
   const [query, setQuery] = useState("");
 
   const menuRef = useRef<HTMLDivElement | null>(null);
+
+  const isLoggedIn = !!perfil;
+  const isExplorePage = location.pathname === "/explore";
 
   const toggleMenu = () => setMenuVisible((visible) => !visible);
 
@@ -43,7 +47,7 @@ const Header = ({ headerType }: HeaderProps) => {
     </Link>
   );
 
-  const redirectPerfil = () => {
+  const redirectProfile = () => {
     if (perfil?.tipo === "CANDIDATO") {
       navigate("/profile/candidato");
     } else {
@@ -52,16 +56,16 @@ const Header = ({ headerType }: HeaderProps) => {
   };
 
   const submitSearch = () => {
-    const q = query.trim();
+    const trimmedQuery = query.trim();
 
-    if (!q) {
+    if (!trimmedQuery) {
       navigate({ pathname: "/explore", search: "" });
       return;
     }
 
     navigate({
       pathname: "/explore",
-      search: `?q=${encodeURIComponent(q)}`,
+      search: `?q=${encodeURIComponent(trimmedQuery)}`,
     });
   };
 
@@ -70,38 +74,52 @@ const Header = ({ headerType }: HeaderProps) => {
   }
 
   const panelMenuItems = [
-    {
-      label: "Início",
-      icon: "pi pi-home",
-      command: () => {
-        setMenuVisible(false);
-        navigate("/");
-      },
-    },
-    {
-      label: "Vagas e Perfis",
-      icon: "pi pi-search",
-      command: () => {
-        setMenuVisible(false);
-        navigate("/explore");
-      },
-    },
-    {
-      label: "Meu Perfil",
-      icon: "pi pi-user",
-      command: () => {
-        setMenuVisible(false);
-        redirectPerfil();
-      },
-    },
-    {
-      label: "Sair",
-      icon: "pi pi-sign-out",
-      command: async () => {
-        setMenuVisible(false);
-        handleLogout();
-      },
-    },
+    ...(!isLoggedIn && !isExplorePage
+      ? [
+          {
+            label: "Início",
+            icon: "pi pi-home",
+            command: () => {
+              setMenuVisible(false);
+              navigate("/");
+            },
+          },
+        ]
+      : []),
+
+    ...(!isExplorePage
+      ? [
+          {
+            label: "Vagas e Perfis",
+            icon: "pi pi-search",
+            command: () => {
+              setMenuVisible(false);
+              navigate("/explore");
+            },
+          },
+        ]
+      : []),
+
+    ...(isLoggedIn
+      ? [
+          {
+            label: "Meu Perfil",
+            icon: "pi pi-user",
+            command: () => {
+              setMenuVisible(false);
+              redirectProfile();
+            },
+          },
+          {
+            label: "Sair",
+            icon: "pi pi-sign-out",
+            command: async () => {
+              setMenuVisible(false);
+              handleLogout();
+            },
+          },
+        ]
+      : []),
   ];
 
   const end = (
@@ -115,9 +133,9 @@ const Header = ({ headerType }: HeaderProps) => {
               type="text"
               style={{ height: "2rem" }}
               placeholder="Buscar por vagas ou perfis"
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") submitSearch();
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") submitSearch();
               }}
             />
           </IconField>
