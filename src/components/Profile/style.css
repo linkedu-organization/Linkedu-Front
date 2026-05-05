@@ -86,7 +86,7 @@
 }
 
 .perfil-content {
-  padding: 16px var(--card-inner-pad) 0;
+  padding: 16px var(--card-inner-pad);
 }
 
 .perfil-email,
@@ -97,7 +97,7 @@
 }
 
 .position-card-footer {
-  margin-top: auto; 
+  margin-top: auto;
   display: flex;
   justify-content: flex-end;
   padding-bottom: 20px !important;

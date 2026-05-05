@@ -217,7 +217,10 @@ const ProfileRecrutadorPage: React.FC = () => {
                 if (!candidato) return null;
                 return (
                   <div key={rec.candidatoId}>
-                    <PerfilCard perfil={candidatoToPerfil(candidato)} />
+                    <PerfilCard
+                      perfil={candidatoToPerfil(candidato)}
+                      descricao={rec.descricao}
+                    />
                   </div>
                 );
               })}
