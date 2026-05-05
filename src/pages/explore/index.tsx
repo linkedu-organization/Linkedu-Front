@@ -929,6 +929,17 @@ const ExplorePage = () => {
           header="Vagas Recomendadas"
           style={{ width: "80vw" }}
         >
+          <div className="modal-header-actions" style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "left" }}>
+            <Button
+              label="Atualizar Recomendações"
+              icon="pi pi-sparkles"
+              className="recommended-update-button"
+              onClick={refetch}
+              loading={loading}
+              disabled={loading}
+            />
+          </div>
+
           {loading && (
             <p className="loading">Carregando vagas recomendadas...</p>
           )}
@@ -952,32 +963,26 @@ const ExplorePage = () => {
             </div>
           )}
 
-          {!loading && !error && outrasVagas.length > 0 && (
-            <div className="outras-vagas-section" style={{ marginTop: "2rem" }}>
+          {!loading && !error && (
+            <div className="outras-vagas-section" style={{ marginTop: "2rem", paddingTop: "2rem", borderTop: "1px solid #e2e8f0" }}>
               <h3 style={{ marginBottom: "1rem" }}>Outras vagas que você pode se interessar</h3>
-              <div className="position-list-cards">
-                {outrasVagas.map((vaga) => (
-                  <VagaCard
-                    key={vaga.id}
-                    vaga={vaga}
-                    openDetails={openDetails}
-                    showActions={false}
-                  />
-                ))}
-              </div>
+              
+              {outrasVagas.length > 0 ? (
+                <div className="position-list-cards">
+                  {outrasVagas.map((vaga) => (
+                    <VagaCard
+                      key={vaga.id}
+                      vaga={vaga}
+                      openDetails={openDetails}
+                      showActions={false}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p>Não encontramos outras vagas no momento.</p>
+              )}
             </div>
           )}
-
-          <div className="modal-footer">
-            <Button
-              label="Atualizar Recomendações"
-              icon="pi pi-sparkles"
-              className="recommended-update-button"
-              onClick={refetch}
-              loading={loading}
-              disabled={loading}
-            />
-          </div>
         </Dialog>
       </div>
     </Layout>
