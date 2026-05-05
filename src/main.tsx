@@ -6,6 +6,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
 import App from "./App.tsx";
+import "./responsive.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

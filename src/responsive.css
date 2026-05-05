@@ -1,0 +1,345 @@
+/* ============================================================
+   GLOBAL RESPONSIVE OVERRIDES
+   Makes LinkEdu fully fluid on web, tablets and mobile devices.
+   This file is loaded after every other stylesheet so it has
+   the final word on widths and layout breakpoints.
+   ============================================================ */
+
+/* --- Base: prevent horizontal scrolling on any device --- */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  align-items: stretch;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.p-menubar {
+  width: 100% !important;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem !important;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.search-container .p-inputtext {
+  width: 100% !important;
+}
+
+.search-container {
+  padding: 0 0 0 0.5rem;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .p-menubar {
+    padding: 0.5rem 0.75rem !important;
+  }
+  .search-container {
+    order: 3;
+    width: 100%;
+    padding: 0.5rem 0 0;
+  }
+  .search-container .p-inputtext {
+    width: 100% !important;
+  }
+  .flex.align-items-center {
+    flex-wrap: wrap;
+  }
+  .menu-container {
+    right: 0.5rem;
+  }
+}
+
+/* ============================================================
+   PROFILE CARD (Profile/index)
+   ============================================================ */
+.perfil-card {
+  width: 100% !important;
+  max-width: 1312px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .perfil-card {
+    --card-inner-pad: 20px;
+  }
+  .perfil-name {
+    font-size: 14px;
+  }
+  .perfil-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .perfil-card {
+    --card-inner-pad: 14px;
+  }
+  .perfil-header {
+    height: auto;
+    padding: 10px 0;
+  }
+  .perfil-name-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+/* ============================================================
+   EXPLORE PAGE
+   ============================================================ */
+.tab-menu-homepage,
+.position-header,
+.position-list-cards {
+  width: 100% !important;
+  max-width: 1312px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.position-list-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 30px;
+}
+
+.tab-menu-homepage {
+  height: auto;
+}
+
+.tab-menu-homepage .p-tabmenu-nav {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1100px) {
+  .position-list-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .position-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .page-title {
+    font-size: 24px;
+  }
+  .position-buttons {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .position-buttons .p-button {
+    flex: 1 1 auto;
+  }
+}
+
+/* ============================================================
+   VAGA / EXPERIENCE CARDS
+   ============================================================ */
+.vaga-card,
+.p-card.vaga-card {
+  width: auto !important;
+  max-width: 100%;
+}
+
+.p-card.vaga-card {
+  margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .p-card.vaga-card > .p-card-body {
+    padding: 16px 16px 0 !important;
+  }
+  .card-title {
+    font-size: 18px;
+    white-space: normal;
+  }
+  .vaga-card-header {
+    flex-wrap: wrap;
+  }
+  .vaga-row {
+    gap: 12px;
+  }
+}
+
+.vaga-dialog,
+.recrutador-vaga-dialog,
+.recommended-modal {
+  width: 92vw !important;
+  max-width: 900px !important;
+}
+
+@media (max-width: 600px) {
+  .vaga-dialog,
+  .recrutador-vaga-dialog,
+  .recommended-modal {
+    width: 96vw !important;
+    margin: 0 !important;
+  }
+}
+
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+.profile-container {
+  margin: 0 auto !important;
+  padding: 16px !important;
+  max-width: 1312px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .profile-card-content {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  .profile-avatar {
+    justify-self: center;
+  }
+  .profile-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .profile-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-text h1 {
+    font-size: 22px;
+  }
+}
+
+/* ============================================================
+   REGISTER WIZARD CARDS
+   ============================================================ */
+.register-card {
+  width: 100% !important;
+  max-width: 500px;
+}
+
+.card-register {
+  width: 100% !important;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.options-container {
+  flex-direction: row;
+}
+
+@media (max-width: 727px) {
+  .options-container {
+    flex-direction: column;
+  }
+  .option-column {
+    padding: 16px;
+  }
+  .option-title {
+    font-size: 28px;
+  }
+  .register-question {
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  .register-logo {
+    height: 90px;
+  }
+}
+
+.exp-form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+
+.edit-grid.candidato,
+.edit-grid.recrutador,
+.editcand-half-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+
+@media (max-width: 600px) {
+  .editperfil-header {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+@media (max-width: 720px) {
+  .login-page {
+    flex-direction: column;
+  }
+  .login-left,
+  .login-right {
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 2rem 1rem;
+  }
+  .login-logo {
+    width: 220px;
+  }
+  .hero-line-1 {
+    font-size: 28px;
+  }
+  .hero-line-2 {
+    font-size: 24px;
+  }
+}
+
+/* ============================================================
+   HOME PAGE small tweaks
+   ============================================================ */
+@media (max-width: 480px) {
+  .home-hero-content h1 {
+    font-size: 2.2rem !important;
+  }
+  .home-hero-button,
+  .home-cta-button {
+    min-width: 0 !important;
+    width: 100%;
+    height: 56px;
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   PrimeReact dialogs/menus generic clamp
+   ============================================================ */
+.p-dialog {
+  max-width: 96vw !important;
+}
+
+.p-dialog .p-dialog-content {
+  overflow-x: auto;
+}
