@@ -202,8 +202,13 @@ const ExplorePage = () => {
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { recommendedVagas, loading, error, refetch, fetchRecommendedVagas } =
-    useRecommendedVagas();
+  const { recommendedVagas, loading, error, refetch, fetchRecommendedVagas } = useRecommendedVagas();
+
+  const outrasVagas = useMemo(() => {
+    if (!vagas || vagas.length === 0) return [];
+    const idsRecomendadas = recommendedVagas.map((vr) => vr.vagaId);
+    return vagas.filter((vaga) => vaga.ehPublica === true && !idsRecomendadas.includes(vaga.id));
+  }, [vagas, recommendedVagas]);
 
   const [isRecommendedOpen, setIsRecommendedOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -944,6 +949,22 @@ const ExplorePage = () => {
                   showActions={false}
                 />
               ))}
+            </div>
+          )}
+
+          {!loading && !error && outrasVagas.length > 0 && (
+            <div className="outras-vagas-section" style={{ marginTop: "2rem" }}>
+              <h3 style={{ marginBottom: "1rem" }}>Outras vagas que você pode se interessar</h3>
+              <div className="position-list-cards">
+                {outrasVagas.map((vaga) => (
+                  <VagaCard
+                    key={vaga.id}
+                    vaga={vaga}
+                    openDetails={openDetails}
+                    showActions={false}
+                  />
+                ))}
+              </div>
             </div>
           )}
 
