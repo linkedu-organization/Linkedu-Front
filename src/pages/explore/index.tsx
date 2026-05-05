@@ -15,11 +15,15 @@ import { VagaCard } from "@components/Vaga";
 import PerfilCard from "@components/Profile";
 import { useExplore } from "@stores/explore/exploreStore";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { Vaga } from "@domains/Vaga";
+import type { Recrutador } from "@domains/Recrutador";
+import { RegisterVagaProvider } from "@stores/register/vaga/formStore";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./style.css";
 import { useAuth } from "@contexts/authContext";
 import { useRecommendedVagas } from "@hooks/useRecommendedVaga";
+import VagaFormPage from "@pages/register/vaga/form";
 
 import {
   applyVagaFiltersAndSort,
@@ -122,6 +126,111 @@ function toSelectOptions<T extends string | number>(values: T[]) {
   }));
 }
 
+function asText(value: any): string | null {
+  if (!value) return null;
+
+  if (Array.isArray(value)) {
+    const text = value.map(asText).filter(Boolean).join(", ");
+    return text || null;
+  }
+
+  if (typeof value === "object") {
+    return (
+      value.nome ??
+      value.name ??
+      value.titulo ??
+      value.title ??
+      value.descricao ??
+      null
+    );
+  }
+
+  return String(value);
+}
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function formatPerfilTipo(tipo?: string | null) {
+  if (tipo === "CANDIDATO") return "Aluno";
+  if (tipo === "RECRUTADOR") return "Recrutador";
+  return "Perfil";
+}
+
+function ExploreProfileCard({ perfil }: { perfil: any }) {
+  if (!perfil) return null;
+
+  const nome =
+    perfil.nome ??
+    perfil.usuario?.nome ??
+    perfil.user?.nome ??
+    perfil.name ??
+    "Seu perfil";
+
+  const email =
+    perfil.email ??
+    perfil.usuario?.email ??
+    perfil.user?.email ??
+    "";
+
+  const tipo = formatPerfilTipo(perfil.tipo);
+
+  const curso = asText(
+    perfil.curso ??
+      perfil.aluno?.curso ??
+      perfil.formacao?.curso ??
+      perfil.areaFormacao ??
+      perfil.area_formacao
+  );
+
+  const foto =
+    perfil.fotoUrl ??
+    perfil.foto_url ??
+    perfil.foto ??
+    perfil.avatarUrl ??
+    perfil.avatar_url ??
+    perfil.avatar ??
+    perfil.imageUrl ??
+    perfil.imagem ??
+    perfil.usuario?.fotoUrl ??
+    perfil.usuario?.avatarUrl ??
+    perfil.user?.fotoUrl ??
+    perfil.user?.avatarUrl;
+
+  return (
+    <div className="explore-profile-card">
+      <div className="explore-profile-avatar">
+        {foto ? <img src={foto} alt={nome} /> : <span>{getInitials(nome)}</span>}
+      </div>
+
+      <h2>{nome}</h2>
+
+      {email && <p>{email}</p>}
+
+      <div className="explore-profile-tags">
+        <span>
+          <i className="pi pi-user" />
+          {tipo}
+        </span>
+
+        {curso && (
+          <span>
+            <i className="pi pi-briefcase" />
+            {curso}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 interface MultiSelectWithAddProps {
   label: string;
   value: string[];
@@ -209,6 +318,8 @@ const ExplorePage = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterTab, setFilterTab] = useState<TabKey>("vagas");
 
+  const [isCreateVagaOpen, setIsCreateVagaOpen] = useState(false);
+
   const [vagaFilters, setVagaFilters] =
     useState<VagaFilters>(defaultVagaFilters);
 
@@ -258,6 +369,12 @@ const ExplorePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, authChecked, perfil } = useAuth();
 
+  const recrutadorAtual = useMemo(() => {
+    if (!perfil || perfil.tipo !== "RECRUTADOR") return null;
+
+    return ((perfil as any).recrutador ?? perfil) as Recrutador;
+  }, [perfil]);
+
   useEffect(() => {
     if (authChecked && !isAuthenticated) {
       navigate("/login", { replace: true });
@@ -271,6 +388,14 @@ const ExplorePage = () => {
 
   const closeRecommended = useCallback(() => {
     setIsRecommendedOpen(false);
+  }, []);
+
+  const openCreateVaga = useCallback(() => {
+    setIsCreateVagaOpen(true);
+  }, []);
+
+  const closeCreateVaga = useCallback(() => {
+    setIsCreateVagaOpen(false);
   }, []);
 
   const updateVagaFilter = useCallback(
@@ -296,7 +421,7 @@ const ExplorePage = () => {
   const addCachedOption = useCallback(
     (
       value: string,
-      setState: React.Dispatch<React.SetStateAction<string[]>>,
+      setState: Dispatch<SetStateAction<string[]>>,
       storageKey: string
     ) => {
       setState((prev) => {
@@ -478,35 +603,173 @@ const ExplorePage = () => {
     setFiltersOpen(false);
   }, [filterTab]);
 
-  const vagasFilterLabel = useMemo(() => {
-    if (activeVagaFiltersCount === 0) return "Nenhum";
-    return `${activeVagaFiltersCount} selecionado(s)`;
-  }, [activeVagaFiltersCount]);
-
-  const perfisFilterLabel = useMemo(() => {
-    if (activePerfilFiltersCount === 0) return "Nenhum";
-    return `${activePerfilFiltersCount} selecionado(s)`;
-  }, [activePerfilFiltersCount]);
-
   const filtersLoading = filterTab === "vagas" ? loadingVagas : loadingPerfis;
 
-  const vagaSortLabel =
-    vagaSort === "titulo_asc" ? "Título A-Z" : "Título Z-A";
+  const vagaFilterButtonLabel =
+    activeVagaFiltersCount > 0
+      ? `Filtros (${activeVagaFiltersCount})`
+      : "Filtros";
 
-  const perfilSortLabel =
-    perfilSort === "nome_asc" ? "Nome A-Z" : "Nome Z-A";
+  const perfilFilterButtonLabel =
+    activePerfilFiltersCount > 0
+      ? `Filtros (${activePerfilFiltersCount})`
+      : "Filtros";
 
   return !isAuthenticated ? (
     <></>
   ) : (
     <Layout showFooter headerType="full">
       <div className="main-context">
-        <TabMenu
-          model={items}
-          activeIndex={activeIndex}
-          onTabChange={(e) => setActiveIndex(e.index)}
-          className="tab-menu-homepage"
-        />
+        <div className="explore-page-grid">
+          <aside className="explore-profile-sidebar">
+            <ExploreProfileCard perfil={perfil} />
+
+            {recrutadorAtual && (
+              <Button
+                label="Adicionar Vaga"
+                icon="pi pi-plus"
+                className="add-vaga-profile-button"
+                onClick={openCreateVaga}
+                aria-label="Adicionar vaga"
+              />
+            )}
+          </aside>
+
+          <section className="explore-content">
+            <TabMenu
+              model={items}
+              activeIndex={activeIndex}
+              onTabChange={(e) => setActiveIndex(e.index)}
+              className="tab-menu-homepage"
+            />
+
+            {activeIndex === 0 && (
+              <>
+                <div className="position-header">
+                  <h1 className="page-title">Painel de Vagas</h1>
+
+                  <div className="position-buttons">
+                    {perfil?.tipo === "CANDIDATO" && (
+                      <Button
+                        label="Vagas Recomendadas"
+                        icon="pi pi-sparkles"
+                        className="recomendation-button"
+                        onClick={openRecommended}
+                        loading={loading}
+                        disabled={loading}
+                      />
+                    )}
+
+                    <Button
+                      label={vagaFilterButtonLabel}
+                      icon="pi pi-filter"
+                      className="filter-button"
+                      onClick={() => openFiltersDialog("vagas")}
+                    />
+
+                    <Button
+                      label="Ordenação"
+                      icon="pi pi-sort-alt"
+                      className="sort-button"
+                      onClick={toggleVagaSort}
+                      loading={loadingVagas}
+                      disabled={loadingVagas}
+                    />
+                  </div>
+                </div>
+
+                {vagasFiltradas.length === 0 && (
+                  <div className="message">
+                    {q
+                      ? "Nenhuma vaga encontrada para a busca."
+                      : "Nenhuma vaga pública disponível."}
+                  </div>
+                )}
+
+                <div className="position-list-cards">
+                  {vagasPaginadas.map((vaga) => (
+                    <VagaCard
+                      key={vaga.id}
+                      vaga={vaga}
+                      openDetails={openDetails}
+                      showActions={false}
+                    />
+                  ))}
+                </div>
+
+                {vagasFiltradas.length > VAGAS_PAGE_SIZE && (
+                  <div className="pagination-wrapper">
+                    <Paginator
+                      first={vagaFirst}
+                      rows={VAGAS_PAGE_SIZE}
+                      totalRecords={vagasFiltradas.length}
+                      onPageChange={(e) => {
+                        setVagaFirst(e.first);
+                      }}
+                      template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                      currentPageReportTemplate="{first} - {last} de {totalRecords}"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+
+            {activeIndex === 1 && (
+              <>
+                <div className="position-header">
+                  <h1 className="page-title">Listagem de Perfis</h1>
+
+                  <div className="position-buttons">
+                    <Button
+                      label={perfilFilterButtonLabel}
+                      icon="pi pi-filter"
+                      className="filter-button"
+                      onClick={() => openFiltersDialog("perfis")}
+                    />
+
+                    <Button
+                      label="Ordenação"
+                      icon="pi pi-sort-alt"
+                      className="sort-button"
+                      onClick={togglePerfilSort}
+                      loading={loadingPerfis}
+                      disabled={loadingPerfis}
+                    />
+                  </div>
+                </div>
+
+                {perfisFiltrados.length === 0 && (
+                  <div className="message">
+                    {q
+                      ? "Nenhum perfil encontrado para a busca."
+                      : "Nenhum perfil disponível."}
+                  </div>
+                )}
+
+                <div className="perfis-list-card">
+                  {perfisPaginados.map((item) => (
+                    <PerfilCard key={`${item.id}`} perfil={item} />
+                  ))}
+                </div>
+
+                {perfisFiltrados.length > PERFIS_PAGE_SIZE && (
+                  <div className="pagination-wrapper">
+                    <Paginator
+                      first={perfilFirst}
+                      rows={PERFIS_PAGE_SIZE}
+                      totalRecords={perfisFiltrados.length}
+                      onPageChange={(e) => {
+                        setPerfilFirst(e.first);
+                      }}
+                      template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                      currentPageReportTemplate="{first} - {last} de {totalRecords}"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </section>
+        </div>
 
         <Dialog
           header={`Filtros - ${filterTab === "vagas" ? "Vagas" : "Perfis"}`}
@@ -773,156 +1036,22 @@ const ExplorePage = () => {
           </div>
         </Dialog>
 
-        {activeIndex === 0 && (
-          <>
-            <div className="position-header">
-              <h1 className="page-title">Painel de Vagas</h1>
-
-              <div className="position-buttons">
-                {perfil?.tipo === "CANDIDATO" && (
-                  <Button
-                    label="Vagas Recomendadas"
-                    icon="pi pi-sparkles"
-                    className="recomendation-button"
-                    onClick={openRecommended}
-                    loading={loading}
-                    disabled={loading}
-                  />
-                )}
-
-                <Button
-                  label={`Filtros (${vagasFilterLabel})`}
-                  icon="pi pi-filter"
-                  className="filter-button"
-                  onClick={() => openFiltersDialog("vagas")}
-                />
-
-                <Button
-                  label={vagaSortLabel}
-                  icon={
-                    vagaSort === "titulo_asc"
-                      ? "pi pi-sort-alpha-down"
-                      : "pi pi-sort-alpha-up"
-                  }
-                  className="sort-button"
-                  onClick={toggleVagaSort}
-                  loading={loadingVagas}
-                  disabled={loadingVagas}
-                />
-              </div>
-            </div>
-
-            {vagasFiltradas.length === 0 && (
-              <div className="message">
-                {q
-                  ? "Nenhuma vaga encontrada para a busca."
-                  : "Nenhuma vaga pública disponível."}
-              </div>
-            )}
-
-            <div className="position-list-cards">
-              {vagasPaginadas.map((vaga) => (
-                <VagaCard
-                  key={vaga.id}
-                  vaga={vaga}
-                  openDetails={openDetails}
-                  showActions={false}
-                />
-              ))}
-            </div>
-
-            {vagasFiltradas.length > VAGAS_PAGE_SIZE && (
-              <div className="pagination-wrapper">
-                <Paginator
-                  first={vagaFirst}
-                  rows={VAGAS_PAGE_SIZE}
-                  totalRecords={vagasFiltradas.length}
-                  onPageChange={(e) => {
-                    setVagaFirst(e.first);
-                  }}
-                  template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                  currentPageReportTemplate="{first} - {last} de {totalRecords}"
-                />
-              </div>
-            )}
-
-            <Dialog
-              className="vaga-dialog"
-              visible={isDetailsOpen}
-              onHide={closeDetails}
-              header={selectedVaga?.titulo}
-              style={{ width: "70vw" }}
-            >
-              {selectedVaga && <VagaDetails vaga={selectedVaga} />}
-            </Dialog>
-          </>
-        )}
-
-        {activeIndex === 1 && (
-          <>
-            <div className="position-header">
-              <h1 className="page-title">Listagem de Perfis</h1>
-
-              <div className="position-buttons">
-                <Button
-                  label={`Filtros (${perfisFilterLabel})`}
-                  icon="pi pi-filter"
-                  className="filter-button"
-                  onClick={() => openFiltersDialog("perfis")}
-                />
-
-                <Button
-                  label={perfilSortLabel}
-                  icon={
-                    perfilSort === "nome_asc"
-                      ? "pi pi-sort-alpha-down"
-                      : "pi pi-sort-alpha-up"
-                  }
-                  className="sort-button"
-                  onClick={togglePerfilSort}
-                  loading={loadingPerfis}
-                  disabled={loadingPerfis}
-                />
-              </div>
-            </div>
-
-            {perfisFiltrados.length === 0 && (
-              <div className="message">
-                {q
-                  ? "Nenhum perfil encontrado para a busca."
-                  : "Nenhum perfil disponível."}
-              </div>
-            )}
-
-            <div className="perfis-list-card">
-              {perfisPaginados.map((perfil) => (
-                <PerfilCard key={`${perfil.id}`} perfil={perfil} />
-              ))}
-            </div>
-
-            {perfisFiltrados.length > PERFIS_PAGE_SIZE && (
-              <div className="pagination-wrapper">
-                <Paginator
-                  first={perfilFirst}
-                  rows={PERFIS_PAGE_SIZE}
-                  totalRecords={perfisFiltrados.length}
-                  onPageChange={(e) => {
-                    setPerfilFirst(e.first);
-                  }}
-                  template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-                  currentPageReportTemplate="{first} - {last} de {totalRecords}"
-                />
-              </div>
-            )}
-          </>
-        )}
+        <Dialog
+          className="vaga-dialog"
+          visible={isDetailsOpen}
+          onHide={closeDetails}
+          header={selectedVaga?.titulo}
+          style={{ width: "70vw", maxWidth: "92vw" }}
+        >
+          {selectedVaga && <VagaDetails vaga={selectedVaga} />}
+        </Dialog>
 
         <Dialog
           className="recommended-vagas-modal"
           visible={isRecommendedOpen}
           onHide={closeRecommended}
           header="Vagas Recomendadas"
-          style={{ width: "80vw" }}
+          style={{ width: "80vw", maxWidth: "94vw" }}
         >
           {loading && (
             <p className="loading">Carregando vagas recomendadas...</p>
@@ -935,7 +1064,7 @@ const ExplorePage = () => {
           )}
 
           {!loading && !error && recommendedVagas.length > 0 && (
-            <div className="position-list-cards">
+            <div className="position-list-cards recommended-list-cards">
               {recommendedVagas.map((recomendacao) => (
                 <VagaCard
                   key={recomendacao.vaga.id}
@@ -958,6 +1087,28 @@ const ExplorePage = () => {
             />
           </div>
         </Dialog>
+
+        {isCreateVagaOpen && recrutadorAtual && (
+          <RegisterVagaProvider>
+            <Dialog
+              className="create-vaga-dialog"
+              visible={isCreateVagaOpen}
+              onHide={closeCreateVaga}
+              header="Vaga"
+              modal
+              blockScroll
+              draggable={false}
+              style={{ width: "1200px", maxWidth: "95vw" }}
+              contentStyle={{ maxHeight: "75vh", overflowY: "auto" }}
+            >
+              <VagaFormPage
+                recrutador={recrutadorAtual}
+                switchVisibility={closeCreateVaga}
+                callback={closeCreateVaga}
+              />
+            </Dialog>
+          </RegisterVagaProvider>
+        )}
       </div>
     </Layout>
   );
