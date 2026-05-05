@@ -931,7 +931,7 @@ const ExplorePage = () => {
           {error && <p>{error}</p>}
 
           {recommendedVagas.length === 0 && !loading && !error && (
-            <p>Não há vagas recomendadas no momento.</p>
+            <p>Não encontramos vagas compatíveis com seu perfil no momento.</p>
           )}
 
           {!loading && !error && recommendedVagas.length > 0 && (

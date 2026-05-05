@@ -196,6 +196,19 @@ const ProfileRecrutadorPage: React.FC = () => {
         className="recommended-modal"
         style={{ width: "70vw" }}
       >
+        <Button
+          label="Atualizar Recomendações"
+          icon="pi pi-sparkles"
+          className="recommended-update-button"
+          onClick={() => {
+            setForceUpdate(true);
+            openRecommended(recommendedVaga!);
+          }}
+          loading={loadingCandidates || loadingProfiles}
+          disabled={loadingCandidates || loadingProfiles}
+          style={{ marginBottom: "20px" }}
+        />
+
         {loadingCandidates && <div>Carregando candidatos...</div>}
 
         {!loadingCandidates && recommendedError && (
@@ -205,7 +218,7 @@ const ProfileRecrutadorPage: React.FC = () => {
         {!loadingCandidates &&
           !recommendedError &&
           recommendedCandidates.length === 0 && (
-            <div>Não há recomendações disponíveis para essa vaga</div>
+            <div>Não encontramos candidatos compatíveis com esta vaga no momento</div>
           )}
 
         {!loadingCandidates &&
@@ -223,18 +236,6 @@ const ProfileRecrutadorPage: React.FC = () => {
               })}
             </div>
           )}
-
-        <Button
-          label="Atualizar Recomendações"
-          icon="pi pi-sparkles"
-          className="recommended-update-button"
-          onClick={() => {
-            setForceUpdate(true);
-            openRecommended(recommendedVaga!);
-          }}
-          loading={loadingCandidates || loadingProfiles}
-          disabled={loadingCandidates || loadingProfiles}
-        />
       </Dialog>
 
       <Dialog
