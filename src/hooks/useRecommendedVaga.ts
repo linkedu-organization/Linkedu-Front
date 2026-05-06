@@ -30,15 +30,22 @@ export const useRecommendedVagas = () => {
       }
 
       setRecommendedVagas([]);
-      await createRecommendedVagas();
+
+      try {
+        await createRecommendedVagas();
+      } catch (e) {
+        console.warn(e);
+      }
+
       const vagasRecomendadas = await getRecommendedVagas();
-      console.log(vagasRecomendadas[0]); 
 
       if(vagasRecomendadas.status === 503)
         throw new Error("Serviço de recomendação temporariamente indisponível. Por favor, tente novamente mais tarde.");
       
-      const uniqueVagas = vagasRecomendadas.filter((vagasRecomendadas: any) =>
-        vagasRecomendadas.vaga.ehPublica === true 
+      const vagasArray = Array.isArray(vagasRecomendadas) ? vagasRecomendadas : [];
+
+      const uniqueVagas = vagasArray.filter((vr: any) =>
+        vr?.vaga?.ehPublica === true 
       );
 
       setRecommendedVagas(uniqueVagas);
