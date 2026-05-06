@@ -18,7 +18,7 @@ export const Layout = ({ children, showFooter, headerType }: LayoutProps) => (
     {showFooter && (
       <footer className="layout-footer">
         <p>Suporte técnico</p>
-        <a href="mailto:linkedu@gmail.com">linkedu@gmail.com</a>
+        <a href="mailto:linkedu.support@gmail.com">linkedu.support@gmail.com</a>
       </footer>
     )}
   </div>

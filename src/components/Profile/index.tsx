@@ -13,9 +13,10 @@ import "./style.css";
 
 export interface PerfilCardProps {
   perfil: Perfil;
+  descricao?: string;
 }
 
-const PerfilCard = ({ perfil }: PerfilCardProps) => {
+const PerfilCard = ({ perfil, descricao }: PerfilCardProps) => {
   const isCandidato = perfil.tipo === "CANDIDATO";
 
   const areas = isCandidato
@@ -78,45 +79,54 @@ const PerfilCard = ({ perfil }: PerfilCardProps) => {
           <b>Email: </b>
           <span>{perfil.email}</span>
         </div>
+        {descricao ? (
+          <div className="perfil-recomendacao-descricao">{descricao}</div>
+        ) : (
+          <>
+            {perfil.tipo === "RECRUTADOR" && (
+              <div>
+                <div className="perfil-email">
+                  <b>Instituição: </b>
+                  <span>
+                    {perfil.recrutador?.instituicao || "Não informado"}
+                  </span>
+                </div>
 
-        {perfil.tipo === "RECRUTADOR" && (
-          <div>
-            <div className="perfil-email">
-              <b>Instituição: </b>
-              <span>{perfil.recrutador?.instituicao || "Não informado"}</span>
-            </div>
+                <div className="perfil-email">
+                  <b>Laboratórios: </b>
+                  <span>
+                    {perfil.recrutador?.laboratorios || "Não informado"}
+                  </span>
+                </div>
 
-            <div className="perfil-email">
-              <b>Laboratórios: </b>
-              <span>{perfil.recrutador?.laboratorios || "Não informado"}</span>
-            </div>
+                <div className="perfil-email">
+                  <b>Área de atuação: </b>
+                  <span>{areas || "Não informado"}</span>
+                </div>
+              </div>
+            )}
 
-            <div className="perfil-email">
-              <b>Área de atuação: </b>
-              <span>{areas || "Não informado"}</span>
-            </div>
-          </div>
-        )}
+            {perfil.tipo === "CANDIDATO" && (
+              <div>
+                <div className="perfil-email">
+                  <b>Áreas de interesse: </b>
+                  <span>{areas || "Não informado"}</span>
+                </div>
 
-        {perfil.tipo === "CANDIDATO" && (
-          <div>
-            <div className="perfil-email">
-              <b>Áreas de interesse: </b>
-              <span>{areas || "Não informado"}</span>
-            </div>
+                <div className="perfil-email">
+                  <b>Disponibilidade: </b>
+                  <span>{formatDisponibilidade(tempo)}</span>
+                </div>
 
-            <div className="perfil-email">
-              <b>Disponibilidade: </b>
-              <span>{formatDisponibilidade(tempo)}</span>
-            </div>
-
-            <div className="perfil-email">
-              <b>Período de Conclusão: </b>
-              <span>
-                {perfil.candidato?.periodoConclusao || "Não informado"}
-              </span>
-            </div>
-          </div>
+                <div className="perfil-email">
+                  <b>Período de Conclusão: </b>
+                  <span>
+                    {perfil.candidato?.periodoConclusao || "Não informado"}
+                  </span>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </Card>

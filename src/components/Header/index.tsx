@@ -36,7 +36,7 @@ const Header = ({ headerType }: HeaderProps) => {
   });
 
   const logo = (
-    <Link to="/">
+    <Link to="/explore">
       <img
         alt="logo"
         src="/images/logo-clara.png"

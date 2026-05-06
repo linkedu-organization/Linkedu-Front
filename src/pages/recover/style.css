@@ -14,7 +14,9 @@
   flex-direction: column;
   background-color: var(--Achados-Lighter-OffWhite);
   border-radius: 1rem;
-  padding: 28px;
+  padding: 32px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .recover-logo {

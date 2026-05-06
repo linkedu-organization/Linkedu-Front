@@ -19,6 +19,10 @@
   padding: 0 !important;
 }
 
+.perfil-card .p-dialog .p-dialog-content {
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
+}
+
 .perfil-header {
   height: 56px;
   width: 100%;
@@ -86,18 +90,23 @@
 }
 
 .perfil-content {
-  padding: 16px var(--card-inner-pad) 0;
+  padding: 16px var(--card-inner-pad);
 }
 
 .perfil-email,
 .perfil-areas-interesse,
-.perfil-disponibilidade-conclusao {
+.perfil-disponibilidade-conclusao,
+.perfil-recomendacao-descricao {
   padding: 0;
   margin-top: 8px;
 }
 
+.perfil-recomendacao-descricao {
+  text-align: justify;
+}
+
 .position-card-footer {
-  margin-top: auto; 
+  margin-top: auto;
   display: flex;
   justify-content: flex-end;
   padding-bottom: 20px !important;
