@@ -74,6 +74,7 @@ const ProfileRecrutadorPage: React.FC = () => {
     loadingCandidates,
     recommendedCandidates,
     recommendedProfiles,
+    otherProfiles,
     loadingProfiles,
     recommendedError,
     openRecommended,
@@ -196,6 +197,19 @@ const ProfileRecrutadorPage: React.FC = () => {
         className="recommended-modal"
         style={{ width: "70vw" }}
       >
+        <Button
+          label="Atualizar Recomendações"
+          icon="pi pi-sparkles"
+          className="recommended-update-button"
+          onClick={() => {
+            setForceUpdate(true);
+            openRecommended(recommendedVaga!);
+          }}
+          loading={loadingCandidates || loadingProfiles}
+          disabled={loadingCandidates || loadingProfiles}
+          style={{ marginBottom: "20px" }}
+        />
+
         {loadingCandidates && <div>Carregando candidatos...</div>}
 
         {!loadingCandidates && recommendedError && (
@@ -205,13 +219,13 @@ const ProfileRecrutadorPage: React.FC = () => {
         {!loadingCandidates &&
           !recommendedError &&
           recommendedCandidates.length === 0 && (
-            <div>Não há recomendações disponíveis para essa vaga</div>
+            <div>Não encontramos candidatos compatíveis com esta vaga no momento</div>
           )}
 
         {!loadingCandidates &&
           !recommendedError &&
           recommendedCandidates.length > 0 && (
-            <div style={{ display: "grid", gap: 12, width: "100%" }}>
+            <div style={{ display: "grid", gap: 12, width: "100%", marginBottom: "40px" }}>
               {recommendedCandidates.map((rec) => {
                 const candidato = recommendedProfiles[rec.candidatoId];
                 if (!candidato) return null;
@@ -227,17 +241,28 @@ const ProfileRecrutadorPage: React.FC = () => {
             </div>
           )}
 
-        <Button
-          label="Atualizar Recomendações"
-          icon="pi pi-sparkles"
-          className="recommended-update-button"
-          onClick={() => {
-            setForceUpdate(true);
-            openRecommended(recommendedVaga!);
-          }}
-          loading={loadingCandidates || loadingProfiles}
-          disabled={loadingCandidates || loadingProfiles}
-        />
+        {!loadingCandidates && !recommendedError && (
+          <div className="other-profiles-section">
+            <h3 style={{ margin: "20px 0", fontSize: "1.2rem", fontWeight: "700" }}>
+              Outros perfis que você pode se interessar
+            </h3>
+            {loadingProfiles ? (
+              <div>Carregando sugestões...</div>
+            ) : (
+              <div style={{ display: "grid", gap: 12, width: "100%" }}>
+                {otherProfiles.length > 0 ? (
+                  otherProfiles.map((candidato) => (
+                    <div key={candidato.id}>
+                      <PerfilCard perfil={candidatoToPerfil(candidato)} />
+                    </div>
+                  ))
+                ) : (
+                  <div>Nenhum outro perfil disponível no momento.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </Dialog>
 
       <Dialog
